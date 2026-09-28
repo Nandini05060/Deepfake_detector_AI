@@ -50,24 +50,49 @@ def get_loaded_model(model_name: str = "lxfd"):
     if model_name in loaded_models:
         return loaded_models[model_name]
     
-    # Initialize model
+    # Initialize model and candidate checkpoint paths
     if model_name == "simple_cnn":
         model = SimpleCNN().to(device)
+        candidate_paths = [
+            Path("checkpoints/simple_cnn_best.pt"),
+            Path("checkpoints/simple_cnn.pt")
+        ]
     elif model_name == "dense_cnn":
         model = DenseCNNBaseline().to(device)
+        candidate_paths = [
+            Path("checkpoints/dense_cnn_best.pt"),
+            Path("checkpoints/dense_cnn.pt")
+        ]
     elif model_name == "efficientnet":
         model = EfficientNetBaseline(pretrained=False).to(device)
+        candidate_paths = [
+            Path("checkpoints/efficientnet_best.pt"),
+            Path("checkpoints/efficientnet.pt")
+        ]
     else:
         model = LXDFDModel(fusion_type="attention", pretrained=False).to(device)
+        candidate_paths = [
+            Path("checkpoints/lxfd_attention_standard_best.pt"),
+            Path("checkpoints/lxfd_best.pt"),
+            Path("checkpoints/lxfd_attention_best.pt"),
+            Path("checkpoints/lxfd_model.pt")
+        ]
         
-    ckpt_path = Path(f"checkpoints/{model_name}_best.pt")
-    if ckpt_path.exists():
-        try:
-            checkpoint = torch.load(ckpt_path, map_location=device)
-            model.load_state_dict(checkpoint['model_state_dict'])
-            print(f"[API] Loaded trained checkpoint from {ckpt_path}")
-        except Exception as e:
-            print(f"[API] Warning loading checkpoint: {e}")
+    loaded = False
+    for ckpt_path in candidate_paths:
+        if ckpt_path.exists():
+            try:
+                checkpoint = torch.load(ckpt_path, map_location=device)
+                state_dict = checkpoint.get('model_state_dict', checkpoint)
+                model.load_state_dict(state_dict)
+                print(f"[API] Successfully loaded trained checkpoint for '{model_name}' from: {ckpt_path}")
+                loaded = True
+                break
+            except Exception as e:
+                print(f"[API] Warning loading checkpoint from {ckpt_path}: {e}")
+                
+    if not loaded:
+        print(f"[API] WARNING: No matching checkpoint found for '{model_name}' in {candidate_paths}!")
             
     model.eval()
     loaded_models[model_name] = model
@@ -207,6 +232,45 @@ def get_robustness():
         "most_sensitive_condition": "Aggressive JPEG Compression (q=40)"
     }
 
+def extract_face_crop(pil_img: Image.Image, margin: float = 0.15) -> Image.Image:
+    """
+    Detects the primary face using OpenCV YuNet detector and returns a cropped PIL Image.
+    If no face is detected or image is already a close-up crop, returns the original image.
+    """
+    try:
+        orig_np = np.array(pil_img)
+        h, w, _ = orig_np.shape
+        yunet_path = Path("yunet.onnx")
+        if yunet_path.exists():
+            detector = cv2.FaceDetectorYN.create(
+                model=str(yunet_path),
+                config="",
+                input_size=(w, h),
+                score_threshold=0.5,
+                nms_threshold=0.3,
+                top_k=5
+            )
+            bgr = cv2.cvtColor(orig_np, cv2.COLOR_RGB2BGR)
+            detector.setInputSize((w, h))
+            _, faces = detector.detect(bgr)
+            if faces is not None and len(faces) > 0:
+                # Find the largest detected face
+                f = max(faces, key=lambda x: x[2] * x[3])
+                fx, fy, fw, fh = int(f[0]), int(f[1]), int(f[2]), int(f[3])
+                # Add context margin
+                dx = int(fw * margin)
+                dy = int(fh * margin)
+                x1 = max(0, fx - dx)
+                y1 = max(0, fy - dy)
+                x2 = min(w, fx + fw + dx)
+                y2 = min(h, fy + fh + dy)
+                if (x2 - x1) >= 32 and (y2 - y1) >= 32:
+                    cropped_np = orig_np[y1:y2, x1:x2]
+                    return Image.fromarray(cropped_np)
+    except Exception as e:
+        print(f"[YuNet Face Detector] Warning: {e}")
+    return pil_img
+
 @app.post("/predict")
 async def predict_image(file: UploadFile = File(...), model_name: str = "lxfd"):
     if file.content_type and not file.content_type.startswith("image/"):
@@ -218,13 +282,16 @@ async def predict_image(file: UploadFile = File(...), model_name: str = "lxfd"):
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid image file: {str(e)}")
     
+    # Auto-detect and crop face for generalized wild/generated image input
+    face_img = extract_face_crop(pil_img)
+    
     mean = [0.485, 0.456, 0.406]
     std = [0.229, 0.224, 0.225]
     tensor_img = T.Compose([
         T.Resize((224, 224)),
         T.ToTensor(),
         T.Normalize(mean=mean, std=std)
-    ])(pil_img).unsqueeze(0).to(device)
+    ])(face_img).unsqueeze(0).to(device)
 
     model = get_loaded_model(model_name)
     with torch.no_grad():
@@ -253,7 +320,9 @@ async def explain_image(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid image file: {str(e)}")
 
-    orig_np = np.array(pil_img)
+    # Auto-detect and crop face for generalized wild/generated image input
+    face_img = extract_face_crop(pil_img)
+    orig_np = np.array(face_img)
     resized_rgb = cv2.resize(orig_np, (224, 224))
 
     mean = [0.485, 0.456, 0.406]
