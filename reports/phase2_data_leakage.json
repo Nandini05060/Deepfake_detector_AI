@@ -1,0 +1,48 @@
+{
+  "dataset_split_version": "splits_v2",
+  "split_counts": {
+    "train": {
+      "total": 9037,
+      "real": 4093,
+      "fake": 4944
+    },
+    "val": {
+      "total": 1897,
+      "real": 882,
+      "fake": 1015
+    },
+    "test": {
+      "total": 1956,
+      "real": 915,
+      "fake": 1041
+    }
+  },
+  "exact_path_leakage": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "md5_hash_leakage": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "perceptual_dhash_leakage": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "augmentation_group_leakage": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "missing_files_count": 0,
+  "corrupted_files_count": 0,
+  "metadata_limitations": {
+    "identity_labels_available": false,
+    "generator_labels_available": false,
+    "reason": "Kaggle deepfake-face-images dataset contains only binary REAL/FAKE folder labels with numerical filenames and no ground-truth identity or generator metadata tags."
+  },
+  "leakage_checks_passed": true
+}

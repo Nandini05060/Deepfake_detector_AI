@@ -11,7 +11,7 @@ project:
 
 data:
   dataset_dir: "C:\\Users\\nandi\\.cache\\kagglehub\\datasets\\kshitizbhargava\\deepfake-face-images\\versions\\1\\Final Dataset"
-  splits_dir: "data/splits"
+  splits_dir: "data/splits_v2"
   raw_dir: "data/raw"
   processed_dir: "data/processed"
   external_dir: "data/external"
@@ -32,22 +32,29 @@ augmentation:
     color_jitter_p: 0.3
     brightness: 0.2
     contrast: 0.2
-  robustness:
-    jpeg_compression_p: 0.25
+  robustness_v2:
+    jpeg_compression_p: 0.35
     jpeg_quality_range: [60, 95]
-    gaussian_blur_p: 0.15
-    blur_kernel_size: 5
-    gaussian_noise_p: 0.10
-    noise_var_limit: [10.0, 50.0]
+    gaussian_blur_p: 0.25
+    gaussian_blur_radius_range: [0.5, 1.5]
+    gaussian_noise_p: 0.30
+    gaussian_noise_std_range: [0.01, 0.04]
+    horizontal_flip_p: 0.5
+    rotation_degrees: 15
+    resized_crop_scale: [0.85, 1.0]
+    color_jitter_p: 0.3
+    brightness: 0.2
+    contrast: 0.2
+    saturation: 0.2
 
 training:
-  epochs: 30
-  early_stopping_patience: 8
+  epochs: 15
+  early_stopping_patience: 6
   learning_rate: 1.0e-4
   weight_decay: 1.0e-4
   optimizer: "AdamW"
   scheduler: "cosine"
-  warmup_epochs: 3
+  warmup_epochs: 2
   seed: 42
   use_amp: true
 
@@ -58,6 +65,8 @@ model:
   frequency_embed_dim: 256
   fusion_dim: 256
   dropout: 0.3
+  spectral_dropout: false
+  spectral_dropout_p: 0.2
   fusion_type: "attention"  # spatial_only, frequency_only, concat, weighted, attention
 
 explainability:

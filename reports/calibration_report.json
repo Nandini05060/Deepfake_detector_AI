@@ -1,0 +1,15 @@
+{
+  "checkpoint": "checkpoints\\lxfd_attention_standard_best.pt",
+  "val_csv": "data\\splits_v2\\val.csv",
+  "temperature": 1.0413085937500002,
+  "pre_calibration": {
+    "brier_score": 0.0028970958665013313,
+    "log_loss": 0.012667778879404068,
+    "ece": 0.0034160968122447046
+  },
+  "post_calibration": {
+    "brier_score": 0.0028931630818931483,
+    "log_loss": 0.012636004435781075,
+    "ece": 0.0034540724986213047
+  }
+}

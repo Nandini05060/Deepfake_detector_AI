@@ -1,0 +1,28 @@
+{
+  "leakage_detected": false,
+  "train_samples": 9037,
+  "val_samples": 1897,
+  "test_samples": 1956,
+  "train_class_counts": {
+    "FAKE": 4944,
+    "REAL": 4093
+  },
+  "val_class_counts": {
+    "FAKE": 1015,
+    "REAL": 882
+  },
+  "test_class_counts": {
+    "FAKE": 1041,
+    "REAL": 915
+  },
+  "augmentation_group_leakage": {
+    "train_val_overlap": 0,
+    "train_test_overlap": 0,
+    "val_test_overlap": 0
+  },
+  "hash_leakage": {
+    "train_val_overlap": 0,
+    "train_test_overlap": 0,
+    "val_test_overlap": 0
+  }
+}

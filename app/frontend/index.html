@@ -3,141 +3,151 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LX-DFD — AI Deepfake Forensics & Research Laboratory</title>
+  <title>LX-DFD — AI Deepfake Forensics Research Laboratory</title>
   <meta name="description" content="Generalizable Deepfake Face Detection Using Spatial-Frequency Feature Learning — Interactive AI Research & Forensics Dashboard">
-  
-  <!-- Modern Typography: Inter & Space Grotesk -->
+
+  <!-- Premium Typography: Inter, Space Grotesk & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <!-- Chart.js for scientific visualizations -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  
-  <link rel="stylesheet" href="styles.css">
+
+  <link rel="stylesheet" href="styles.css?v=3.0">
 </head>
 <body>
-  <!-- Ambient Grid & Particle Canvas -->
+  <!-- Ambient Deep Science Grid & Particle Background -->
   <div class="ambient-grid"></div>
   <canvas id="particle-canvas"></canvas>
-  <div class="radial-glow glow-top-left"></div>
-  <div class="radial-glow glow-center-right"></div>
+  <div class="radial-glow glow-cyan-top"></div>
+  <div class="radial-glow glow-purple-bottom"></div>
 
   <!-- Main Application Wrapper -->
   <div id="app-container">
-    
+
     <!-- Left Navigation Sidebar -->
     <aside class="sidebar" id="sidebar">
       <!-- Brand Logo Header -->
       <div class="brand-header">
         <div class="brand-logo-container">
-          <div class="brand-logo-glyph">
-            <span class="glyph-top">LX</span>
-            <span class="glyph-bottom">DFD</span>
+          <div class="brand-badge-box">
+            <span class="badge-text">LX</span>
           </div>
         </div>
-        <div class="brand-text">
+        <div class="brand-text-block">
           <div class="brand-title">LX-DFD</div>
-          <div class="brand-subtitle">AI DEEPFAKE FORENSICS LAB</div>
+          <div class="brand-subtitle">AI DEEPFAKE LAB</div>
+          <div class="brand-tagline">SPATIAL • FREQUENCY • AI</div>
         </div>
         <button class="mobile-close-btn" id="mobile-close-btn" aria-label="Close navigation">✕</button>
       </div>
 
       <!-- Navigation Menu -->
       <nav class="nav-menu">
-        <div class="nav-section-label">FORENSIC SUITE</div>
+        <div class="nav-section-label">FORENSIC NAVIGATION</div>
         <ul class="nav-list">
           <li class="nav-item active" data-page="page-overview">
+            <span class="nav-indicator"></span>
             <span class="nav-num">01</span>
             <span class="nav-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
             </span>
             <span class="nav-label">Research Overview</span>
           </li>
           <li class="nav-item" data-page="page-dataset">
+            <span class="nav-indicator"></span>
             <span class="nav-num">02</span>
             <span class="nav-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
             </span>
             <span class="nav-label">Dataset Audit</span>
           </li>
           <li class="nav-item" data-page="page-architecture">
+            <span class="nav-indicator"></span>
             <span class="nav-num">03</span>
             <span class="nav-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
             </span>
             <span class="nav-label">Model Architecture</span>
           </li>
           <li class="nav-item" data-page="page-training">
+            <span class="nav-indicator"></span>
             <span class="nav-num">04</span>
             <span class="nav-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
             </span>
             <span class="nav-label">Training Progress</span>
           </li>
           <li class="nav-item" data-page="page-comparison">
+            <span class="nav-indicator"></span>
             <span class="nav-num">05</span>
             <span class="nav-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
             </span>
             <span class="nav-label">Model Comparison</span>
           </li>
           <li class="nav-item" data-page="page-generalization">
+            <span class="nav-indicator"></span>
             <span class="nav-num">06</span>
             <span class="nav-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
             </span>
             <span class="nav-label">Generalization Gap</span>
           </li>
           <li class="nav-item" data-page="page-robustness">
+            <span class="nav-indicator"></span>
             <span class="nav-num">07</span>
             <span class="nav-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
             </span>
             <span class="nav-label">Robustness Benchmark</span>
           </li>
           <li class="nav-item featured-nav" data-page="page-explainability">
+            <span class="nav-indicator"></span>
             <span class="nav-num">08</span>
             <span class="nav-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><path d="M11 8v6"></path><path d="M8 11h6"></path></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><path d="M11 8v6"></path><path d="M8 11h6"></path></svg>
             </span>
             <span class="nav-label">Explainability Studio</span>
-            <span class="nav-badge-live">LIVE</span>
+            <span class="nav-live-pill">LIVE</span>
           </li>
           <li class="nav-item" data-page="page-errors">
+            <span class="nav-indicator"></span>
             <span class="nav-num">09</span>
             <span class="nav-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
             </span>
             <span class="nav-label">Error Analysis</span>
           </li>
           <li class="nav-item" data-page="page-conclusion">
+            <span class="nav-indicator"></span>
             <span class="nav-num">10</span>
             <span class="nav-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
             </span>
             <span class="nav-label">Research Conclusion</span>
           </li>
         </ul>
       </nav>
 
-      <!-- Sidebar Status Telemetry -->
-      <div class="sidebar-telemetry">
-        <div class="telemetry-card">
+      <!-- Sidebar Bottom Telemetry -->
+      <div class="sidebar-footer">
+        <div class="telemetry-panel">
           <div class="telemetry-row">
-            <span class="telemetry-label">MODEL STATUS</span>
-            <span class="status-indicator online">
-              <span class="status-dot"></span>
-              <span class="status-text">ONLINE</span>
+            <span class="telemetry-key">MODEL STATUS</span>
+            <span class="status-chip online">
+              <span class="status-pulse-dot"></span>
+              <span class="status-name">ONLINE</span>
             </span>
           </div>
           <div class="telemetry-row">
-            <span class="telemetry-label">MODEL VERSION</span>
-            <span class="telemetry-value highlight">LX-DFD v1.0</span>
+            <span class="telemetry-key">VERSION</span>
+            <span class="telemetry-val cyan">LX-DFD v1.0</span>
           </div>
           <div class="telemetry-row">
-            <span class="telemetry-label">PRIMARY DATASET</span>
-            <span class="telemetry-value">Final Dataset</span>
+            <span class="telemetry-key">DATASET</span>
+            <span class="telemetry-val">FINAL DATASET</span>
           </div>
         </div>
       </div>
@@ -145,30 +155,36 @@
 
     <!-- Main Content Workspace Area -->
     <div class="main-wrapper">
-      <!-- Premium Top Header -->
+      <!-- Premium Compact Glass Top Header -->
       <header class="top-header">
         <div class="header-left">
           <button class="mobile-toggle-btn" id="mobile-toggle-btn" aria-label="Toggle navigation">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
           </button>
-          <div class="header-brand-info">
-            <div class="header-title">LX-DFD <span class="header-slash">/</span> <span class="header-context" id="header-context-title">Research Overview</span></div>
-            <div class="header-subtitle">Spatial-Frequency Feature Learning • Forensics Analytics Platform</div>
+          <div class="header-titles">
+            <div class="header-headline">
+              <span class="brand-name">LX-DFD</span>
+              <span class="header-sep">/</span>
+              <span class="sub-lab">AI DEEPFAKE FORENSICS LAB</span>
+            </div>
+            <div class="header-paper-title">Generalizable Deepfake Face Detection</div>
           </div>
         </div>
 
         <div class="header-right">
-          <div class="header-badge badge-ready">
-            <span class="pulse-dot"></span>
+          <div class="header-badge badge-online">
+            <span class="pulse-emerald"></span>
             <span>MODEL READY</span>
           </div>
-          <div class="header-badge badge-dataset">
-            <span class="dataset-icon">📁</span>
-            <span>Dataset: Final Dataset</span>
+          <div class="header-badge badge-ds">
+            <span class="badge-icon">🗂️</span>
+            <span>Final Dataset</span>
           </div>
-          <a href="https://ieeexplore.ieee.org/document/10057390/" target="_blank" rel="noopener noreferrer" class="btn-ieee">
-            <span>View IEEE Paper</span>
-            <svg class="external-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          <a href="https://ieeexplore.ieee.org/document/10057390/" target="_blank" rel="noopener noreferrer" class="btn-ieee-link">
+            <span class="ieee-bracket">[</span>
+            <span>IEEE PAPER</span>
+            <span class="ieee-bracket">]</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
           </a>
         </div>
       </header>
@@ -181,17 +197,17 @@
       <!-- Forensic Footer -->
       <footer class="app-footer">
         <div class="footer-left">
-          <span>LX-DFD Deepfake Forensics Laboratory</span>
-          <span class="footer-divider">•</span>
+          <span>LX-DFD AI Deepfake Forensics Laboratory</span>
+          <span class="footer-dot">•</span>
           <span>IEEE Access Base Reference: Patel et al., 2023</span>
         </div>
         <div class="footer-right">
-          <span class="engine-tag">OpenCV YuNet + PyTorch 2D-DCT Engine</span>
+          <span class="engine-badge">OpenCV YuNet + PyTorch 2D-DCT Engine</span>
         </div>
       </footer>
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=3.0"></script>
 </body>
 </html>

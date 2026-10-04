@@ -1,0 +1,77 @@
+{
+  "dataset_root": "C:\\Users\\nandi\\.cache\\kagglehub\\datasets\\kshitizbhargava\\deepfake-face-images\\versions\\1\\Final Dataset",
+  "total_images": 12890,
+  "total_valid_images": 12890,
+  "class_distribution": {
+    "FAKE": 7000,
+    "REAL": 5890
+  },
+  "missing_files_count": 0,
+  "corrupted_files_count": 0,
+  "exact_duplicates_unique_hashes": 4,
+  "exact_duplicate_files_count": 4,
+  "perceptual_duplicates_unique_hashes": 15,
+  "perceptual_duplicate_files_count": 15,
+  "total_augmentation_groups": 7734,
+  "multi_image_augmentation_groups_count": 1289,
+  "missing_metadata_fields": [
+    "source",
+    "generator",
+    "identity"
+  ],
+  "file_formats": {
+    "jpg": 12890
+  },
+  "resolution_distribution": [
+    {
+      "width": 196,
+      "height": 196,
+      "count": 2
+    },
+    {
+      "width": 198,
+      "height": 198,
+      "count": 6
+    },
+    {
+      "width": 200,
+      "height": 200,
+      "count": 9
+    },
+    {
+      "width": 202,
+      "height": 202,
+      "count": 7
+    },
+    {
+      "width": 204,
+      "height": 204,
+      "count": 3
+    },
+    {
+      "width": 206,
+      "height": 206,
+      "count": 7
+    },
+    {
+      "width": 208,
+      "height": 208,
+      "count": 7
+    },
+    {
+      "width": 210,
+      "height": 210,
+      "count": 7
+    },
+    {
+      "width": 212,
+      "height": 212,
+      "count": 14
+    },
+    {
+      "width": 214,
+      "height": 214,
+      "count": 13
+    }
+  ]
+}

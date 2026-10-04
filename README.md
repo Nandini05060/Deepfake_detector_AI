@@ -99,20 +99,31 @@ Deepfake generation technologies driven by Generative Adversarial Networks (GANs
 
 ---
 
-## 📊 Benchmark Results
+## 📊 Verified Benchmark Results (Phase 2 & Phase 3)
 
-Evaluated on **12,890 face images** with leak-free train/val/test splits (70% / 15% / 15%):
+Evaluated on **12,890 face images** with leak-free train/val/test splits (`data/splits_v2`, 70% / 15% / 15%):
 
-| Model Architecture | In-Domain ROC-AUC | Cross-Domain ROC-AUC | F1-Score | Accuracy | Robustness Score |
-|---|:---:|:---:|:---:|:---:|:---:|
-| Simple CNN Baseline | 0.892 | 0.710 | 0.842 | 84.2% | 0.680 |
-| Dense CNN (Patel et al., 2023) | 0.965 | 0.785 | 0.925 | 92.5% | 0.752 |
-| EfficientNet Baseline | 0.978 | 0.812 | 0.941 | 94.1% | 0.795 |
-| LX-DFD (Spatial-Only) | 0.975 | 0.805 | 0.938 | 93.8% | 0.788 |
-| LX-DFD (Frequency-Only) | 0.915 | 0.842 | 0.865 | 86.5% | 0.835 |
-| LX-DFD (Simple Concat) | 0.981 | 0.865 | 0.952 | 95.2% | 0.848 |
-| LX-DFD (Weighted Fusion) | 0.984 | 0.879 | 0.958 | 95.8% | 0.862 |
-| **LX-DFD (Attention Fusion)** | **0.988** | **0.895** | **0.964** | **96.4%** | **0.884** |
+### 1. In-Domain Test Performance ($N=1,956$, Held-Out Test Set)
+
+| Model Architecture | Test Accuracy | ROC-AUC | PR-AUC | F1-Score | Brier Score | ECE | Robustness Score |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Simple CNN Baseline** | 73.06% | 0.8138 | 0.8211 | 0.7702 | 0.1765 | 0.0546 | 0.680 |
+| **Dense CNN (Patel et al., 2023)** | 96.47% | 0.9934 | 0.9941 | 0.9669 | 0.0262 | 0.0109 | 0.752 |
+| **EfficientNet-B0 Baseline** | 99.54% | 0.9997 | 0.9997 | 0.9957 | 0.0034 | 0.0057 | 0.9170 |
+| **LX-DFD (Standard Baseline)** | 99.39% | 0.9998 | 0.9998 | 0.9942 | 0.0052 | 0.0048 | 0.9185 |
+| **LX-DFD (Robustness-Aware Aug v2)** | **95.91%** | **0.9943** | **0.9950** | **0.9609** | **0.0322** | **0.0222** | **0.9647** |
+
+### 2. Perturbation & Corruption Benchmark (14 Stress Conditions)
+
+| Corruption Type | Baseline LX-DFD AUC | LX-DFD Robustness v2 AUC | Relative Impact |
+|---|:---:|:---:|---|
+| **Clean / Original** | 0.9998 | 0.9943 | Clean performance preserved ($>99.4\%$) |
+| **Gaussian Noise ($\sigma=0.05$)** | 0.6274 | **0.9725** | **$+0.3451$ gain (+55.0% boost, 89.8% acc)** |
+| **JPEG Quality 30** | 0.9323 | **0.9822** | **$+0.0499$ gain (93.0% acc)** |
+| **JPEG Quality 50** | 0.9637 | **0.9881** | **$+0.0244$ gain (93.9% acc)** |
+| **Gaussian Blur ($r=1.5$)** | 0.9677 | **0.9826** | **$+0.0149$ gain (91.6% acc)** |
+| **Gaussian Blur ($r=3.0$)** | 0.8601 | **0.9217** | **$+0.0616$ gain (75.9% acc)** |
+| **Mean AUC Drop Across Corruptions** | 0.0815 | **0.0353** | **$56.7\%$ reduction in degradation** |
 
 ---
 
@@ -124,27 +135,40 @@ DEEPFAKE DETECTION/
 │   ├── backend/
 │   │   └── main.py              # FastAPI application & inference endpoints
 │   └── frontend/
-│       ├── index.html           # 10-page AI laboratory research dashboard
+│       ├── index.html           # Modern AI laboratory research dashboard
 │       ├── styles.css           # Premium dark-mode modern laboratory theme
 │       └── app.js               # Interactive frontend controller & charts
 ├── checkpoints/                 # Trained model weights (.pt) and history logs (.json)
 │   ├── dense_cnn_best.pt
 │   ├── efficientnet_best.pt
 │   ├── lxfd_attention_standard_best.pt
+│   ├── lxfd_attention_robustness_v2_best.pt
+│   ├── calibration_params.json
 │   └── simple_cnn_best.pt
 ├── configs/
 │   └── config.yaml              # Hyperparameters, augmentation & training configs
-├── Final Dataset/               # Real and Fake face dataset
+├── data/
+│   ├── splits_v2/               # Leak-free train (70%), val (15%), test (15%) splits
+│   └── unseen_generator_test/   # Harness for external generator evaluation
 ├── reports/                     # Audit, evaluation & robustness reports
-│   ├── final_results.md
-│   ├── model_architecture_anatomy.md
-│   └── LX_DFD_Complete_Research_Guide.md
+│   ├── phase2_verification.md
+│   ├── phase2_metrics.json
+│   ├── phase2_comparison.csv
+│   ├── phase3_baseline_verification.md
+│   ├── phase3_experiment_plan.md
+│   ├── phase3_metrics.json
+│   ├── phase3_comparison.csv
+│   ├── phase3_corruption_analysis.csv
+│   ├── phase3_unseen_generator_results.md
+│   └── phase3_final_recommendations.md
 ├── scripts/                     # Executable scripts for audit, training, testing
 │   ├── audit_dataset.py
-│   ├── create_splits.py
-│   ├── evaluate.py
-│   ├── print_model_summary.py
+│   ├── create_leak_free_splits.py
+│   ├── calibrate_model.py
+│   ├── evaluate_unseen_generators.py
 │   ├── robustness_test.py
+│   ├── run_phase2_verification.py
+│   ├── run_phase3_evaluation.py
 │   ├── train_baseline.py
 │   └── train_proposed.py
 ├── src/

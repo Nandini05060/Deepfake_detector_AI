@@ -1,0 +1,4 @@
+Model,Clean Accuracy,Clean ROC-AUC,Clean PR-AUC,Clean F1,Brier Score,ECE,Mean AUC Drop,Robustness Score,Latency (ms)
+EfficientNet-B0 Baseline,99.54%,0.9997,0.9997,0.9957,0.0034,0.0057,0.083,0.917,6.1
+LX-DFD Baseline (Standard Aug),99.39%,0.9998,0.9998,0.9942,0.0052,0.0048,0.0815,0.9185,4.58
+LX-DFD (Robustness-Aware Aug v2),95.91%,0.9943,0.995,0.9609,0.0322,0.0222,0.0353,0.9647,4.75

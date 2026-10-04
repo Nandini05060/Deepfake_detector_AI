@@ -58,6 +58,8 @@ class LXDFDModel(nn.Module):
         fusion_type: str = 'attention',
         pretrained: bool = True,
         dropout: float = 0.3,
+        spectral_dropout: bool = False,
+        spectral_dropout_p: float = 0.2,
         num_classes: int = 1
     ):
         super().__init__()
@@ -65,7 +67,13 @@ class LXDFDModel(nn.Module):
         self.fusion_type = fusion_type
         
         self.spatial_branch = SpatialBranch(embed_dim=embed_dim, pretrained=pretrained, dropout=dropout)
-        self.frequency_branch = FrequencyBranch(in_size=224, embed_dim=embed_dim, dropout=dropout)
+        self.frequency_branch = FrequencyBranch(
+            in_size=224,
+            embed_dim=embed_dim,
+            dropout=dropout,
+            spectral_dropout=spectral_dropout,
+            spectral_dropout_p=spectral_dropout_p
+        )
         self.fusion = SpatialFrequencyFusion(embed_dim=embed_dim, fusion_type=fusion_type)
         
         # Classifier Head

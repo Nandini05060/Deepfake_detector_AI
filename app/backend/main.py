@@ -42,6 +42,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.middleware("http")
+async def add_no_cache_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
 # Global variables for model state
 device = get_device()
 loaded_models = {}
@@ -72,6 +80,7 @@ def get_loaded_model(model_name: str = "lxfd"):
     else:
         model = LXDFDModel(fusion_type="attention", pretrained=False).to(device)
         candidate_paths = [
+            Path("checkpoints/lxfd_attention_robustness_v2_best.pt"),
             Path("checkpoints/lxfd_attention_standard_best.pt"),
             Path("checkpoints/lxfd_best.pt"),
             Path("checkpoints/lxfd_attention_best.pt"),
@@ -336,32 +345,19 @@ async def predict_image(file: UploadFile = File(...), model_name: str = "lxfd"):
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid image file: {str(e)}")
     
-    # Auto-detect and crop face for generalized wild/generated image input
     face_img = extract_face_crop(pil_img)
     
-    mean = [0.485, 0.456, 0.406]
-    std = [0.229, 0.224, 0.225]
-    tensor_img = T.Compose([
-        T.Resize((224, 224)),
-        T.ToTensor(),
-        T.Normalize(mean=mean, std=std)
-    ])(face_img).unsqueeze(0).to(device)
-
-    model = get_loaded_model(model_name)
-    with torch.no_grad():
-        out = model(tensor_img)
-        logits = out[0] if isinstance(out, tuple) else out
-        prob_fake = float(torch.sigmoid(logits).item())
-
-    prediction = "FAKE" if prob_fake >= 0.5 else "REAL"
+    from src.models.inference import LXDFDPredictor
+    predictor = LXDFDPredictor(
+        checkpoint_path="checkpoints/lxfd_attention_standard_best.pt",
+        calibration_path="checkpoints/calibration_params.json",
+        device=device
+    )
     
-    return {
-        "prediction": prediction,
-        "fake_probability": round(prob_fake, 4),
-        "real_probability": round(1.0 - prob_fake, 4),
-        "model": "LX-DFD",
-        "threshold": 0.5
-    }
+    res = predictor.predict(face_img)
+    res["model_version"] = "LX-DFD V2 (Attention Fusion)"
+    res["calibration_status"] = f"Temperature Scaled (T={res.get('temperature', 1.0):.3f})" if res.get("calibrated") else "Uncalibrated"
+    return res
 
 @app.post("/explain")
 async def explain_image(file: UploadFile = File(...)):
@@ -374,10 +370,18 @@ async def explain_image(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid image file: {str(e)}")
 
-    # Auto-detect and crop face for generalized wild/generated image input
     face_img = extract_face_crop(pil_img)
     orig_np = np.array(face_img)
     resized_rgb = cv2.resize(orig_np, (224, 224))
+
+    from src.models.inference import LXDFDPredictor
+    predictor = LXDFDPredictor(
+        checkpoint_path="checkpoints/lxfd_attention_standard_best.pt",
+        calibration_path="checkpoints/calibration_params.json",
+        device=device
+    )
+    
+    pred_res = predictor.predict(face_img)
 
     mean = [0.485, 0.456, 0.406]
     std = [0.229, 0.224, 0.225]
@@ -385,14 +389,12 @@ async def explain_image(file: UploadFile = File(...)):
         T.Resize((224, 224)),
         T.ToTensor(),
         T.Normalize(mean=mean, std=std)
-    ])(pil_img).unsqueeze(0).to(device)
+    ])(face_img).unsqueeze(0).to(device)
 
     model = get_loaded_model("lxfd")
     with torch.no_grad():
         out = model(tensor_img)
-        logits = out[0] if isinstance(out, tuple) else out
         meta = out[1] if isinstance(out, tuple) and len(out) > 1 else {}
-        prob_fake = float(torch.sigmoid(logits).item())
 
     # Grad-CAM heatmap
     cam_gen = SimpleGradCAM(model)
@@ -402,16 +404,20 @@ async def explain_image(file: UploadFile = File(...)):
     # DCT Visualizations
     dct_vis = generate_dct_visualizations(resized_rgb)
 
-    # Convert images to base64 data URLs for immediate dashboard visualization
     def to_b64(rgb_np):
         bgr = cv2.cvtColor(rgb_np, cv2.COLOR_RGB2BGR)
         _, buf = cv2.imencode('.jpg', bgr)
         return "data:image/jpeg;base64," + base64.b64encode(buf).decode('utf-8')
 
     return {
-        "prediction": "FAKE" if prob_fake >= 0.5 else "REAL",
-        "fake_probability": round(prob_fake, 4),
-        "confidence_percentage": round(prob_fake * 100 if prob_fake >= 0.5 else (1 - prob_fake) * 100, 1),
+        "prediction": pred_res["prediction"],
+        "fake_probability": pred_res["fake_probability"],
+        "real_probability": pred_res["real_probability"],
+        "confidence": pred_res["confidence"],
+        "confidence_level": pred_res["confidence_level"],
+        "is_uncertain": pred_res["is_uncertain"],
+        "model_version": "LX-DFD V2 (Attention Fusion)",
+        "calibration_status": f"Temperature Scaled (T={pred_res.get('temperature', 1.0):.3f})" if pred_res.get("calibrated") else "Uncalibrated",
         "explanation_wording": "Highlighted regions indicate image areas that contributed strongly to the model's prediction.",
         "attention_weights": {
             "spatial_weight_ws": round(float(meta.get('w_s', 0.55)), 4),
@@ -425,6 +431,11 @@ async def explain_image(file: UploadFile = File(...)):
             "high_frequency": to_b64(dct_vis["high_freq_colormap"])
         }
     }
+
+# Mount Final Dataset directory if available for sample image preview
+dataset_dir = Path(__file__).resolve().parent.parent.parent / "Final Dataset"
+if dataset_dir.exists():
+    app.mount("/dataset_files", StaticFiles(directory=str(dataset_dir)), name="dataset_files")
 
 frontend_path = Path(__file__).resolve().parent.parent / "frontend"
 if frontend_path.exists():

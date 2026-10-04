@@ -17,7 +17,9 @@ def main():
     parser = argparse.ArgumentParser(description="Train Proposed LX-DFD Model and Ablation Variants")
     parser.add_argument("--fusion", type=str, default="attention", 
                         choices=["spatial_only", "frequency_only", "concat", "weighted", "attention"])
-    parser.add_argument("--aug-mode", type=str, default="standard", choices=["standard", "robustness"])
+    parser.add_argument("--aug-mode", type=str, default="standard", choices=["standard", "robustness", "robustness_v2"])
+    parser.add_argument("--spectral-dropout", action="store_true", help="Enable 2D DCT Spectral Dropout in frequency branch")
+    parser.add_argument("--spectral-dropout-p", type=float, default=0.2, help="Probability for spectral dropout")
     parser.add_argument("--epochs", type=int, default=15)
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--resume", action="store_true", help="Resume training from existing checkpoint")
@@ -35,7 +37,7 @@ def main():
     val_csv = splits_dir / "val.csv"
 
     if not train_csv.exists() or not val_csv.exists():
-        print("[ERROR] Split files not found. Run scripts/create_splits.py first!")
+        print("[ERROR] Split files not found in configs/config.yaml splits_dir!")
         sys.exit(1)
 
     train_dataset = DeepfakeDataset(str(train_csv), split='train', aug_mode=args.aug_mode)
@@ -48,10 +50,15 @@ def main():
         embed_dim=config['model']['spatial_embed_dim'],
         fusion_type=args.fusion,
         pretrained=config['model']['spatial_pretrained'],
-        dropout=config['model']['dropout']
+        dropout=config['model']['dropout'],
+        spectral_dropout=args.spectral_dropout,
+        spectral_dropout_p=args.spectral_dropout_p
     )
 
-    model_name = f"lxfd_{args.fusion}_{args.aug_mode}"
+    suffix = ""
+    if args.spectral_dropout:
+        suffix = "_spectral_dropout"
+    model_name = f"lxfd_{args.fusion}_{args.aug_mode}{suffix}"
 
     trainer = Trainer(
         model=model,

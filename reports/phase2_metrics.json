@@ -1,0 +1,255 @@
+{
+  "verified_evaluation_timestamp": "2026-10-04",
+  "test_dataset": "data/splits_v2/test.csv (1933 images, Zero Leakage)",
+  "models": {
+    "Simple CNN Baseline": {
+      "accuracy": 0.7305725971370143,
+      "precision": 0.7052715654952076,
+      "recall": 0.8482228626320846,
+      "f1": 0.770170082860881,
+      "roc_auc": 0.8138328530259366,
+      "pr_auc": 0.8211360191072228,
+      "confusion_matrix": [
+        [
+          546,
+          369
+        ],
+        [
+          158,
+          883
+        ]
+      ],
+      "brier_score": 0.17647758085342813,
+      "ece": 0.05459286598060163,
+      "log_loss": 0.5242768279941865
+    },
+    "Dense CNN Baseline (Patel et al.)": {
+      "accuracy": 0.9647239263803681,
+      "precision": 0.9655172413793104,
+      "recall": 0.968299711815562,
+      "f1": 0.9669064748201439,
+      "roc_auc": 0.9933554852154559,
+      "pr_auc": 0.9940929482454526,
+      "confusion_matrix": [
+        [
+          879,
+          36
+        ],
+        [
+          33,
+          1008
+        ]
+      ],
+      "brier_score": 0.02616314621766552,
+      "ece": 0.010874703702664985,
+      "log_loss": 0.09788445392906045
+    },
+    "EfficientNet Baseline": {
+      "accuracy": 0.995398773006135,
+      "precision": 0.9933078393881453,
+      "recall": 0.9980787704130644,
+      "f1": 0.9956875898418783,
+      "roc_auc": 0.999661947580878,
+      "pr_auc": 0.9996598369458153,
+      "confusion_matrix": [
+        [
+          908,
+          7
+        ],
+        [
+          2,
+          1039
+        ]
+      ],
+      "brier_score": 0.0034140807945261184,
+      "ece": 0.005679332212202333,
+      "log_loss": 0.01601831675020707
+    },
+    "LX-DFD Proposed (Attention Fusion)": {
+      "accuracy": 0.9938650306748467,
+      "precision": 0.9951876804619827,
+      "recall": 0.9932756964457252,
+      "f1": 0.9942307692307693,
+      "roc_auc": 0.9997721820653743,
+      "pr_auc": 0.9997965671402337,
+      "confusion_matrix": [
+        [
+          910,
+          5
+        ],
+        [
+          7,
+          1034
+        ]
+      ],
+      "brier_score": 0.0051873455073195495,
+      "ece": 0.00483698837770457,
+      "log_loss": 0.02202819040749502
+    }
+  },
+  "calibration": {
+    "optimal_temperature": 1.0414077175171625,
+    "uncalibrated_test": {
+      "brier_score": 0.005187345508887779,
+      "ece": 0.00483698835543772,
+      "log_loss": 0.02202819048592896,
+      "accuracy": 0.9938650306748467,
+      "roc_auc": 0.9997721820653743
+    },
+    "calibrated_test": {
+      "brier_score": 0.005155923232612149,
+      "ece": 0.004006253903911681,
+      "log_loss": 0.021580250611288442,
+      "accuracy": 0.9938650306748467,
+      "roc_auc": 0.9997721820653743
+    }
+  },
+  "corruptions": {
+    "Clean / Original": {
+      "accuracy": 0.9938650306748467,
+      "roc_auc": 0.9997721820653743,
+      "pr_auc": 0.9997965671402337,
+      "f1": 0.9942307692307693,
+      "brier_score": 0.0051873455073195495,
+      "ece": 0.00483698837770457,
+      "auc_drop": 0.0
+    },
+    "JPEG Quality 90": {
+      "accuracy": 0.9805725971370143,
+      "roc_auc": 0.9992871503335905,
+      "pr_auc": 0.9993442917391882,
+      "f1": 0.9820415879017014,
+      "brier_score": 0.016911092751768962,
+      "ece": 0.020536796563433088,
+      "auc_drop": 0.00048503173178382486
+    },
+    "JPEG Quality 75": {
+      "accuracy": 0.8425357873210634,
+      "roc_auc": 0.9855251623334016,
+      "pr_auc": 0.9850702609179575,
+      "f1": 0.8711297071129707,
+      "brier_score": 0.14730736779403678,
+      "ece": 0.1566726005183596,
+      "auc_drop": 0.014247019731972732
+    },
+    "JPEG Quality 50": {
+      "accuracy": 0.7832310838445807,
+      "roc_auc": 0.9637318047484815,
+      "pr_auc": 0.9606189643698305,
+      "f1": 0.830806065442937,
+      "brier_score": 0.21168827702802132,
+      "ece": 0.21829425609059686,
+      "auc_drop": 0.0360403773168928
+    },
+    "JPEG Quality 30": {
+      "accuracy": 0.7724948875255624,
+      "roc_auc": 0.9323086775536343,
+      "pr_auc": 0.9150088006324703,
+      "f1": 0.8239018599129403,
+      "brier_score": 0.22437632600442095,
+      "ece": 0.23005114055545783,
+      "auc_drop": 0.06746350451173999
+    },
+    "Resize 0.75x": {
+      "accuracy": 0.9800613496932515,
+      "roc_auc": 0.9974567329648352,
+      "pr_auc": 0.9975738782800794,
+      "f1": 0.981312889314806,
+      "brier_score": 0.017196989893828334,
+      "ece": 0.014493217513283854,
+      "auc_drop": 0.0023154491005391575
+    },
+    "Resize 0.50x": {
+      "accuracy": 0.9279141104294478,
+      "roc_auc": 0.9860159682524685,
+      "pr_auc": 0.9857608150975536,
+      "f1": 0.9296055916125812,
+      "brier_score": 0.061346776012937025,
+      "ece": 0.060268998548027766,
+      "auc_drop": 0.013756213812905815
+    },
+    "Gaussian Blur (r=1.5)": {
+      "accuracy": 0.7893660531697342,
+      "roc_auc": 0.9677075951559817,
+      "pr_auc": 0.9671747445065747,
+      "f1": 0.7582159624413145,
+      "brier_score": 0.1861405878785071,
+      "ece": 0.19293096923379785,
+      "auc_drop": 0.03206458690939262
+    },
+    "Gaussian Blur (r=3.0)": {
+      "accuracy": 0.7213701431492843,
+      "roc_auc": 0.8601360608494353,
+      "pr_auc": 0.8591863778002731,
+      "f1": 0.6803519061583577,
+      "brier_score": 0.24941895222622157,
+      "ece": 0.2420570586723229,
+      "auc_drop": 0.13963612121593905
+    },
+    "Gaussian Noise (std=0.05)": {
+      "accuracy": 0.4810838445807771,
+      "roc_auc": 0.6176800365348578,
+      "pr_auc": 0.6500588383061403,
+      "f1": 0.05405405405405406,
+      "brier_score": 0.5050150482980696,
+      "ece": 0.5093917878847976,
+      "auc_drop": 0.3820921455305165
+    },
+    "Gaussian Noise (std=0.10)": {
+      "accuracy": 0.4677914110429448,
+      "roc_auc": 0.5339181010272804,
+      "pr_auc": 0.5528008555139774,
+      "f1": 0.0,
+      "brier_score": 0.5312798861712955,
+      "ece": 0.5313491186102353,
+      "auc_drop": 0.4658540810380939
+    },
+    "Brightness Factor 0.7x": {
+      "accuracy": 0.9938650306748467,
+      "roc_auc": 0.9997669328042078,
+      "pr_auc": 0.9997991016490708,
+      "f1": 0.9942307692307693,
+      "brier_score": 0.005077783912867178,
+      "ece": 0.004800907471550604,
+      "auc_drop": 5.249261166517805e-06
+    },
+    "Brightness Factor 1.3x": {
+      "accuracy": 0.9928425357873211,
+      "roc_auc": 0.9990456843199319,
+      "pr_auc": 0.9992173435637496,
+      "f1": 0.9932821497120922,
+      "brier_score": 0.006861800229635969,
+      "ece": 0.005690283020462998,
+      "auc_drop": 0.0007264977454424226
+    },
+    "Contrast Factor 0.7x": {
+      "accuracy": 0.9933537832310838,
+      "roc_auc": 0.9997732319176076,
+      "pr_auc": 0.9997987068998756,
+      "f1": 0.993740972556572,
+      "brier_score": 0.005826808207948029,
+      "ece": 0.0051586880529785085,
+      "auc_drop": 0.0
+    },
+    "Contrast Factor 1.3x": {
+      "accuracy": 0.9923312883435583,
+      "roc_auc": 0.9994393789074187,
+      "pr_auc": 0.9995107065325688,
+      "f1": 0.9928057553956835,
+      "brier_score": 0.00664151577264833,
+      "ece": 0.006455840342957508,
+      "auc_drop": 0.0003328031579555857
+    }
+  },
+  "robustness_summary": {
+    "clean_roc_auc": 0.9997721820653743,
+    "mean_auc_drop": 0.0825013629331672,
+    "robustness_score": 0.9174986370668328
+  },
+  "cross_domain_audit": {
+    "status": "UNVERIFIED / SYNTHETIC PLACEHOLDER EXPLAINED",
+    "external_samples_present": 0,
+    "reason_for_initial_0.895_metric": "The original Kaggle deepfake-face-images dataset contains images from an unspecified mix of GANs without generator-level ground truth tags. The 0.895 cross-domain figure cited in initial summary templates represented simulated/preliminary placeholder estimates rather than an independently partitioned multi-generator benchmark.",
+    "verified_action": "Established an automated, repeatable Unseen Generator Pipeline in scripts/evaluate_unseen_generators.py ready to benchmark verified generators (e.g. StyleGAN2, StyleGAN3, Midjourney, StableDiffusion, FLUX) without training contamination."
+  }
+}

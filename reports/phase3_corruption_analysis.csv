@@ -1,0 +1,46 @@
+Model,Corruption Condition,Clean ROC-AUC,Corrupted ROC-AUC,ROC-AUC Drop,Corrupted Accuracy,Corrupted F1
+EfficientNet-B0 Baseline,Clean / Original,0.9997,0.9997,0.0,99.54%,0.9957
+EfficientNet-B0 Baseline,JPEG Quality 90,0.9997,0.999,0.0007,97.19%,0.9743
+EfficientNet-B0 Baseline,JPEG Quality 75,0.9997,0.9885,0.0111,83.59%,0.8664
+EfficientNet-B0 Baseline,JPEG Quality 50,0.9997,0.9723,0.0274,76.84%,0.8213
+EfficientNet-B0 Baseline,JPEG Quality 30,0.9997,0.9443,0.0554,76.69%,0.8203
+EfficientNet-B0 Baseline,Resize 0.75x,0.9997,0.9976,0.0021,97.96%,0.9808
+EfficientNet-B0 Baseline,Resize 0.50x,0.9997,0.9795,0.0201,92.59%,0.9283
+EfficientNet-B0 Baseline,Gaussian Blur (r=1.5),0.9997,0.9557,0.044,80.37%,0.7821
+EfficientNet-B0 Baseline,Gaussian Blur (r=3.0),0.9997,0.8622,0.1375,74.69%,0.7233
+EfficientNet-B0 Baseline,Gaussian Noise (std=0.05),0.9997,0.6005,0.3992,47.49%,0.0284
+EfficientNet-B0 Baseline,Gaussian Noise (std=0.10),0.9997,0.5348,0.4648,46.78%,0.0
+EfficientNet-B0 Baseline,Brightness Factor 0.7x,0.9997,0.9995,0.0001,99.59%,0.9962
+EfficientNet-B0 Baseline,Brightness Factor 1.3x,0.9997,0.9996,0.0,99.18%,0.9924
+EfficientNet-B0 Baseline,Contrast Factor 0.7x,0.9997,0.9996,0.0,99.44%,0.9947
+EfficientNet-B0 Baseline,Contrast Factor 1.3x,0.9997,0.9997,0.0,99.44%,0.9947
+LX-DFD Baseline (Standard Aug),Clean / Original,0.9998,0.9998,0.0,99.39%,0.9942
+LX-DFD Baseline (Standard Aug),JPEG Quality 90,0.9998,0.9993,0.0005,98.06%,0.982
+LX-DFD Baseline (Standard Aug),JPEG Quality 75,0.9998,0.9855,0.0142,84.25%,0.8711
+LX-DFD Baseline (Standard Aug),JPEG Quality 50,0.9998,0.9637,0.036,78.32%,0.8308
+LX-DFD Baseline (Standard Aug),JPEG Quality 30,0.9998,0.9323,0.0675,77.25%,0.8239
+LX-DFD Baseline (Standard Aug),Resize 0.75x,0.9998,0.9975,0.0023,98.01%,0.9813
+LX-DFD Baseline (Standard Aug),Resize 0.50x,0.9998,0.986,0.0138,92.79%,0.9296
+LX-DFD Baseline (Standard Aug),Gaussian Blur (r=1.5),0.9998,0.9677,0.0321,78.94%,0.7582
+LX-DFD Baseline (Standard Aug),Gaussian Blur (r=3.0),0.9998,0.8601,0.1396,72.14%,0.6804
+LX-DFD Baseline (Standard Aug),Gaussian Noise (std=0.05),0.9998,0.6274,0.3724,48.26%,0.0647
+LX-DFD Baseline (Standard Aug),Gaussian Noise (std=0.10),0.9998,0.5387,0.4611,46.78%,0.0
+LX-DFD Baseline (Standard Aug),Brightness Factor 0.7x,0.9998,0.9998,0.0,99.39%,0.9942
+LX-DFD Baseline (Standard Aug),Brightness Factor 1.3x,0.9998,0.999,0.0007,99.28%,0.9933
+LX-DFD Baseline (Standard Aug),Contrast Factor 0.7x,0.9998,0.9998,0.0,99.34%,0.9937
+LX-DFD Baseline (Standard Aug),Contrast Factor 1.3x,0.9998,0.9994,0.0003,99.23%,0.9928
+LX-DFD (Robustness-Aware Aug v2),Clean / Original,0.9943,0.9943,0.0,95.91%,0.9609
+LX-DFD (Robustness-Aware Aug v2),JPEG Quality 90,0.9943,0.9926,0.0017,95.50%,0.9571
+LX-DFD (Robustness-Aware Aug v2),JPEG Quality 75,0.9943,0.9916,0.0027,95.19%,0.9544
+LX-DFD (Robustness-Aware Aug v2),JPEG Quality 50,0.9943,0.9881,0.0061,93.92%,0.943
+LX-DFD (Robustness-Aware Aug v2),JPEG Quality 30,0.9943,0.9822,0.0121,93.00%,0.9336
+LX-DFD (Robustness-Aware Aug v2),Resize 0.75x,0.9943,0.9921,0.0022,95.55%,0.9576
+LX-DFD (Robustness-Aware Aug v2),Resize 0.50x,0.9943,0.9874,0.0069,93.35%,0.9356
+LX-DFD (Robustness-Aware Aug v2),Gaussian Blur (r=1.5),0.9943,0.9826,0.0117,91.56%,0.9168
+LX-DFD (Robustness-Aware Aug v2),Gaussian Blur (r=3.0),0.9943,0.9217,0.0726,75.87%,0.7184
+LX-DFD (Robustness-Aware Aug v2),Gaussian Noise (std=0.05),0.9943,0.9725,0.0217,89.83%,0.9075
+LX-DFD (Robustness-Aware Aug v2),Gaussian Noise (std=0.10),0.9943,0.6452,0.3491,47.96%,0.0468
+LX-DFD (Robustness-Aware Aug v2),Brightness Factor 0.7x,0.9943,0.9929,0.0014,95.19%,0.9539
+LX-DFD (Robustness-Aware Aug v2),Brightness Factor 1.3x,0.9943,0.9921,0.0022,95.14%,0.9537
+LX-DFD (Robustness-Aware Aug v2),Contrast Factor 0.7x,0.9943,0.9928,0.0015,95.35%,0.9554
+LX-DFD (Robustness-Aware Aug v2),Contrast Factor 1.3x,0.9943,0.9923,0.002,94.84%,0.9505

@@ -6,18 +6,22 @@
     "FAKE": 7000,
     "REAL": 5890
   },
-  "class_imbalance_ratio": {
-    "FAKE": 0.5431,
-    "REAL": 0.4569
-  },
-  "file_formats": {
-    "jpg": 12890
-  },
+  "missing_files_count": 0,
   "corrupted_files_count": 0,
   "exact_duplicates_unique_hashes": 4,
   "exact_duplicate_files_count": 4,
   "perceptual_duplicates_unique_hashes": 15,
   "perceptual_duplicate_files_count": 15,
+  "total_augmentation_groups": 7734,
+  "multi_image_augmentation_groups_count": 1289,
+  "missing_metadata_fields": [
+    "source",
+    "generator",
+    "identity"
+  ],
+  "file_formats": {
+    "jpg": 12890
+  },
   "resolution_distribution": [
     {
       "width": 196,

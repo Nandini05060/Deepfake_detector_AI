@@ -1,0 +1,32 @@
+==================================================
+            LX-DFD DATASET AUDIT REPORT           
+==================================================
+
+Dataset Directory: C:\Users\nandi\.cache\kagglehub\datasets\kshitizbhargava\deepfake-face-images\versions\1\Final Dataset
+Total Scanned Images: 12890
+Total Valid Images:   12890
+Missing Files:        0
+Corrupted Files:      0
+
+Class Counts:
+  - FAKE: 7000
+  - REAL: 5890
+
+File Formats:
+  - .jpg: 12890
+
+Duplicates & Augmentation Groups:
+  - Exact Duplicate Hashes (MD5): 4 (Files: 4)
+  - Perceptual Hashes (dHash):    15 (Files: 15)
+  - Total Augmentation Groups:    7734
+  - Multi-variant Aug Groups:     1289
+
+Metadata Field Status:
+  - path: AVAILABLE
+  - label: AVAILABLE
+  - augmentation_group: INFERRED FROM FILENAME
+  - original_image_id: INFERRED FROM FILENAME
+  - width/height/format/size/hash/phash: COMPUTED
+  - source: UNKNOWN (Not provided in dataset)
+  - generator: UNKNOWN (Not provided in dataset)
+  - identity: UNKNOWN (Not provided in dataset)

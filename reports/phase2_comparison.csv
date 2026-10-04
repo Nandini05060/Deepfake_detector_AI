@@ -1,0 +1,5 @@
+Model,In-Domain Test ROC-AUC,In-Domain Test PR-AUC,In-Domain Test Accuracy,In-Domain Test F1,Precision,Recall,Brier Score,ECE,Log Loss
+Simple CNN Baseline,0.8138,0.8211,73.06%,0.7702,0.7053,0.8482,0.1765,0.0546,0.5243
+Dense CNN Baseline (Patel et al.),0.9934,0.9941,96.47%,0.9669,0.9655,0.9683,0.0262,0.0109,0.0979
+EfficientNet Baseline,0.9997,0.9997,99.54%,0.9957,0.9933,0.9981,0.0034,0.0057,0.016
+LX-DFD Proposed (Attention Fusion),0.9998,0.9998,99.39%,0.9942,0.9952,0.9933,0.0052,0.0048,0.022

@@ -38,7 +38,9 @@ class DeepfakeDataset(Dataset):
 
     def __getitem__(self, idx: int):
         row = self.df.iloc[idx]
-        if 'file_path' in row and pd.notna(row['file_path']):
+        if 'path' in row and pd.notna(row['path']):
+            img_path = str(row['path'])
+        elif 'file_path' in row and pd.notna(row['file_path']):
             img_path = str(row['file_path'])
         elif 'processed_path' in row and pd.notna(row['processed_path']):
             img_path = str(row['processed_path'])
