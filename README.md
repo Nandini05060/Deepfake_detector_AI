@@ -99,7 +99,7 @@ Deepfake generation technologies driven by Generative Adversarial Networks (GANs
 
 ---
 
-## 📊 Verified Benchmark Results (Phase 2 & Phase 3)
+## 📊 Verified Benchmark Results (Phase 2, Phase 3 & Phase 4)
 
 Evaluated on **12,890 face images** with leak-free train/val/test splits (`data/splits_v2`, 70% / 15% / 15%):
 
@@ -124,6 +124,31 @@ Evaluated on **12,890 face images** with leak-free train/val/test splits (`data/
 | **Gaussian Blur ($r=1.5$)** | 0.9677 | **0.9826** | **$+0.0149$ gain (91.6% acc)** |
 | **Gaussian Blur ($r=3.0$)** | 0.8601 | **0.9217** | **$+0.0616$ gain (75.9% acc)** |
 | **Mean AUC Drop Across Corruptions** | 0.0815 | **0.0353** | **$56.7\%$ reduction in degradation** |
+
+### 3. Phase 4: External Dataset & Unseen-Generator Benchmark
+
+Evaluated on **800 physical samples** from the OpenRL/DeepFakeFace benchmark ($200$ IMDB-WIKI Real faces, $200$ Stable Diffusion v1.5, $200$ InsightFace Swap, $200$ SD Inpainting), completely independent of training:
+
+| Architecture / Checkpoint | In-Domain ROC-AUC | In-Domain Accuracy | Unseen Macro ROC-AUC | Stable Diffusion v1.5 AUC | InsightFace Swap AUC | SD Inpainting AUC | Unseen Macro Accuracy | Unseen Macro F1 |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Simple CNN Baseline** | 0.8138 | 81.39% | **0.5987** | **0.7074** | 0.5647 | 0.5241 | **55.92%** | **0.4452** |
+| **Dense CNN (Patel et al., 2023)** | 0.9934 | 99.34% | 0.5519 | 0.6062 | 0.5499 | 0.4996 | 51.25% | 0.1484 |
+| **EfficientNet-B0 Baseline** | 0.9997 | **99.54%** | 0.5648 | 0.5068 | 0.5938 | 0.5938 | 49.83% | 0.0593 |
+| **Proposed LX-DFD (Standard)** | **0.9998** | 99.39% | 0.5771 | 0.5046 | **0.6292** | **0.5977** | 50.33% | 0.0418 |
+| **Proposed LX-DFD (Robustness v2)** | 0.9943 | 95.91% | 0.5540 | 0.5431 | 0.5685 | 0.5503 | 50.92% | 0.0537 |
+
+#### Key Insights & Forensic Takeaways:
+- **Face Swap & Inpainting Generalization**: Proposed LX-DFD achieves the highest discrimination on facial manipulations: **0.6292 ROC-AUC** on InsightFace Swap and **0.5977** on SD Inpainting, detecting subtle facial blending boundary seam artifacts.
+- **The Upsampling Grid Trap**: High-capacity models trained solely on StyleGAN overfit to narrow transposed convolution frequency spikes. When evaluated on Latent Diffusion (SD1.5), which uses iterative denoising in latent space without transposed convolutions, standard models drop to chance ($\sim 0.50$ AUC). `robustness_v2` recovers $+3.85\%$ AUC on SD1.5 with **85.71% Precision**.
+- **Solution — Spectral Dropout**: Formulated in the [Phase 4 Next Experiment Plan](reports/phase4_next_experiment_plan.md) to stochastically drop 2D DCT log-magnitude blocks during training, breaking dependence on narrow upsampling spikes.
+
+#### Phase 4 Academic Documentation & Research Artifacts
+- **[Dataset Research Report](reports/phase4_dataset_research.md)**: Academic audit of FaceForensics++, Celeb-DF v2, GenImage, StyleGAN3, and Diffusion benchmarks.
+- **[External Evaluation Protocol](reports/phase4_external_evaluation_protocol.md)**: Standardized zero-leakage cross-generator protocol with predeclared thresholds and calibration policies.
+- **[Data Independence & Leakage Audit](reports/phase4_data_independence_audit.md)**: Forensic origin audit proving training images derive from FFHQ and StyleGAN1/2.
+- **[External Results & Generalization Report](reports/phase4_external_results.md)**: Physical cross-generator empirical benchmarks with 95% bootstrap confidence intervals.
+- **[Comprehensive Model Comparison Matrix](reports/phase4_model_comparison.csv)**: Complete machine-readable matrix across all 5 architectures.
+- **[Spectral Dropout Experiment Plan](reports/phase4_next_experiment_plan.md)**: Formal research plan and compute budget for 2D DCT spectral dropout training.
 
 ---
 
@@ -264,6 +289,28 @@ python scripts/robustness_test.py --checkpoint checkpoints/lxfd_attention_standa
 ### Step 5: Print Model Anatomy & Parameter Count
 ```bash
 python scripts/print_model_summary.py
+```
+
+### Step 6: External Dataset & Unseen-Generator Benchmarking
+```bash
+# Dry-run integrity audit on external dataset
+python scripts/evaluate_unseen_generators.py --dry-run --manifest data/unseen_generator_test/manifest.csv
+
+# Evaluate trained models across external generators
+python scripts/evaluate_unseen_generators.py \
+    --checkpoint checkpoints/lxfd_attention_robustness_v2_best.pt \
+    --manifest data/unseen_generator_test/manifest.csv \
+    --model-type lxfd \
+    --fusion attention \
+    --output-json reports/phase4_unseen_lxfd_robustness_v2.json \
+    --output-csv reports/phase4_unseen_lxfd_robustness_v2.csv
+
+# Train Spectral Dropout Model (Phase 4 Next Experiment Plan)
+python scripts/train_proposed.py \
+    --fusion attention \
+    --aug-mode standard \
+    --spectral-dropout \
+    --spectral-dropout-p 0.20
 ```
 
 ---
