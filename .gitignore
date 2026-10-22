@@ -13,6 +13,7 @@ Final Dataset/
 data/crops/
 data/processed/
 data/raw/
+data/pilot_phase7/processed/
 data/external/*
 !data/external/.gitkeep
 

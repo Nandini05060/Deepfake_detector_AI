@@ -1,0 +1,60 @@
+project:
+  name: "LX-DFD"
+  description: "Generalizable Deepfake Face Detection Using Spatial-Frequency Feature Learning"
+  phase: "Phase 7 - Multi-Generator Training & Leakage-Free Generalization"
+  objective: "Overcome StyleGAN2 monoculture by training on diverse generator families (GANs + Latent Diffusion + Face Swapping) with strict Leave-One-Generator-Out (LOGO) holdout"
+
+data:
+  dataset_dir: "C:\\Users\\nandi\\.cache\\kagglehub\\datasets\\kshitizbhargava\\deepfake-face-images\\versions\\1\\Final Dataset"
+  splits_dir: "data/splits_multigen"
+  manifest_path: "data/manifests/phase7_multigen_manifest.csv"
+  external_dir: "data/external"
+  image_size: [224, 224]
+  batch_size: 32
+  num_workers: 0
+  preprocessing_version: "phase7_v1"
+  sampling_strategy:
+    description: "Stratified class balance with multi-generator representation"
+    real_sources: ["FFHQ", "IMDB-WIKI"]
+    fake_generators_in_training: ["StyleGAN2", "StableDiffusion_v1.5", "InsightFace_Swap"]
+    quarantined_logo_generator: "StableDiffusion_Inpainting"
+
+augmentation:
+  mode: "robustness_v2"
+  robustness_v2:
+    jpeg_compression_p: 0.35
+    jpeg_quality_range: [60, 95]
+    gaussian_blur_p: 0.25
+    gaussian_blur_radius_range: [0.5, 1.5]
+    gaussian_noise_p: 0.30
+    gaussian_noise_std_range: [0.01, 0.04]
+    horizontal_flip_p: 0.5
+    rotation_degrees: 15
+    resized_crop_scale: [0.85, 1.0]
+    color_jitter_p: 0.3
+    brightness: 0.2
+    contrast: 0.2
+    saturation: 0.2
+
+model:
+  spatial_embed_dim: 256
+  spatial_pretrained: true
+  fusion_type: "attention"
+  dropout: 0.30
+  spectral_dropout: false
+  spectral_dropout_p: 0.0
+
+training:
+  epochs: 15
+  early_stopping_patience: 5
+  learning_rate: 1.0e-4
+  weight_decay: 1.0e-4
+  optimizer: "AdamW"
+  scheduler: "cosine"
+  warmup_epochs: 2
+  seed: 42
+  use_amp: true
+  checkpoint_dir: "checkpoints"
+  model_name: "lxfd_multigen_diverse"
+  target_checkpoint: "checkpoints/lxfd_multigen_diverse_best.pt"
+  checkpoint_selection_metric: "validation_roc_auc"

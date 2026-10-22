@@ -63,11 +63,20 @@ class DeepfakeDataset(Dataset):
         tensor_img = self.transform(image)
         label_tensor = torch.tensor(label_val, dtype=torch.float32)
         
+        # Ensure metadata fields are consistently strings to prevent PyTorch collate mixed-type errors
+        source_val = str(row.get('source_dataset', row.get('source', 'unknown')))
+        if pd.isna(source_val) or source_val.lower() == 'nan':
+            source_val = 'unknown'
+
+        gen_val = str(row.get('generator', 'None'))
+        if pd.isna(gen_val) or gen_val.lower() == 'nan':
+            gen_val = 'None'
+
         sample = {
             'image': tensor_img,
             'label': label_tensor,
             'path': img_path,
-            'source': row.get('source', 'unknown'),
-            'generator': row.get('generator', 'unknown')
+            'source': source_val,
+            'generator': gen_val
         }
         return sample
