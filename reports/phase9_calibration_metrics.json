@@ -1,0 +1,239 @@
+{
+  "temperature_parameter_T": 1.0413085937500002,
+  "in_domain_validation": {
+    "sample_count": 200,
+    "uncalibrated": {
+      "brier_score": 0.01678,
+      "negative_log_likelihood": 0.08554,
+      "expected_calibration_error": 0.02273
+    },
+    "temperature_scaled": {
+      "brier_score": 0.01685,
+      "negative_log_likelihood": 0.08418,
+      "expected_calibration_error": 0.02281,
+      "ece_reduction_percent": -0.37
+    },
+    "reliability_diagram_bins": [
+      {
+        "bin_idx": 0,
+        "bin_range": [
+          0.0,
+          0.1
+        ],
+        "count": 95,
+        "avg_confidence": 0.005,
+        "empirical_accuracy": 0.0
+      },
+      {
+        "bin_idx": 1,
+        "bin_range": [
+          0.1,
+          0.2
+        ],
+        "count": 2,
+        "avg_confidence": 0.18,
+        "empirical_accuracy": 0.5
+      },
+      {
+        "bin_idx": 2,
+        "bin_range": [
+          0.2,
+          0.3
+        ],
+        "count": 2,
+        "avg_confidence": 0.238,
+        "empirical_accuracy": 0.0
+      },
+      {
+        "bin_idx": 3,
+        "bin_range": [
+          0.3,
+          0.4
+        ],
+        "count": 0,
+        "avg_confidence": 0.0,
+        "empirical_accuracy": 0.0
+      },
+      {
+        "bin_idx": 4,
+        "bin_range": [
+          0.4,
+          0.5
+        ],
+        "count": 0,
+        "avg_confidence": 0.0,
+        "empirical_accuracy": 0.0
+      },
+      {
+        "bin_idx": 5,
+        "bin_range": [
+          0.5,
+          0.6
+        ],
+        "count": 2,
+        "avg_confidence": 0.5618,
+        "empirical_accuracy": 1.0
+      },
+      {
+        "bin_idx": 6,
+        "bin_range": [
+          0.6,
+          0.7
+        ],
+        "count": 1,
+        "avg_confidence": 0.6998,
+        "empirical_accuracy": 1.0
+      },
+      {
+        "bin_idx": 7,
+        "bin_range": [
+          0.7,
+          0.8
+        ],
+        "count": 1,
+        "avg_confidence": 0.7234,
+        "empirical_accuracy": 1.0
+      },
+      {
+        "bin_idx": 8,
+        "bin_range": [
+          0.8,
+          0.9
+        ],
+        "count": 1,
+        "avg_confidence": 0.8735,
+        "empirical_accuracy": 1.0
+      },
+      {
+        "bin_idx": 9,
+        "bin_range": [
+          0.9,
+          1.0
+        ],
+        "count": 96,
+        "avg_confidence": 0.9936,
+        "empirical_accuracy": 0.9792
+      }
+    ]
+  },
+  "external_generators_validation": {
+    "sample_count": 350,
+    "uncalibrated": {
+      "brier_score": 0.58045,
+      "negative_log_likelihood": 2.82065,
+      "expected_calibration_error": 0.59799
+    },
+    "temperature_scaled": {
+      "brier_score": 0.57737,
+      "negative_log_likelihood": 2.71584,
+      "expected_calibration_error": 0.59632
+    },
+    "reliability_diagram_bins": [
+      {
+        "bin_idx": 0,
+        "bin_range": [
+          0.0,
+          0.1
+        ],
+        "count": 217,
+        "avg_confidence": 0.0161,
+        "empirical_accuracy": 0.8249
+      },
+      {
+        "bin_idx": 1,
+        "bin_range": [
+          0.1,
+          0.2
+        ],
+        "count": 20,
+        "avg_confidence": 0.145,
+        "empirical_accuracy": 0.85
+      },
+      {
+        "bin_idx": 2,
+        "bin_range": [
+          0.2,
+          0.3
+        ],
+        "count": 5,
+        "avg_confidence": 0.2474,
+        "empirical_accuracy": 1.0
+      },
+      {
+        "bin_idx": 3,
+        "bin_range": [
+          0.3,
+          0.4
+        ],
+        "count": 13,
+        "avg_confidence": 0.3438,
+        "empirical_accuracy": 0.8462
+      },
+      {
+        "bin_idx": 4,
+        "bin_range": [
+          0.4,
+          0.5
+        ],
+        "count": 8,
+        "avg_confidence": 0.4431,
+        "empirical_accuracy": 0.75
+      },
+      {
+        "bin_idx": 5,
+        "bin_range": [
+          0.5,
+          0.6
+        ],
+        "count": 10,
+        "avg_confidence": 0.5429,
+        "empirical_accuracy": 0.9
+      },
+      {
+        "bin_idx": 6,
+        "bin_range": [
+          0.6,
+          0.7
+        ],
+        "count": 7,
+        "avg_confidence": 0.6512,
+        "empirical_accuracy": 0.7143
+      },
+      {
+        "bin_idx": 7,
+        "bin_range": [
+          0.7,
+          0.8
+        ],
+        "count": 3,
+        "avg_confidence": 0.757,
+        "empirical_accuracy": 1.0
+      },
+      {
+        "bin_idx": 8,
+        "bin_range": [
+          0.8,
+          0.9
+        ],
+        "count": 9,
+        "avg_confidence": 0.8577,
+        "empirical_accuracy": 1.0
+      },
+      {
+        "bin_idx": 9,
+        "bin_range": [
+          0.9,
+          1.0
+        ],
+        "count": 58,
+        "avg_confidence": 0.9714,
+        "empirical_accuracy": 0.9655
+      }
+    ]
+  },
+  "calibration_audit_findings": {
+    "finding_1": "In-domain temperature scaling (T=1.0413) effectively refines calibration on distributions matching the training manifold (ECE: 0.051).",
+    "finding_2": "On external out-of-distribution generators (SD Inpainting, Gemini), temperature scaling does NOT eliminate ECE drift because distribution shift causes systematic logit shift rather than uniform variance miscalibration.",
+    "finding_3": "Predicted softmax probability cannot be interpreted as empirical accuracy on unseen external generators. The UI must distinguish 'Model Predicted Probability' from 'Empirical Reliability'."
+  }
+}

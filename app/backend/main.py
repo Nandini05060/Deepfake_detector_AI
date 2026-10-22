@@ -50,43 +50,76 @@ async def add_no_cache_headers(request, call_next):
     response.headers["Expires"] = "0"
     return response
 
+import hashlib
+from src.models.inference import LXDFDPredictor
+
 # Global variables for model state
 device = get_device()
 loaded_models = {}
+_lxfd_predictor: Optional[LXDFDPredictor] = None
+
+def get_lxfd_predictor() -> LXDFDPredictor:
+    """
+    Returns the singleton LXDFDPredictor instance using the verified Phase 8
+    multi-generator checkpoint. Rejects silent fallbacks to obsolete checkpoints.
+    """
+    global _lxfd_predictor
+    if _lxfd_predictor is None:
+        target_ckpt = Path("checkpoints/lxfd_multigen_diverse_best.pt")
+        if not target_ckpt.exists():
+            raise FileNotFoundError(
+                f"[API CRITICAL] Verified production checkpoint not found: {target_ckpt.resolve()}. "
+                "Silent fallback to legacy single-generator checkpoints is disabled by security policy."
+            )
+        
+        # Calculate SHA256 hash for reproducibility audit
+        sha256 = hashlib.sha256()
+        with open(target_ckpt, "rb") as f:
+            while chunk := f.read(65536):
+                sha256.update(chunk)
+        ckpt_hash = sha256.hexdigest()
+
+        # Load checkpoint metadata
+        raw_ckpt = torch.load(target_ckpt, map_location=device)
+        epoch = raw_ckpt.get("epoch", "N/A")
+        val_auc = raw_ckpt.get("val_auc", "N/A")
+        
+        _lxfd_predictor = LXDFDPredictor(
+            checkpoint_path=str(target_ckpt),
+            calibration_path="checkpoints/calibration_params.json",
+            device=device
+        )
+        print("=" * 70)
+        print("[API STARTUP] LX-DFD Production Inference Engine Verified:")
+        print(f"  * Resolved Path:      {target_ckpt.resolve()}")
+        print(f"  * Checkpoint Hash:    SHA256:{ckpt_hash}")
+        print(f"  * Model Architecture: LXDFDModel (Dual-Branch Spatial-Frequency + Attention Floor)")
+        print(f"  * Checkpoint Epoch:   {epoch}")
+        print(f"  * Best Val ROC-AUC:   {val_auc:.6f}" if isinstance(val_auc, float) else f"  * Val ROC-AUC: {val_auc}")
+        print(f"  * Temperature Scaling: T = {_lxfd_predictor.scaler.temperature:.4f}")
+        print(f"  * Shared Instance:    Synchronized across /predict and /explain")
+        print("=" * 70)
+    return _lxfd_predictor
 
 def get_loaded_model(model_name: str = "lxfd"):
+    if model_name == "lxfd":
+        return get_lxfd_predictor().model
+        
     if model_name in loaded_models:
         return loaded_models[model_name]
     
-    # Initialize model and candidate checkpoint paths
+    # Initialize baseline reference models
     if model_name == "simple_cnn":
         model = SimpleCNN().to(device)
-        candidate_paths = [
-            Path("checkpoints/simple_cnn_best.pt"),
-            Path("checkpoints/simple_cnn.pt")
-        ]
+        candidate_paths = [Path("checkpoints/simple_cnn_best.pt")]
     elif model_name == "dense_cnn":
         model = DenseCNNBaseline().to(device)
-        candidate_paths = [
-            Path("checkpoints/dense_cnn_best.pt"),
-            Path("checkpoints/dense_cnn.pt")
-        ]
+        candidate_paths = [Path("checkpoints/dense_cnn_best.pt")]
     elif model_name == "efficientnet":
         model = EfficientNetBaseline(pretrained=False).to(device)
-        candidate_paths = [
-            Path("checkpoints/efficientnet_best.pt"),
-            Path("checkpoints/efficientnet.pt")
-        ]
+        candidate_paths = [Path("checkpoints/efficientnet_best.pt")]
     else:
-        model = LXDFDModel(fusion_type="attention", pretrained=False).to(device)
-        candidate_paths = [
-            Path("checkpoints/lxfd_multigen_diverse_best.pt"),
-            Path("checkpoints/lxfd_attention_robustness_v2_best.pt"),
-            Path("checkpoints/lxfd_attention_standard_best.pt"),
-            Path("checkpoints/lxfd_best.pt"),
-            Path("checkpoints/lxfd_attention_best.pt"),
-            Path("checkpoints/lxfd_model.pt")
-        ]
+        raise ValueError(f"Unknown model name: {model_name}")
         
     loaded = False
     for ckpt_path in candidate_paths:
@@ -95,14 +128,14 @@ def get_loaded_model(model_name: str = "lxfd"):
                 checkpoint = torch.load(ckpt_path, map_location=device)
                 state_dict = checkpoint.get('model_state_dict', checkpoint)
                 model.load_state_dict(state_dict)
-                print(f"[API] Successfully loaded trained checkpoint for '{model_name}' from: {ckpt_path}")
+                print(f"[API] Loaded baseline checkpoint for '{model_name}' from: {ckpt_path}")
                 loaded = True
                 break
             except Exception as e:
                 print(f"[API] Warning loading checkpoint from {ckpt_path}: {e}")
                 
     if not loaded:
-        print(f"[API] WARNING: No matching checkpoint found for '{model_name}' in {candidate_paths}!")
+        print(f"[API] WARNING: No checkpoint found for baseline '{model_name}' in {candidate_paths}!")
             
     model.eval()
     loaded_models[model_name] = model
@@ -349,13 +382,7 @@ async def predict_image(file: UploadFile = File(...), model_name: str = "lxfd"):
     
     face_img = extract_face_crop(pil_img)
     
-    from src.models.inference import LXDFDPredictor
-    predictor = LXDFDPredictor(
-        checkpoint_path="checkpoints/lxfd_multigen_diverse_best.pt",
-        calibration_path="checkpoints/calibration_params.json",
-        device=device
-    )
-    
+    predictor = get_lxfd_predictor()
     res = predictor.predict(face_img)
     res["model_version"] = "LX-DFD Multi-Generator (Diverse Spatial-Frequency)"
     res["calibration_status"] = f"Temperature Scaled (T={res.get('temperature', 1.0):.3f}; In-Domain Validated)" if res.get("calibrated") else "Uncalibrated"
@@ -376,30 +403,18 @@ async def explain_image(file: UploadFile = File(...)):
     orig_np = np.array(face_img)
     resized_rgb = cv2.resize(orig_np, (224, 224))
 
-    from src.models.inference import LXDFDPredictor
-    predictor = LXDFDPredictor(
-        checkpoint_path="checkpoints/lxfd_multigen_diverse_best.pt",
-        calibration_path="checkpoints/calibration_params.json",
-        device=device
-    )
-    
+    predictor = get_lxfd_predictor()
     pred_res = predictor.predict(face_img)
 
-    mean = [0.485, 0.456, 0.406]
-    std = [0.229, 0.224, 0.225]
-    tensor_img = T.Compose([
-        T.Resize((224, 224)),
-        T.ToTensor(),
-        T.Normalize(mean=mean, std=std)
-    ])(face_img).unsqueeze(0).to(device)
-
-    model = get_loaded_model("lxfd")
+    # Ensure Grad-CAM and DCT Spectrum use the exact same model instance and transforms
+    tensor_img = predictor.transform(face_img).unsqueeze(0).to(device)
     with torch.no_grad():
-        out, meta = model(tensor_img)
+        out, meta = predictor.model(tensor_img)
 
-    # Grad-CAM heatmap with auto-target (highlights features supporting predicted class)
-    cam_gen = SimpleGradCAM(model)
-    heatmap = cam_gen.generate_heatmap(tensor_img, target_class=-1)
+    # Target class direction: 1 for FAKE (evidence of manipulation), 0 for REAL (authentic facial structure)
+    target_cls = 1 if pred_res["prediction"] == "FAKE" else 0
+    cam_gen = SimpleGradCAM(predictor.model)
+    heatmap = cam_gen.generate_heatmap(tensor_img, target_class=target_cls)
     overlay = overlay_heatmap_on_image(resized_rgb, heatmap)
 
     # DCT Visualizations
