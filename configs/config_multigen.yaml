@@ -46,6 +46,7 @@ model:
 
 training:
   epochs: 15
+  batch_size: 32
   early_stopping_patience: 5
   learning_rate: 1.0e-4
   weight_decay: 1.0e-4
