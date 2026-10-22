@@ -129,7 +129,8 @@ def load_eval_model(checkpoint_path: str, model_type: str = "auto", fusion: str 
         resolved_type = model_type
 
     if resolved_type == "lxfd":
-        model = LXDFDModel(embed_dim=256, fusion_type=fusion, pretrained=False).to(device)
+        is_spectral = "spectral_dropout" in ckpt_file.name.lower()
+        model = LXDFDModel(embed_dim=256, fusion_type=fusion, pretrained=False, spectral_dropout=is_spectral).to(device)
     elif resolved_type == "efficientnet":
         model = EfficientNetBaseline(pretrained=False).to(device)
     elif resolved_type == "dense_cnn":
