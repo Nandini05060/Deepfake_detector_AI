@@ -1,0 +1,63 @@
+project:
+  name: "LX-DFD"
+  description: "Phase 10: Generalizable Deepfake Face Detection for Modern AI Generators (Gemini, SD1.5, InsightFace, StyleGAN2)"
+  phase: "Phase 10 - Modern Multi-Generator Adaptation & Leakage-Free Generalization"
+  objective: "Overcome diffusion pore-texture blindness and crop sensitivity by training on balanced modern generators (Gemini + SD1.5 + InsightFace + StyleGAN2) with strict Leave-One-Generator-Out holdout"
+
+data:
+  splits_dir: "data/splits_phase10"
+  manifest_path: "data/manifests/phase10_manifest.csv"
+  image_size: [224, 224]
+  batch_size: 32
+  num_workers: 0
+  preprocessing:
+    detector: "yunet"
+    margin: 0.50
+    fallback: "center_crop"
+  sampling_strategy:
+    description: "Stratified class balance with multi-generator representation"
+    real_sources: ["FFHQ", "IMDB-WIKI", "Kaggle_DFD_Real"]
+    fake_generators_in_training: ["Google_Gemini_Imagen3", "StableDiffusion_v1.5", "InsightFace_Swap", "StyleGAN2"]
+    quarantined_unseen_generators: ["StableDiffusion_Inpainting", "Heldout_Gemini_Test"]
+
+augmentation:
+  mode: "robustness_v2"
+  robustness_v2:
+    jpeg_compression_p: 0.30
+    jpeg_quality_range: [60, 95]
+    gaussian_blur_p: 0.20
+    gaussian_blur_radius_range: [0.5, 1.5]
+    gaussian_noise_p: 0.25
+    gaussian_noise_std_range: [0.01, 0.03]
+    horizontal_flip_p: 0.5
+    rotation_degrees: 10
+    resized_crop_scale: [0.85, 1.05]
+    color_jitter_p: 0.25
+    brightness: 0.15
+    contrast: 0.15
+    saturation: 0.15
+
+model:
+  spatial_embed_dim: 256
+  spatial_pretrained: true
+  fusion_type: "attention"
+  attention_min_floor: 0.05
+  dropout: 0.30
+  spectral_dropout: false
+  spectral_dropout_p: 0.0
+
+training:
+  epochs: 15
+  batch_size: 32
+  early_stopping_patience: 5
+  learning_rate: 5.0e-5
+  weight_decay: 1.0e-4
+  optimizer: "AdamW"
+  scheduler: "cosine"
+  warmup_epochs: 2
+  seed: 42
+  use_amp: true
+  checkpoint_dir: "checkpoints"
+  model_name: "lxfd_phase10_modern_generators"
+  base_checkpoint: "checkpoints/lxfd_multigen_diverse_best.pt"
+  target_checkpoint: "checkpoints/lxfd_phase10_modern_generators_best.pt"

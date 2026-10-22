@@ -60,18 +60,30 @@ _lxfd_predictor: Optional[LXDFDPredictor] = None
 
 def get_lxfd_predictor() -> LXDFDPredictor:
     """
-    Returns the singleton LXDFDPredictor instance using the verified Phase 8
-    multi-generator checkpoint. Rejects silent fallbacks to obsolete checkpoints.
+    Returns the singleton LXDFDPredictor instance using the verified Phase 10
+    modern multi-generator checkpoint (with fallback option to Phase 8).
+    Rejects silent fallbacks to obsolete checkpoints.
     """
     global _lxfd_predictor
     if _lxfd_predictor is None:
-        target_ckpt = Path("checkpoints/lxfd_multigen_diverse_best.pt")
-        if not target_ckpt.exists():
+        phase10_ckpt = Path("checkpoints/lxfd_phase10_modern_generators_best.pt")
+        phase8_ckpt = Path("checkpoints/lxfd_multigen_diverse_best.pt")
+        
+        explicit_version = os.getenv("LXDFD_MODEL_VERSION", "phase10").lower()
+        if explicit_version == "phase8" or (not phase10_ckpt.exists() and phase8_ckpt.exists()):
+            target_ckpt = phase8_ckpt
+            target_cal = Path("checkpoints/calibration_params.json")
+            model_ver_name = "Phase 8 Multi-Generator Baseline"
+        elif phase10_ckpt.exists():
+            target_ckpt = phase10_ckpt
+            target_cal = Path("checkpoints/calibration_params_phase10.json")
+            model_ver_name = "LX-DFD Phase 10 Modern Multi-Generator"
+        else:
             raise FileNotFoundError(
-                f"[API CRITICAL] Verified production checkpoint not found: {target_ckpt.resolve()}. "
+                f"[API CRITICAL] No verified production checkpoint found in checkpoints/. "
                 "Silent fallback to legacy single-generator checkpoints is disabled by security policy."
             )
-        
+
         # Calculate SHA256 hash for reproducibility audit
         sha256 = hashlib.sha256()
         with open(target_ckpt, "rb") as f:
@@ -86,11 +98,13 @@ def get_lxfd_predictor() -> LXDFDPredictor:
         
         _lxfd_predictor = LXDFDPredictor(
             checkpoint_path=str(target_ckpt),
-            calibration_path="checkpoints/calibration_params.json",
+            calibration_path=str(target_cal) if target_cal.exists() else None,
             device=device
         )
+        _lxfd_predictor.model_version_name = model_ver_name
         print("=" * 70)
         print("[API STARTUP] LX-DFD Production Inference Engine Verified:")
+        print(f"  * Model Version:      {model_ver_name}")
         print(f"  * Resolved Path:      {target_ckpt.resolve()}")
         print(f"  * Checkpoint Hash:    SHA256:{ckpt_hash}")
         print(f"  * Model Architecture: LXDFDModel (Dual-Branch Spatial-Frequency + Attention Floor)")
@@ -329,10 +343,10 @@ def get_error_analysis():
         ]
     }
 
-def extract_face_crop(pil_img: Image.Image, margin: float = 0.45) -> Image.Image:
+def extract_face_crop(pil_img: Image.Image, margin: float = 0.50) -> Image.Image:
     """
     Detects the primary face using OpenCV YuNet detector and returns a cropped PIL Image.
-    Uses margin=0.45 to preserve head, hair, ears, and neck boundaries where generative synthesis artifacts manifest.
+    Uses margin=0.50 to preserve full head, hair, ears, and neck boundaries where generative synthesis artifacts manifest.
     If no face is detected or image is already a close-up crop, returns the original image.
     """
     try:
@@ -384,7 +398,7 @@ async def predict_image(file: UploadFile = File(...), model_name: str = "lxfd"):
     
     predictor = get_lxfd_predictor()
     res = predictor.predict(face_img)
-    res["model_version"] = "LX-DFD Multi-Generator (Diverse Spatial-Frequency)"
+    res["model_version"] = getattr(predictor, "model_version_name", "LX-DFD Phase 10 Modern Multi-Generator")
     res["calibration_status"] = f"Temperature Scaled (T={res.get('temperature', 1.0):.3f}; In-Domain Validated)" if res.get("calibrated") else "Uncalibrated"
     return res
 

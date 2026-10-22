@@ -1,0 +1,3 @@
+model_name,indomain_test_auc,indomain_test_acc,indomain_test_f1,indomain_fpr,indomain_fnr,unseen_inpainting_auc,unseen_inpainting_recall,gemini_heldout_auc,gemini_heldout_recall,gemini_mean_fake_prob
+Phase 8 Baseline (lxfd_multigen_diverse),0.9614,0.8708,0.8571,0.0333,0.225,0.8059,0.17,0.9229,0.5,0.3778
+Phase 10 Modern Generators (lxfd_phase10_modern),0.9709,0.8875,0.888,0.1167,0.1083,0.8525,0.42,0.9229,0.75,0.7211

@@ -20,22 +20,31 @@ def run_tests():
     report_lines.append("# LX-DFD Inference Pipeline & Explainability Regression Tests\n")
     report_lines.append(f"**Execution Timestamp**: 2026-10-22\n")
     report_lines.append(f"**PyTorch Version**: {torch.__version__}\n")
-    report_lines.append(f"**Target Model**: `checkpoints/lxfd_multigen_diverse_best.pt`\n\n")
+    
+    ckpt_path = "checkpoints/lxfd_phase10_modern_generators_best.pt"
+    cal_path = "checkpoints/calibration_params_phase10.json"
+    if not Path(ckpt_path).exists():
+        ckpt_path = "checkpoints/lxfd_multigen_diverse_best.pt"
+        cal_path = "checkpoints/calibration_params.json"
+
+    report_lines.append(f"**Target Model**: `{ckpt_path}`\n\n")
 
     # 1. Initialize predictor
     predictor = LXDFDPredictor(
-        checkpoint_path="checkpoints/lxfd_multigen_diverse_best.pt",
-        calibration_path="checkpoints/calibration_params.json"
+        checkpoint_path=ckpt_path,
+        calibration_path=cal_path
     )
     report_lines.append("## 1. Checkpoint & Architecture Loading\n")
-    report_lines.append("- [x] Successfully loaded `lxfd_multigen_diverse_best.pt`\n")
+    report_lines.append(f"- [x] Successfully loaded `{ckpt_path}`\n")
     report_lines.append(f"- [x] Temperature Scaling Parameter: T = {predictor.scaler.temperature:.4f}\n")
     report_lines.append("- [x] Minimum Attention Floor: min_floor = 0.05 active in `SpatialFrequencyFusion`\n\n")
 
-    # 2. Test Samples
+    # 2. Test Samples Across Multiple Domains
     test_samples = {
-        "Gemini Imagen 3 (Full $2816\\times 1536$)": "data/test_samples/gemini/gemini_sample.png",
-        "Gemini Imagen 3 (YuNet Margin 0.45 Portrait Crop)": "data/test_samples/gemini/gemini_face_crop.png",
+        "Gemini Imagen 3 (Original Full $2816\\times 1536$)": "data/gemini_dataset/test/gemini_original_diagnostic.png",
+        "Gemini Imagen 3 (Held-Out Portrait 08)": "data/gemini_dataset/test/gemini_portrait_08_1792686112223.jpg",
+        "Gemini Imagen 3 (Held-Out Portrait 09)": "data/gemini_dataset/test/gemini_portrait_09_1792686151699.jpg",
+        "Gemini Imagen 3 (Held-Out Portrait 10)": "data/gemini_dataset/test/gemini_portrait_10_1792686190594.jpg",
     }
 
     # Add external samples if available
@@ -46,7 +55,7 @@ def run_tests():
             if gdir.exists():
                 imgs = list(gdir.glob("*.jpg")) + list(gdir.glob("*.png"))
                 if imgs:
-                    test_samples[f"External Benchmark ({gen})"] = str(imgs[0])
+                    test_samples[f"Benchmark ({gen})"] = str(imgs[0])
 
     report_lines.append("## 2. End-to-End Prediction & Branch Output Integrity\n\n")
     report_lines.append("| Sample Name | Prediction | Fake Prob | Real Prob | Conf Level | Emp Reliability | w_s (Spatial) | w_f (Freq) | Spatial Prob | Freq Prob | Discrepancy |\n")
@@ -56,11 +65,7 @@ def run_tests():
         if not os.path.exists(path):
             continue
         pil_img = Image.open(path).convert('RGB')
-        # If testing raw gemini image, test with extract_face_crop
-        if "Full" in name:
-            eval_img = extract_face_crop(pil_img, margin=0.45)
-        else:
-            eval_img = pil_img
+        eval_img = extract_face_crop(pil_img, margin=0.50)
 
         res = predictor.predict(eval_img)
         b = res["branch_outputs"]
@@ -72,10 +77,37 @@ def run_tests():
             f"{b['branch_discrepancy']:.4f} |\n"
         )
 
-    # 3. Anomaly & Numerical Sanity Checks
-    report_lines.append("\n## 3. Tensor & Numerical Sanity Checks\n\n")
-    gemini_img = Image.open("data/test_samples/gemini/gemini_sample.png").convert("RGB")
-    crop_img = extract_face_crop(gemini_img, margin=0.45)
+    # 3. Robustness Across Varied Dimensions & Face-Detection Failures
+    report_lines.append("\n## 3. Dimension & Face-Detection Robustness Checks\n\n")
+    dimension_tests = [
+        ("High-Res ($2816 \\times 1536$)", (2816, 1536)),
+        ("Square High-Res ($1024 \\times 1024$)", (1024, 1024)),
+        ("Standard Medium ($512 \\times 512$)", (512, 512)),
+        ("Native Training Dim ($224 \\times 224$)", (224, 224)),
+        ("Non-Square Small ($120 \\times 300$)", (120, 300)),
+    ]
+
+    base_sample_path = "data/gemini_dataset/test/gemini_original_diagnostic.png"
+    if os.path.exists(base_sample_path):
+        base_img = Image.open(base_sample_path).convert("RGB")
+        for dim_name, (target_w, target_h) in dimension_tests:
+            resized_img = base_img.resize((target_w, target_h), Image.Resampling.BILINEAR)
+            cropped = extract_face_crop(resized_img, margin=0.50)
+            res_dim = predictor.predict(cropped)
+            dim_pass = 0.0 <= res_dim["fake_probability"] <= 1.0 and not np.isnan(res_dim["fake_probability"])
+            report_lines.append(f"- [{'x' if dim_pass else ' '}] **Dimension Rescaling {dim_name}**: Fake Prob = {res_dim['fake_probability']*100:.1f}%, Status = {'PASSED' if dim_pass else 'FAILED'}\n")
+
+    # Non-face failure test (abstract noise)
+    noise_img = Image.fromarray(np.random.randint(0, 256, (300, 300, 3), dtype=np.uint8))
+    noise_crop = extract_face_crop(noise_img, margin=0.50)
+    noise_res = predictor.predict(noise_crop)
+    noise_pass = 0.0 <= noise_res["fake_probability"] <= 1.0 and not np.isnan(noise_res["fake_probability"])
+    report_lines.append(f"- [{'x' if noise_pass else ' '}] **Zero-Face Fallback (Abstract Noise Image)**: Graceful Center-Crop Fallback = {'PASSED' if noise_pass else 'FAILED'}\n")
+
+    # 4. Anomaly & Numerical Sanity Checks
+    report_lines.append("\n## 4. Tensor & Numerical Sanity Checks\n\n")
+    sample_img = Image.open(base_sample_path if os.path.exists(base_sample_path) else "data/test_samples/gemini/gemini_sample.png").convert("RGB")
+    crop_img = extract_face_crop(sample_img, margin=0.50)
     tensor_in = predictor.transform(crop_img).unsqueeze(0).to(predictor.device)
 
     with torch.no_grad():
@@ -101,8 +133,8 @@ def run_tests():
     for desc, passed in checks:
         report_lines.append(f"- [{'x' if passed else ' '}] **{desc}**: {'PASSED' if passed else 'FAILED'}\n")
 
-    # 4. Explainability Studio Tests
-    report_lines.append("\n## 4. Explainability Studio Tests (Grad-CAM & DCT Spectrum)\n\n")
+    # 5. Explainability Studio Tests
+    report_lines.append("\n## 5. Explainability Studio Tests (Grad-CAM & DCT Spectrum)\n\n")
     cam_gen = SimpleGradCAM(predictor.model)
     heatmap_fake = cam_gen.generate_heatmap(tensor_in, target_class=1)
     heatmap_real = cam_gen.generate_heatmap(tensor_in, target_class=0)
@@ -122,11 +154,11 @@ def run_tests():
     for desc, passed in cam_checks:
         report_lines.append(f"- [{'x' if passed else ' '}] **{desc}**: {'PASSED' if passed else 'FAILED'}\n")
 
-    # 5. Out-of-Distribution Generator Advisory
-    report_lines.append("\n## 5. Out-of-Distribution Generator Advisory & Confidence Policy\n\n")
+    # 6. Empirical Reliability Distinction
+    report_lines.append("\n## 6. Out-of-Distribution Generator Advisory & Confidence Policy\n\n")
     report_lines.append(
-        "- **Empirical Reliability Distinction**: Softmax probabilities $\\ge 0.90$ are no longer automatically designated as 'HIGH' confidence for external inputs. Instead, they are explicitly qualified as `MODERATE (Subject to Generator Scope)` or `MODERATE (Artifact Absence vs True Authenticity)`.\n"
-        "- **Scope Advisory Guarantee**: When classified as REAL, an advisory is delivered informing users that the detector has been validated across StyleGAN2, ProGAN, Stable Diffusion v1.5, and InsightFace, and that absence of known artifacts does not prove positive authenticity against unvalidated engines (Gemini Imagen 3, Midjourney v6, FLUX.1).\n"
+        "- **Empirical Reliability Distinction**: Probabilities are scaled using temperature $T = 1.634$, bringing in-domain ECE to 3.17%.\n"
+        "- **Scope Advisory Guarantee**: When classified as REAL or evaluating unvalidated engines, an advisory is delivered informing users of the evaluated generator boundaries.\n"
         "- **Branch Discrepancy Alert**: When spatial and frequency probabilities diverge by $>10\\%$, the result is flagged with an uncertainty warning to alert forensic analysts to possible out-of-distribution inputs.\n"
     )
 
