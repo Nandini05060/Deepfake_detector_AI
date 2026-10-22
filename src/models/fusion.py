@@ -54,7 +54,12 @@ class SpatialFrequencyFusion(nn.Module):
         elif self.fusion_type == 'attention':
             combined = torch.cat([F_s, F_f], dim=1) # (B, 2D)
             attn_logits = self.attention_net(combined) # (B, 2)
-            attn_weights = F.softmax(attn_logits, dim=1) # (B, 2) -> [w_s, w_f] per sample
+            raw_weights = F.softmax(attn_logits, dim=1) # (B, 2) -> [w_s, w_f] per sample
+            
+            # Prevent complete modality starvation by enforcing a 5% minimum floor per branch
+            # w_bounded = min_floor + (1 - 2*min_floor) * raw_weights
+            min_floor = 0.05
+            attn_weights = min_floor + (1.0 - 2.0 * min_floor) * raw_weights
             
             w_s = attn_weights[:, 0:1] # (B, 1)
             w_f = attn_weights[:, 1:2] # (B, 1)

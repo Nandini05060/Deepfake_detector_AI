@@ -1106,25 +1106,31 @@ function renderExplainability(container) {
                 "Highlighted regions indicate image areas that contributed strongly to the model's prediction."
               </div>
 
-              <!-- Weights Breakdown -->
+              <!-- Attention Weights & Branch Breakdown -->
               <div class="weights-breakdown-row">
                 <div>
                   <div class="weight-item-label">
-                    <span>SPATIAL SCORE (w_s)</span>
+                    <span>SPATIAL ATTENTION (w_s)</span>
                     <span id="ws-val" style="color: var(--accent-cyan); font-family: var(--font-mono);">0.55</span>
                   </div>
                   <div class="weight-bar-bg">
                     <div class="weight-bar-fill cyan" id="ws-bar" style="width: 55%;"></div>
                   </div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px; display: flex; justify-content: space-between;">
+                    <span>Spatial Fake Prob:</span> <strong id="spatial-prob-val" style="color: var(--accent-cyan);">--</strong>
+                  </div>
                 </div>
 
                 <div>
                   <div class="weight-item-label">
-                    <span>FREQUENCY SCORE (w_f)</span>
+                    <span>FREQUENCY ATTENTION (w_f)</span>
                     <span id="wf-val" style="color: var(--accent-purple); font-family: var(--font-mono);">0.45</span>
                   </div>
                   <div class="weight-bar-bg">
                     <div class="weight-bar-fill purple" id="wf-bar" style="width: 45%;"></div>
+                  </div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px; display: flex; justify-content: space-between;">
+                    <span>Freq Fake Prob:</span> <strong id="freq-prob-val" style="color: var(--accent-purple);">--</strong>
                   </div>
                 </div>
               </div>
@@ -1169,7 +1175,11 @@ function renderExplainability(container) {
                   <img id="img-hfreq" src="" alt="High-Pass Residual">
                 </div>
                 <div class="panel-label">High-Pass Residual Filter</div>
-              </div>
+            </div>
+            
+            <div style="margin-top: 14px; padding: 10px 14px; background: rgba(0, 229, 255, 0.05); border: 1px solid rgba(0, 229, 255, 0.2); border-radius: 6px; font-size: 11.5px; color: var(--text-muted); line-height: 1.5;">
+              <span style="color: var(--accent-cyan); font-weight: 700;">ℹ️ Forensic Explainability Disclaimer:</span>
+              Visual saliency heatmaps and 2D DCT log-magnitude spectra indicate localized feature activations and frequency energy distributions. Heatmaps alone do not constitute definitive proof of authenticity or manipulation. Predictions on unvalidated or out-of-distribution generator families (e.g. Gemini Imagen 3, FLUX.1) carry empirical uncertainty.
             </div>
           </div>
         </div>
@@ -1303,6 +1313,14 @@ async function processForensicFile(file) {
     const detailBox = document.getElementById("verdict-details-box") || document.createElement("div");
     detailBox.id = "verdict-details-box";
     detailBox.className = "verdict-details-panel";
+    
+    const relColor = data.empirical_reliability?.includes("HIGH") ? "#10B981" : (data.empirical_reliability?.includes("LOW") ? "#EF4444" : "#F59E0B");
+    const warningHtml = data.generator_warning ? `
+      <div style="margin-top: 10px; padding: 8px 10px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 6px; font-size: 11.5px; color: #FBBF24; line-height: 1.45;">
+        <strong>⚠️ Generator Advisory:</strong> ${data.generator_warning}
+      </div>
+    ` : '';
+
     detailBox.innerHTML = `
       <div style="margin-top: 12px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
@@ -1314,12 +1332,16 @@ async function processForensicFile(file) {
         <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
           <span>Confidence Level:</span> <strong style="color: ${isUncertain ? '#F59E0B' : '#00E5FF'};">${confLevel}</strong>
         </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+          <span>Empirical Reliability:</span> <strong style="color: ${relColor};">${data.empirical_reliability || 'MODERATE'}</strong>
+        </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 11px; color: var(--text-muted);">
           <span>Model Version:</span> <span>${modelVersion}</span>
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted);">
           <span>Calibration:</span> <span>${calStatus}</span>
         </div>
+        ${warningHtml}
       </div>
     `;
 
@@ -1342,6 +1364,15 @@ async function processForensicFile(file) {
     document.getElementById("wf-val").textContent = wf.toFixed(3);
     document.getElementById("ws-bar").style.width = `${(ws * 100).toFixed(1)}%`;
     document.getElementById("wf-bar").style.width = `${(wf * 100).toFixed(1)}%`;
+
+    const spProbEl = document.getElementById("spatial-prob-val");
+    const fqProbEl = document.getElementById("freq-prob-val");
+    if (spProbEl && data.branch_outputs?.spatial_branch_fake_prob !== undefined) {
+      spProbEl.textContent = `${(data.branch_outputs.spatial_branch_fake_prob * 100).toFixed(1)}%`;
+    }
+    if (fqProbEl && data.branch_outputs?.frequency_branch_fake_prob !== undefined) {
+      fqProbEl.textContent = `${(data.branch_outputs.frequency_branch_fake_prob * 100).toFixed(1)}%`;
+    }
 
     if (data.visualizations) {
       document.getElementById("img-orig").src = data.visualizations.original || "";

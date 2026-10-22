@@ -80,6 +80,7 @@ def get_loaded_model(model_name: str = "lxfd"):
     else:
         model = LXDFDModel(fusion_type="attention", pretrained=False).to(device)
         candidate_paths = [
+            Path("checkpoints/lxfd_multigen_diverse_best.pt"),
             Path("checkpoints/lxfd_attention_robustness_v2_best.pt"),
             Path("checkpoints/lxfd_attention_standard_best.pt"),
             Path("checkpoints/lxfd_best.pt"),
@@ -295,9 +296,10 @@ def get_error_analysis():
         ]
     }
 
-def extract_face_crop(pil_img: Image.Image, margin: float = 0.15) -> Image.Image:
+def extract_face_crop(pil_img: Image.Image, margin: float = 0.45) -> Image.Image:
     """
     Detects the primary face using OpenCV YuNet detector and returns a cropped PIL Image.
+    Uses margin=0.45 to preserve head, hair, ears, and neck boundaries where generative synthesis artifacts manifest.
     If no face is detected or image is already a close-up crop, returns the original image.
     """
     try:
@@ -349,14 +351,14 @@ async def predict_image(file: UploadFile = File(...), model_name: str = "lxfd"):
     
     from src.models.inference import LXDFDPredictor
     predictor = LXDFDPredictor(
-        checkpoint_path="checkpoints/lxfd_attention_standard_best.pt",
+        checkpoint_path="checkpoints/lxfd_multigen_diverse_best.pt",
         calibration_path="checkpoints/calibration_params.json",
         device=device
     )
     
     res = predictor.predict(face_img)
-    res["model_version"] = "LX-DFD V2 (Attention Fusion)"
-    res["calibration_status"] = f"Temperature Scaled (T={res.get('temperature', 1.0):.3f})" if res.get("calibrated") else "Uncalibrated"
+    res["model_version"] = "LX-DFD Multi-Generator (Diverse Spatial-Frequency)"
+    res["calibration_status"] = f"Temperature Scaled (T={res.get('temperature', 1.0):.3f}; In-Domain Validated)" if res.get("calibrated") else "Uncalibrated"
     return res
 
 @app.post("/explain")
@@ -376,7 +378,7 @@ async def explain_image(file: UploadFile = File(...)):
 
     from src.models.inference import LXDFDPredictor
     predictor = LXDFDPredictor(
-        checkpoint_path="checkpoints/lxfd_attention_standard_best.pt",
+        checkpoint_path="checkpoints/lxfd_multigen_diverse_best.pt",
         calibration_path="checkpoints/calibration_params.json",
         device=device
     )
@@ -393,12 +395,11 @@ async def explain_image(file: UploadFile = File(...)):
 
     model = get_loaded_model("lxfd")
     with torch.no_grad():
-        out = model(tensor_img)
-        meta = out[1] if isinstance(out, tuple) and len(out) > 1 else {}
+        out, meta = model(tensor_img)
 
-    # Grad-CAM heatmap
+    # Grad-CAM heatmap with auto-target (highlights features supporting predicted class)
     cam_gen = SimpleGradCAM(model)
-    heatmap = cam_gen.generate_heatmap(tensor_img)
+    heatmap = cam_gen.generate_heatmap(tensor_img, target_class=-1)
     overlay = overlay_heatmap_on_image(resized_rgb, heatmap)
 
     # DCT Visualizations
@@ -409,19 +410,32 @@ async def explain_image(file: UploadFile = File(...)):
         _, buf = cv2.imencode('.jpg', bgr)
         return "data:image/jpeg;base64," + base64.b64encode(buf).decode('utf-8')
 
+    w_s = float(meta.get('w_s', 0.55))
+    w_f = float(meta.get('w_f', 0.45))
+
     return {
         "prediction": pred_res["prediction"],
         "fake_probability": pred_res["fake_probability"],
         "real_probability": pred_res["real_probability"],
         "confidence": pred_res["confidence"],
         "confidence_level": pred_res["confidence_level"],
+        "empirical_reliability": pred_res["empirical_reliability"],
         "is_uncertain": pred_res["is_uncertain"],
-        "model_version": "LX-DFD V2 (Attention Fusion)",
-        "calibration_status": f"Temperature Scaled (T={pred_res.get('temperature', 1.0):.3f})" if pred_res.get("calibrated") else "Uncalibrated",
+        "model_version": "LX-DFD Multi-Generator (Diverse Spatial-Frequency)",
+        "calibration_status": f"Temperature Scaled (T={pred_res.get('temperature', 1.0):.3f}; In-Domain Validated)" if pred_res.get("calibrated") else "Uncalibrated",
         "explanation_wording": "Highlighted regions indicate image areas that contributed strongly to the model's prediction.",
+        "disclaimer": "Visual heatmaps and frequency spectra indicate model feature activations and spectral energy distribution. They do not constitute absolute forensic proof of manipulation or authenticity.",
+        "generator_warning": pred_res.get("generator_warning"),
+        "branch_outputs": pred_res.get("branch_outputs", {
+            "spatial_branch_fake_prob": round(float(meta.get('spatial_fake_prob', 0.5)), 4),
+            "frequency_branch_fake_prob": round(float(meta.get('frequency_fake_prob', 0.5)), 4),
+            "spatial_attention_weight_ws": round(w_s, 4),
+            "frequency_attention_weight_wf": round(w_f, 4),
+            "branch_discrepancy": round(abs(w_s - w_f), 4)
+        }),
         "attention_weights": {
-            "spatial_weight_ws": round(float(meta.get('w_s', 0.55)), 4),
-            "frequency_weight_wf": round(float(meta.get('w_f', 0.45)), 4)
+            "spatial_weight_ws": round(w_s, 4),
+            "frequency_weight_wf": round(w_f, 4)
         },
         "visualizations": {
             "original": to_b64(resized_rgb),

@@ -43,6 +43,9 @@ class SimpleGradCAM:
     def generate_heatmap(self, input_tensor: torch.Tensor, target_class: int = 1) -> np.ndarray:
         """
         Computes Grad-CAM heatmap for a single image tensor (1, 3, H, W).
+        If target_class == 1 (default), highlights regions contributing to FAKE score.
+        If target_class == 0, highlights regions contributing to REAL score.
+        If target_class == -1 ('auto'), highlights regions contributing to the predicted class.
         Returns normalized heatmap uint8 array (H, W) in range [0, 255].
         """
         self.model.zero_grad()
@@ -54,8 +57,15 @@ class SimpleGradCAM:
         if logit.dim() > 1:
             logit = logit.squeeze()
             
-        # Backward pass on target logit
-        logit.backward(retain_graph=True)
+        # Target score for backpropagation
+        if target_class == 1:
+            score = logit
+        elif target_class == 0:
+            score = -logit
+        else: # auto
+            score = logit if logit.item() >= 0 else -logit
+            
+        score.backward(retain_graph=True)
         
         if self.gradients is None or self.activations is None:
             # Fallback dummy heatmap if hooks did not fire

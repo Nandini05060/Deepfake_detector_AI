@@ -1,0 +1,5 @@
+model_id,model_name,in_domain_auc,in_domain_acc,sd15_auc,insightface_auc,sd_inpaint_auc,gemini_tight_crop_prob,gemini_context_crop_prob,empirical_reliability_on_gemini,uncalibrated_ece
+efficientnet_b0,EfficientNet-B0 Baseline,0.9997,0.9954,0.4734,0.5562,0.5571,0.0001,0.1240,UNRELIABLE (Overconfident Real),0.2410
+lxfd_standard,LX-DFD Standard (Phase 2),0.9998,0.9939,0.4842,0.6060,0.5739,0.0002,0.0003,UNRELIABLE (Modality Collapse + OOD Failure),0.2285
+lxfd_robustness_v2,LX-DFD Robustness v2,0.9943,0.9591,0.5492,0.5775,0.5587,0.0008,0.0125,UNRELIABLE (Domain Shifted),0.1872
+lxfd_multigen_diverse,LX-DFD Multi-Generator (Phase 8),0.9939,0.9555,0.8906,0.8460,0.5962,0.0011,0.8153,MODERATE (Detected with Portrait Context; OOD Warning Required),0.0612

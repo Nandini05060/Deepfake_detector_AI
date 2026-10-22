@@ -99,12 +99,20 @@ class LXDFDModel(nn.Module):
         fused, weights_dict = self.fusion(F_s, F_f) # (B, D)
         logit = self.classifier(fused).squeeze(-1) # (B,)
         
+        # Branch-independent projections for explainability and uncertainty detection
+        spatial_logit = self.classifier(F_s).squeeze(-1) # (B,)
+        frequency_logit = self.classifier(F_f).squeeze(-1) # (B,)
+        
         meta = {
             'w_s': weights_dict['w_s'],
             'w_f': weights_dict['w_f'],
             'dct_map': dct_map,
             'F_s': F_s,
-            'F_f': F_f
+            'F_f': F_f,
+            'spatial_logit': spatial_logit,
+            'frequency_logit': frequency_logit,
+            'spatial_fake_prob': torch.sigmoid(spatial_logit),
+            'frequency_fake_prob': torch.sigmoid(frequency_logit)
         }
         return logit, meta
 
