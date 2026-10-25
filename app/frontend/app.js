@@ -12,6 +12,17 @@ document.addEventListener("DOMContentLoaded", () => {
   setupNavigation();
   setupMobileDrawer();
   loadPage("page-overview");
+
+  // Sync initial sidebar telemetry with active backend model status
+  fetch(`${API_BASE}/model/status`)
+    .then(r => r.json())
+    .then(st => {
+      const sidebarVer = document.querySelector(".telemetry-val.cyan");
+      if (sidebarVer && st.active_version) {
+        sidebarVer.textContent = st.active_version === "phase15" ? "Phase 15 (Candidate)" : "Phase 10 (Production)";
+      }
+    })
+    .catch(() => {});
 });
 
 /* ==========================================================================
@@ -1039,9 +1050,38 @@ function renderRobustness(container) {
    ========================================================================== */
 function renderExplainability(container) {
   container.innerHTML = `
-    <div style="margin-bottom: 24px;">
+    <div style="margin-bottom: 20px;">
       <h1 style="font-family: var(--font-display); font-size: 26px; font-weight: 800; color: #FFFFFF;">Live Deepfake Detection & Explainability Studio</h1>
       <p style="font-size: 13px; color: var(--text-muted);">Real-Time OpenCV YuNet Face Localization, Grad-CAM Saliency & 2D DCT Spectral Analysis</p>
+    </div>
+
+    <!-- Active Inference Engine & Switcher HUD -->
+    <div class="card" style="border-color: rgba(0, 229, 255, 0.4); margin-bottom: 20px; padding: 16px 20px; background: rgba(10, 15, 30, 0.75);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <div style="font-size: 11px; font-weight: 700; color: var(--accent-cyan); letter-spacing: 1px; display: flex; align-items: center; gap: 6px;">
+            <span class="status-pulse-dot" style="display: inline-block; width: 7px; height: 7px; background: #10B981; border-radius: 50%;"></span>
+            ACTIVE INFERENCE ENGINE &amp; CHECKPOINT
+          </div>
+          <div id="studio-model-name" style="font-size: 15px; font-weight: 700; color: #FFFFFF; margin-top: 4px;">
+            LX-DFD Phase 15 (Gemini Generalization Candidate)
+          </div>
+          <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">
+            Checkpoint: <span id="studio-model-ckpt" style="font-family: monospace; color: #38BDF8;">lxfd_phase15_generalization_best.pt</span>
+            &nbsp;•&nbsp; Status: <span id="studio-model-status" style="color: #10B981; font-weight: 600;">ACTIVE (Verified)</span>
+            &nbsp;•&nbsp; <span id="studio-model-cal" style="color: #34D399;">Calibrated (T=0.7169)</span>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="font-size: 11.5px; font-weight: 600; color: var(--text-muted);">ACTIVE MODEL:</span>
+          <button id="btn-switch-phase15" class="btn-sample" style="border-color: #00E5FF; color: #00E5FF; background: rgba(0, 229, 255, 0.15); font-size: 11.5px; padding: 6px 14px; cursor: pointer; font-weight: 600;">
+            ⭐ Phase 15 (Gemini Recalls)
+          </button>
+          <button id="btn-switch-phase10" class="btn-sample" style="border-color: rgba(255,255,255,0.2); color: #94A3B8; background: transparent; font-size: 11.5px; padding: 6px 14px; cursor: pointer; font-weight: 600;">
+            🛡️ Phase 10 (High Specificity)
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="forensics-scanner-grid">
@@ -1064,10 +1104,11 @@ function renderExplainability(container) {
           </div>
 
           <div style="margin-top: 16px; text-align: center;">
-            <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.8px; margin-bottom: 8px;">QUICK-TEST DATASET SAMPLES:</div>
-            <div class="sample-selector-row">
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.8px; margin-bottom: 8px;">QUICK-TEST BENCHMARK SAMPLES:</div>
+            <div class="sample-selector-row" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
               <button class="btn-sample" id="btn-sample-real">🟢 Sample Real Face</button>
               <button class="btn-sample" id="btn-sample-fake">🔴 Sample Fake Face</button>
+              <button class="btn-sample" id="btn-sample-gemini" style="border-color: #8B5CF6; color: #C084FC;">🤖 Sample Gemini Face</button>
             </div>
           </div>
         </div>
@@ -1215,12 +1256,83 @@ function renderExplainability(container) {
     }
   });
 
+  async function refreshModelStatusUI() {
+    try {
+      const res = await fetch(`${API_BASE}/model/status`);
+      if (res.ok) {
+        const status = await res.json();
+        const isP15 = status.active_version === "phase15";
+        const nameEl = document.getElementById("studio-model-name");
+        const ckptEl = document.getElementById("studio-model-ckpt");
+        const statusEl = document.getElementById("studio-model-status");
+        const calEl = document.getElementById("studio-model-cal");
+        const btnP15 = document.getElementById("btn-switch-phase15");
+        const btnP10 = document.getElementById("btn-switch-phase10");
+
+        if (nameEl) nameEl.textContent = status.model_version_name;
+        if (ckptEl) ckptEl.textContent = status.checkpoint_name;
+        if (statusEl) statusEl.textContent = "ACTIVE (Verified Loaded)";
+        if (calEl) calEl.textContent = status.calibrated ? `Calibrated (T=${status.temperature.toFixed(4)})` : "Uncalibrated";
+
+        if (btnP15) {
+          btnP15.style.borderColor = isP15 ? "#00E5FF" : "rgba(255,255,255,0.2)";
+          btnP15.style.color = isP15 ? "#00E5FF" : "#94A3B8";
+          btnP15.style.background = isP15 ? "rgba(0, 229, 255, 0.15)" : "transparent";
+        }
+        if (btnP10) {
+          btnP10.style.borderColor = !isP15 ? "#00E5FF" : "rgba(255,255,255,0.2)";
+          btnP10.style.color = !isP15 ? "#00E5FF" : "#94A3B8";
+          btnP10.style.background = !isP15 ? "rgba(0, 229, 255, 0.15)" : "transparent";
+        }
+
+        const sidebarVer = document.querySelector(".telemetry-val.cyan");
+        if (sidebarVer) {
+          sidebarVer.textContent = isP15 ? "Phase 15 (Candidate)" : "Phase 10 (Production)";
+        }
+      }
+    } catch (e) {
+      console.warn("Could not query /model/status:", e);
+    }
+  }
+
+  refreshModelStatusUI();
+
+  document.getElementById("btn-switch-phase15")?.addEventListener("click", async () => {
+    try {
+      const res = await fetch(`${API_BASE}/model/switch`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ version: "phase15" })
+      });
+      if (res.ok) await refreshModelStatusUI();
+    } catch (e) {
+      console.error("Switch to Phase 15 failed:", e);
+    }
+  });
+
+  document.getElementById("btn-switch-phase10")?.addEventListener("click", async () => {
+    try {
+      const res = await fetch(`${API_BASE}/model/switch`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ version: "phase10" })
+      });
+      if (res.ok) await refreshModelStatusUI();
+    } catch (e) {
+      console.error("Switch to Phase 10 failed:", e);
+    }
+  });
+
   document.getElementById("btn-sample-real")?.addEventListener("click", async () => {
-    fetchSampleAndProcess("dataset_files/Real/00000.jpg");
+    fetchSampleAndProcess("samples/real_authentic_sample.jpg");
   });
 
   document.getElementById("btn-sample-fake")?.addEventListener("click", async () => {
-    fetchSampleAndProcess("dataset_files/Fake/001DDU0NI4.jpg");
+    fetchSampleAndProcess("samples/stylegan2_sample.jpg");
+  });
+
+  document.getElementById("btn-sample-gemini")?.addEventListener("click", async () => {
+    fetchSampleAndProcess("samples/gemini_imagen3_sample.png");
   });
 }
 
@@ -1353,13 +1465,16 @@ async function processForensicFile(file) {
           <span>Empirical Reliability:</span> <strong style="color: ${relColor};">${data.empirical_reliability || (isUncertain ? 'LOW (Artifact Absence vs True Authenticity)' : 'MODERATE')}</strong>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 11px; color: var(--text-muted);">
-          <span>Model Version:</span> <span>${modelVersion}</span>
+          <span>Model Version:</span> <span style="color: #38BDF8; font-weight: 600;">${modelVersion}</span>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 11px; color: var(--text-muted);">
-          <span>Checkpoint:</span> <span style="font-family: monospace;">${checkpointName}</span>
+          <span>Active Checkpoint:</span> <span style="font-family: monospace; color: #E2E8F0;">${checkpointName}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 11px; color: var(--text-muted);">
+          <span>Checkpoint Status:</span> <span style="color: #10B981; font-weight: 600;">VERIFIED LOADED</span>
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted);">
-          <span>Calibration:</span> <span>${calStatus}</span>
+          <span>Calibration:</span> <span style="color: #A7F3D0;">${calStatus}</span>
         </div>
         ${warningHtml}
       </div>

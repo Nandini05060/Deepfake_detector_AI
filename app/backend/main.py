@@ -15,6 +15,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
 
 # Ensure sys path includes project root
 import sys
@@ -58,62 +59,112 @@ device = get_device()
 loaded_models = {}
 _lxfd_predictor: Optional[LXDFDPredictor] = None
 
+ACTIVE_MODEL_CONFIG = {
+    "version": "phase15",
+    "name": "LX-DFD Phase 15 Gemini Generalization Candidate",
+    "checkpoint_path": "experiments/phase15_gemini_generalization/lxfd_phase15_generalization_best.pt",
+    "calibration_path": "experiments/phase15_gemini_generalization/calibration_params_phase15.json",
+    "hash": "",
+    "epoch": "N/A",
+    "val_auc": "N/A",
+    "temperature": 0.7169,
+    "calibrated": True
+}
+
+def load_lxfd_predictor(version: Optional[str] = None) -> LXDFDPredictor:
+    """
+    Loads or switches the singleton LXDFDPredictor instance to the specified version.
+    Supports 'phase15' (candidate), 'phase10' (production), and 'phase8' (baseline).
+    Strictly forbids silent fallback to unrequested versions.
+    """
+    global _lxfd_predictor, ACTIVE_MODEL_CONFIG
+    
+    if version is None:
+        explicit_version = os.getenv("LXDFD_MODEL_VERSION", "phase15").lower().strip()
+    else:
+        explicit_version = version.lower().strip()
+
+    if explicit_version in ("phase15", "phase15_gemini", "candidate"):
+        target_ckpt = Path("experiments/phase15_gemini_generalization/lxfd_phase15_generalization_best.pt")
+        target_cal = Path("experiments/phase15_gemini_generalization/calibration_params_phase15.json")
+        model_ver_name = "LX-DFD Phase 15 Gemini Generalization Candidate"
+        resolved_version = "phase15"
+    elif explicit_version in ("phase10", "phase10_production", "production"):
+        target_ckpt = Path("checkpoints/lxfd_phase10_modern_generators_best.pt")
+        target_cal = Path("checkpoints/calibration_params_phase10.json")
+        model_ver_name = "LX-DFD Phase 10 Modern Multi-Generator"
+        resolved_version = "phase10"
+    elif explicit_version in ("phase8", "phase8_baseline"):
+        target_ckpt = Path("checkpoints/lxfd_multigen_diverse_best.pt")
+        target_cal = Path("checkpoints/calibration_params.json")
+        model_ver_name = "Phase 8 Multi-Generator Baseline"
+        resolved_version = "phase8"
+    else:
+        raise ValueError(
+            f"[API ERROR] Unsupported model version '{explicit_version}'. "
+            "Supported versions: 'phase15', 'phase10', 'phase8'."
+        )
+
+    if not target_ckpt.exists():
+        raise FileNotFoundError(
+            f"[API CRITICAL] Requested checkpoint for version '{resolved_version}' not found at: {target_ckpt.resolve()}. "
+            "Silent fallback to an unrequested checkpoint is disabled by system policy."
+        )
+
+    # Compute SHA256 hash for forensic traceability
+    sha256 = hashlib.sha256()
+    with open(target_ckpt, "rb") as f:
+        while chunk := f.read(65536):
+            sha256.update(chunk)
+    ckpt_hash = sha256.hexdigest()
+
+    # Load checkpoint metadata with weights_only=False for PyTorch 2.6+
+    raw_ckpt = torch.load(target_ckpt, map_location=device, weights_only=False)
+    epoch = raw_ckpt.get("epoch", "N/A")
+    val_auc = raw_ckpt.get("val_auc", "N/A")
+
+    _lxfd_predictor = LXDFDPredictor(
+        checkpoint_path=str(target_ckpt),
+        calibration_path=str(target_cal) if target_cal.exists() else None,
+        device=device,
+        min_floor=0.25
+    )
+    _lxfd_predictor.model_version_name = model_ver_name
+    _lxfd_predictor.checkpoint_path = str(target_ckpt)
+    _lxfd_predictor.checkpoint_hash = ckpt_hash
+    _lxfd_predictor.model_id = resolved_version
+
+    ACTIVE_MODEL_CONFIG["version"] = resolved_version
+    ACTIVE_MODEL_CONFIG["name"] = model_ver_name
+    ACTIVE_MODEL_CONFIG["checkpoint_path"] = str(target_ckpt)
+    ACTIVE_MODEL_CONFIG["calibration_path"] = str(target_cal) if target_cal.exists() else None
+    ACTIVE_MODEL_CONFIG["hash"] = ckpt_hash
+    ACTIVE_MODEL_CONFIG["epoch"] = epoch
+    ACTIVE_MODEL_CONFIG["val_auc"] = val_auc
+    ACTIVE_MODEL_CONFIG["temperature"] = float(_lxfd_predictor.scaler.temperature)
+    ACTIVE_MODEL_CONFIG["calibrated"] = _lxfd_predictor.calibration_enabled
+
+    print("=" * 70)
+    print(f"[API STARTUP] LX-DFD Model Engine Active:")
+    print(f"  * Version Key:        {resolved_version}")
+    print(f"  * Model Version:      {model_ver_name}")
+    print(f"  * Resolved Path:      {target_ckpt.resolve()}")
+    print(f"  * Checkpoint Hash:    SHA256:{ckpt_hash}")
+    print(f"  * Model Architecture: LXDFDModel (Dual-Branch Spatial-Frequency + Attention Floor)")
+    print(f"  * Checkpoint Epoch:   {epoch}")
+    print(f"  * Best Val ROC-AUC:   {val_auc:.6f}" if isinstance(val_auc, float) else f"  * Val ROC-AUC: {val_auc}")
+    print(f"  * Temperature:        T = {_lxfd_predictor.scaler.temperature:.4f} (Calibrated: {_lxfd_predictor.calibration_enabled})")
+    print(f"  * Shared Instance:    Synchronized across /predict, /explain, and /crop_stability")
+    print("=" * 70)
+    return _lxfd_predictor
+
 def get_lxfd_predictor() -> LXDFDPredictor:
     """
-    Returns the singleton LXDFDPredictor instance using the verified Phase 10
-    modern multi-generator checkpoint (with fallback option to Phase 8).
-    Rejects silent fallbacks to obsolete checkpoints.
+    Returns the active singleton LXDFDPredictor instance.
     """
     global _lxfd_predictor
     if _lxfd_predictor is None:
-        phase10_ckpt = Path("checkpoints/lxfd_phase10_modern_generators_best.pt")
-        phase8_ckpt = Path("checkpoints/lxfd_multigen_diverse_best.pt")
-        
-        explicit_version = os.getenv("LXDFD_MODEL_VERSION", "phase10").lower()
-        if explicit_version == "phase8" or (not phase10_ckpt.exists() and phase8_ckpt.exists()):
-            target_ckpt = phase8_ckpt
-            target_cal = Path("checkpoints/calibration_params.json")
-            model_ver_name = "Phase 8 Multi-Generator Baseline"
-        elif phase10_ckpt.exists():
-            target_ckpt = phase10_ckpt
-            target_cal = Path("checkpoints/calibration_params_phase10.json")
-            model_ver_name = "LX-DFD Phase 10 Modern Multi-Generator"
-        else:
-            raise FileNotFoundError(
-                f"[API CRITICAL] No verified production checkpoint found in checkpoints/. "
-                "Silent fallback to legacy single-generator checkpoints is disabled by security policy."
-            )
-
-        # Calculate SHA256 hash for reproducibility audit
-        sha256 = hashlib.sha256()
-        with open(target_ckpt, "rb") as f:
-            while chunk := f.read(65536):
-                sha256.update(chunk)
-        ckpt_hash = sha256.hexdigest()
-
-        # Load checkpoint metadata
-        raw_ckpt = torch.load(target_ckpt, map_location=device)
-        epoch = raw_ckpt.get("epoch", "N/A")
-        val_auc = raw_ckpt.get("val_auc", "N/A")
-        
-        _lxfd_predictor = LXDFDPredictor(
-            checkpoint_path=str(target_ckpt),
-            calibration_path=str(target_cal) if target_cal.exists() else None,
-            device=device,
-            min_floor=0.25
-        )
-        _lxfd_predictor.model_version_name = model_ver_name
-        print("=" * 70)
-        print("[API STARTUP] LX-DFD Production Inference Engine Verified:")
-        print(f"  * Model Version:      {model_ver_name}")
-        print(f"  * Resolved Path:      {target_ckpt.resolve()}")
-        print(f"  * Checkpoint Hash:    SHA256:{ckpt_hash}")
-        print(f"  * Model Architecture: LXDFDModel (Dual-Branch Spatial-Frequency + Attention Floor)")
-        print(f"  * Checkpoint Epoch:   {epoch}")
-        print(f"  * Best Val ROC-AUC:   {val_auc:.6f}" if isinstance(val_auc, float) else f"  * Val ROC-AUC: {val_auc}")
-        print(f"  * Temperature Scaling: T = {_lxfd_predictor.scaler.temperature:.4f}")
-        print(f"  * Shared Instance:    Synchronized across /predict and /explain")
-        print("=" * 70)
+        load_lxfd_predictor()
     return _lxfd_predictor
 
 def get_loaded_model(model_name: str = "lxfd"):
@@ -194,8 +245,67 @@ def get_dataset_stats():
             "perceptual_duplicate_files_count": 0
         }
 
+class ModelSwitchRequest(BaseModel):
+    version: str
+
+@app.get("/model/status")
+def get_model_status():
+    """
+    Returns verified forensic telemetry of the active detector checkpoint.
+    """
+    get_lxfd_predictor()  # Ensure active model loaded
+    return {
+        "status": "online",
+        "active_version": ACTIVE_MODEL_CONFIG["version"],
+        "model_version_name": ACTIVE_MODEL_CONFIG["name"],
+        "checkpoint_name": Path(ACTIVE_MODEL_CONFIG["checkpoint_path"]).name,
+        "checkpoint_path": ACTIVE_MODEL_CONFIG["checkpoint_path"],
+        "checkpoint_sha256": ACTIVE_MODEL_CONFIG["hash"],
+        "checkpoint_epoch": ACTIVE_MODEL_CONFIG["epoch"],
+        "val_auc": ACTIVE_MODEL_CONFIG["val_auc"],
+        "calibrated": ACTIVE_MODEL_CONFIG["calibrated"],
+        "temperature": ACTIVE_MODEL_CONFIG["temperature"],
+        "device": str(device),
+        "min_floor": 0.25,
+        "available_versions": [
+            {
+                "version": "phase15",
+                "name": "LX-DFD Phase 15 (Gemini Generalization Candidate)",
+                "checkpoint": "experiments/phase15_gemini_generalization/lxfd_phase15_generalization_best.pt",
+                "is_active": (ACTIVE_MODEL_CONFIG["version"] == "phase15"),
+                "status": "candidate_high_recall",
+                "description": "Retrained with held-out Gemini & modern diffusion synthesis. 100% Gemini test recall. Specificity on tough real faces: 52.5%."
+            },
+            {
+                "version": "phase10",
+                "name": "LX-DFD Phase 10 (Modern Multi-Generator Standard)",
+                "checkpoint": "checkpoints/lxfd_phase10_modern_generators_best.pt",
+                "is_active": (ACTIVE_MODEL_CONFIG["version"] == "phase10"),
+                "status": "production_high_specificity",
+                "description": "Trained on StyleGAN2, SDv1.5, InsightFace. High specificity on genuine faces (84.9%), but marks unfamiliar Gemini faces as Inconclusive or Real."
+            }
+        ],
+        "calibration_notice": "Phase 15 temperature T=0.7169; Phase 10 temperature T=1.6344."
+    }
+
+@app.post("/model/switch")
+def switch_model(req: ModelSwitchRequest):
+    """
+    Dynamically switches the active detector model between Phase 15 and Phase 10 without downtime.
+    """
+    try:
+        load_lxfd_predictor(req.version)
+        return {
+            "success": True,
+            "message": f"Successfully activated {ACTIVE_MODEL_CONFIG['name']}",
+            "model_status": get_model_status()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
 @app.get("/models")
 def list_models():
+    is_p15_active = (ACTIVE_MODEL_CONFIG.get("version") == "phase15")
     return {
         "models": [
             {
@@ -220,25 +330,28 @@ def list_models():
                 "params": "5.3M"
             },
             {
-                "id": "lxfd_attention",
-                "name": "LX-DFD Spatial-Frequency (Attention Fusion)",
-                "type": "proposed",
-                "description": "Proposed Dual-Branch Model with Adaptive Attention Fusion",
+                "id": "lxfd_phase15",
+                "name": "LX-DFD Phase 15 (Gemini Generalization Candidate)",
+                "type": "candidate",
+                "description": "Modern Multi-Generator + Gemini Imagen 3 Fine-Tuning with Attention Floor (0.25)",
                 "params": "6.8M",
                 "recommended": True,
-                "is_active": True,
-                "checkpoint": "lxfd_phase10_modern_generators_best.pt"
+                "is_active": is_p15_active,
+                "checkpoint": "experiments/phase15_gemini_generalization/lxfd_phase15_generalization_best.pt",
+                "temperature": 0.7169,
+                "note": "100% recall on Gemini evaluation set (10/10). Real specificity on challenging portraits: 52.5%."
             },
             {
-                "id": "lxfd_multiscale12",
-                "name": "LXDFD-MultiScale-12 (Dual-Resolution Candidate)",
-                "type": "research_candidate",
-                "description": "Multi-Scale Spatial-Frequency Model (224x224 & 112x112 Coordinated Paths)",
-                "params": "13.6M",
+                "id": "lxfd_phase10",
+                "name": "LX-DFD Phase 10 (Production Standard)",
+                "type": "production",
+                "description": "Modern Multi-Generator (StyleGAN2, SDv1.5, InsightFace Swap)",
+                "params": "6.8M",
                 "recommended": False,
-                "is_active": False,
-                "checkpoint": "experiments/phase12_multiscale_v1/lxfd_multiscale12_best.pt",
-                "note": "Phase 12 research candidate for Gemini generalization (47.06% recall vs 11.76% baseline); retained as experimental candidate due to real specificity tradeoff (80.83% vs 89.17%)."
+                "is_active": not is_p15_active,
+                "checkpoint": "checkpoints/lxfd_phase10_modern_generators_best.pt",
+                "temperature": 1.6344,
+                "note": "High specificity on authentic faces (84.9%), but produces low fake probabilities or Inconclusive on Gemini."
             }
         ]
     }
@@ -510,7 +623,10 @@ async def predict_image(file: UploadFile = File(...), model_name: str = "lxfd"):
     
     predictor = get_lxfd_predictor()
     res = predictor.predict(face_img, face_meta=meta)
-    res["model_version"] = getattr(predictor, "model_version_name", "LX-DFD Phase 10 Modern Multi-Generator")
+    res["model_version"] = ACTIVE_MODEL_CONFIG["name"]
+    res["active_version"] = ACTIVE_MODEL_CONFIG["version"]
+    res["checkpoint_used"] = Path(ACTIVE_MODEL_CONFIG["checkpoint_path"]).name
+    res["checkpoint_path"] = ACTIVE_MODEL_CONFIG["checkpoint_path"]
     res["calibration_status"] = f"Temperature Scaled (T={res.get('temperature', 1.0):.3f}; In-Domain Validated)" if res.get("calibrated") else "Uncalibrated"
     res["detection_metadata"] = meta
     return res
@@ -565,9 +681,11 @@ async def explain_image(file: UploadFile = File(...)):
         "confidence_level": pred_res["confidence_level"],
         "empirical_reliability": pred_res["empirical_reliability"],
         "is_uncertain": pred_res["is_uncertain"],
-        "model_version": getattr(predictor, "model_version_name", "LX-DFD Phase 10 Modern Multi-Generator"),
+        "model_version": ACTIVE_MODEL_CONFIG["name"],
+        "active_version": ACTIVE_MODEL_CONFIG["version"],
         "calibration_status": f"Temperature Scaled (T={pred_res.get('temperature', 1.0):.3f}; In-Domain Validated)" if pred_res.get("calibrated") else "Uncalibrated",
-        "checkpoint_used": pred_res.get("checkpoint_used", "lxfd_phase10_modern_generators_best.pt"),
+        "checkpoint_used": Path(ACTIVE_MODEL_CONFIG["checkpoint_path"]).name,
+        "checkpoint_path": ACTIVE_MODEL_CONFIG["checkpoint_path"],
         "raw_fake_probability": pred_res.get("raw_fake_probability", pred_res["fake_probability"]),
         "temperature": pred_res.get("temperature", 1.0),
         "explanation_wording": "Highlighted regions indicate image areas that contributed strongly to the model's prediction.",

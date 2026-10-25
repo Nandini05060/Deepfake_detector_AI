@@ -1,0 +1,882 @@
+[
+  {
+    "cohort": "Gemini Imagen 3 (Held-Out FAKE)",
+    "image_name": "Google_Gemini_Imagen3_gemini_portrait_08_1792686112223.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\Google_Gemini_Imagen3_gemini_portrait_08_1792686112223.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0695,
+      "fake_probability": 0.9305,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0005,
+      "fake_probability": 0.9995,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "Gemini Imagen 3 (Held-Out FAKE)",
+    "image_name": "Google_Gemini_Imagen3_gemini_portrait_09_1792686151699.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\Google_Gemini_Imagen3_gemini_portrait_09_1792686151699.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.3403,
+      "fake_probability": 0.6597,
+      "is_uncertain": true
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0153,
+      "fake_probability": 0.9847,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "Gemini Imagen 3 (Held-Out FAKE)",
+    "image_name": "Google_Gemini_Imagen3_gemini_portrait_10_1792686190594.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\Google_Gemini_Imagen3_gemini_portrait_10_1792686190594.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.4686,
+      "fake_probability": 0.5314,
+      "is_uncertain": true
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0505,
+      "fake_probability": 0.9495,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "Gemini Imagen 3 (Held-Out FAKE)",
+    "image_name": "Google_Gemini_Imagen3_gemini_face_sample_01_1792685832885.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\Google_Gemini_Imagen3_gemini_face_sample_01_1792685832885.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0507,
+      "fake_probability": 0.9493,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0005,
+      "fake_probability": 0.9995,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "Gemini Imagen 3 (Held-Out FAKE)",
+    "image_name": "Google_Gemini_Imagen3_gemini_portrait_02_1792685964711.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\Google_Gemini_Imagen3_gemini_portrait_02_1792685964711.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.1374,
+      "fake_probability": 0.8626,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0023,
+      "fake_probability": 0.9977,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "Gemini Imagen 3 (Held-Out FAKE)",
+    "image_name": "Google_Gemini_Imagen3_gemini_portrait_03_1792685986431.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\Google_Gemini_Imagen3_gemini_portrait_03_1792685986431.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.5302,
+      "fake_probability": 0.4698,
+      "is_uncertain": true
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.101,
+      "fake_probability": 0.899,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "Gemini Imagen 3 (Held-Out FAKE)",
+    "image_name": "Google_Gemini_Imagen3_gemini_portrait_04_1792686013918.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\Google_Gemini_Imagen3_gemini_portrait_04_1792686013918.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.1769,
+      "fake_probability": 0.8231,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0009,
+      "fake_probability": 0.9991,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "Gemini Imagen 3 (Held-Out FAKE)",
+    "image_name": "Google_Gemini_Imagen3_gemini_portrait_05_1792686040438.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\Google_Gemini_Imagen3_gemini_portrait_05_1792686040438.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.1108,
+      "fake_probability": 0.8892,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.001,
+      "fake_probability": 0.999,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "Gemini Imagen 3 (Held-Out FAKE)",
+    "image_name": "Google_Gemini_Imagen3_gemini_portrait_06_1792686063513.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\Google_Gemini_Imagen3_gemini_portrait_06_1792686063513.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0496,
+      "fake_probability": 0.9504,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0008,
+      "fake_probability": 0.9992,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "Gemini Imagen 3 (Held-Out FAKE)",
+    "image_name": "Google_Gemini_Imagen3_gemini_portrait_07_1792686090445.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\Google_Gemini_Imagen3_gemini_portrait_07_1792686090445.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.1162,
+      "fake_probability": 0.8838,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0012,
+      "fake_probability": 0.9988,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "FFHQ Genuine Photographs (REAL)",
+    "image_name": "FFHQ_Real_00806.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\FFHQ_Real_00806.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "REAL",
+      "verdict": "LIKELY_REAL",
+      "real_probability": 0.9697,
+      "fake_probability": 0.0303,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.9995,
+      "fake_probability": 0.0005,
+      "is_uncertain": true
+    }
+  },
+  {
+    "cohort": "FFHQ Genuine Photographs (REAL)",
+    "image_name": "FFHQ_Real_00807.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\FFHQ_Real_00807.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.9784,
+      "fake_probability": 0.0216,
+      "is_uncertain": true
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.9999,
+      "fake_probability": 0.0001,
+      "is_uncertain": true
+    }
+  },
+  {
+    "cohort": "FFHQ Genuine Photographs (REAL)",
+    "image_name": "FFHQ_Real_00808.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\FFHQ_Real_00808.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.9729,
+      "fake_probability": 0.0271,
+      "is_uncertain": true
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.9998,
+      "fake_probability": 0.0002,
+      "is_uncertain": true
+    }
+  },
+  {
+    "cohort": "FFHQ Genuine Photographs (REAL)",
+    "image_name": "FFHQ_Real_00809.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\FFHQ_Real_00809.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "REAL",
+      "verdict": "LIKELY_REAL",
+      "real_probability": 0.9846,
+      "fake_probability": 0.0154,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "REAL",
+      "verdict": "LIKELY_REAL",
+      "real_probability": 0.9999,
+      "fake_probability": 0.0001,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "FFHQ Genuine Photographs (REAL)",
+    "image_name": "FFHQ_Real_00810.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\FFHQ_Real_00810.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "REAL",
+      "verdict": "LIKELY_REAL",
+      "real_probability": 0.9754,
+      "fake_probability": 0.0246,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.9995,
+      "fake_probability": 0.0005,
+      "is_uncertain": true
+    }
+  },
+  {
+    "cohort": "FFHQ Genuine Photographs (REAL)",
+    "image_name": "FFHQ_Real_00811.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\FFHQ_Real_00811.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "REAL",
+      "verdict": "LIKELY_REAL",
+      "real_probability": 0.9777,
+      "fake_probability": 0.0223,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.9996,
+      "fake_probability": 0.0004,
+      "is_uncertain": true
+    }
+  },
+  {
+    "cohort": "FFHQ Genuine Photographs (REAL)",
+    "image_name": "FFHQ_Real_00813.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\FFHQ_Real_00813.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.9735,
+      "fake_probability": 0.0265,
+      "is_uncertain": true
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.9999,
+      "fake_probability": 0.0001,
+      "is_uncertain": true
+    }
+  },
+  {
+    "cohort": "FFHQ Genuine Photographs (REAL)",
+    "image_name": "FFHQ_Real_00815.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\FFHQ_Real_00815.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.9664,
+      "fake_probability": 0.0336,
+      "is_uncertain": true
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.9996,
+      "fake_probability": 0.0004,
+      "is_uncertain": true
+    }
+  },
+  {
+    "cohort": "FFHQ Genuine Photographs (REAL)",
+    "image_name": "FFHQ_Real_00816.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\FFHQ_Real_00816.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "REAL",
+      "verdict": "LIKELY_REAL",
+      "real_probability": 0.9766,
+      "fake_probability": 0.0234,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "REAL",
+      "verdict": "LIKELY_REAL",
+      "real_probability": 0.9998,
+      "fake_probability": 0.0002,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "FFHQ Genuine Photographs (REAL)",
+    "image_name": "FFHQ_Real_00817.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\FFHQ_Real_00817.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "REAL",
+      "verdict": "LIKELY_REAL",
+      "real_probability": 0.9629,
+      "fake_probability": 0.0371,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.9996,
+      "fake_probability": 0.0004,
+      "is_uncertain": true
+    }
+  },
+  {
+    "cohort": "IMDB-WIKI Real Faces (Challenging REAL)",
+    "image_name": "IMDB_WIKI_IMDB_WIKI_real_0140.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\IMDB_WIKI_IMDB_WIKI_real_0140.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "REAL",
+      "verdict": "LIKELY_REAL",
+      "real_probability": 0.7792,
+      "fake_probability": 0.2208,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.7313,
+      "fake_probability": 0.2687,
+      "is_uncertain": true
+    }
+  },
+  {
+    "cohort": "IMDB-WIKI Real Faces (Challenging REAL)",
+    "image_name": "IMDB_WIKI_IMDB_WIKI_real_0141.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\IMDB_WIKI_IMDB_WIKI_real_0141.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.1483,
+      "fake_probability": 0.8517,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0075,
+      "fake_probability": 0.9925,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "IMDB-WIKI Real Faces (Challenging REAL)",
+    "image_name": "IMDB_WIKI_IMDB_WIKI_real_0142.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\IMDB_WIKI_IMDB_WIKI_real_0142.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.3965,
+      "fake_probability": 0.6035,
+      "is_uncertain": true
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0544,
+      "fake_probability": 0.9456,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "IMDB-WIKI Real Faces (Challenging REAL)",
+    "image_name": "IMDB_WIKI_IMDB_WIKI_real_0143.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\IMDB_WIKI_IMDB_WIKI_real_0143.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "REAL",
+      "verdict": "LIKELY_REAL",
+      "real_probability": 0.9335,
+      "fake_probability": 0.0665,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.9911,
+      "fake_probability": 0.0089,
+      "is_uncertain": true
+    }
+  },
+  {
+    "cohort": "IMDB-WIKI Real Faces (Challenging REAL)",
+    "image_name": "IMDB_WIKI_IMDB_WIKI_real_0144.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\IMDB_WIKI_IMDB_WIKI_real_0144.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "REAL",
+      "verdict": "LIKELY_REAL",
+      "real_probability": 0.6629,
+      "fake_probability": 0.3371,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.1867,
+      "fake_probability": 0.8133,
+      "is_uncertain": true
+    }
+  },
+  {
+    "cohort": "IMDB-WIKI Real Faces (Challenging REAL)",
+    "image_name": "IMDB_WIKI_IMDB_WIKI_real_0145.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\IMDB_WIKI_IMDB_WIKI_real_0145.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.067,
+      "fake_probability": 0.933,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0006,
+      "fake_probability": 0.9994,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "IMDB-WIKI Real Faces (Challenging REAL)",
+    "image_name": "IMDB_WIKI_IMDB_WIKI_real_0146.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\IMDB_WIKI_IMDB_WIKI_real_0146.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.5753,
+      "fake_probability": 0.4247,
+      "is_uncertain": true
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.1293,
+      "fake_probability": 0.8707,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "IMDB-WIKI Real Faces (Challenging REAL)",
+    "image_name": "IMDB_WIKI_IMDB_WIKI_real_0147.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\IMDB_WIKI_IMDB_WIKI_real_0147.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0403,
+      "fake_probability": 0.9597,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0004,
+      "fake_probability": 0.9996,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "IMDB-WIKI Real Faces (Challenging REAL)",
+    "image_name": "IMDB_WIKI_IMDB_WIKI_real_0148.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\IMDB_WIKI_IMDB_WIKI_real_0148.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "REAL",
+      "verdict": "LIKELY_REAL",
+      "real_probability": 0.9108,
+      "fake_probability": 0.0892,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.9863,
+      "fake_probability": 0.0137,
+      "is_uncertain": true
+    }
+  },
+  {
+    "cohort": "IMDB-WIKI Real Faces (Challenging REAL)",
+    "image_name": "IMDB_WIKI_IMDB_WIKI_real_0149.jpg",
+    "relative_path": "data\\verified_faces\\test\\real\\IMDB_WIKI_IMDB_WIKI_real_0149.jpg",
+    "ground_truth": "REAL",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "INCONCLUSIVE",
+      "verdict": "INCONCLUSIVE",
+      "real_probability": 0.3527,
+      "fake_probability": 0.6473,
+      "is_uncertain": true
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0354,
+      "fake_probability": 0.9646,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "StyleGAN2 Synthetics (In-Domain FAKE)",
+    "image_name": "StyleGAN2_0GU5P8DCB8.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\StyleGAN2_0GU5P8DCB8.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0918,
+      "fake_probability": 0.9082,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0016,
+      "fake_probability": 0.9984,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "StyleGAN2 Synthetics (In-Domain FAKE)",
+    "image_name": "StyleGAN2_0GUB0FPJAB.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\StyleGAN2_0GUB0FPJAB.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0676,
+      "fake_probability": 0.9324,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0012,
+      "fake_probability": 0.9988,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "StyleGAN2 Synthetics (In-Domain FAKE)",
+    "image_name": "StyleGAN2_0GV30X2093.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\StyleGAN2_0GV30X2093.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0313,
+      "fake_probability": 0.9687,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0004,
+      "fake_probability": 0.9996,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "StyleGAN2 Synthetics (In-Domain FAKE)",
+    "image_name": "StyleGAN2_0GVE5NOQKP.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\StyleGAN2_0GVE5NOQKP.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0297,
+      "fake_probability": 0.9703,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0002,
+      "fake_probability": 0.9998,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "StyleGAN2 Synthetics (In-Domain FAKE)",
+    "image_name": "StyleGAN2_0GVTEPKN52.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\StyleGAN2_0GVTEPKN52.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0409,
+      "fake_probability": 0.9591,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0003,
+      "fake_probability": 0.9997,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "Stable Diffusion v1.5 (In-Domain FAKE)",
+    "image_name": "StableDiffusion_v1.5_StableDiffusion_v1.5_0170.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\StableDiffusion_v1.5_StableDiffusion_v1.5_0170.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0324,
+      "fake_probability": 0.9676,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0002,
+      "fake_probability": 0.9998,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "Stable Diffusion v1.5 (In-Domain FAKE)",
+    "image_name": "StableDiffusion_v1.5_StableDiffusion_v1.5_0171.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\StableDiffusion_v1.5_StableDiffusion_v1.5_0171.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.1569,
+      "fake_probability": 0.8431,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0025,
+      "fake_probability": 0.9975,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "Stable Diffusion v1.5 (In-Domain FAKE)",
+    "image_name": "StableDiffusion_v1.5_StableDiffusion_v1.5_0172.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\StableDiffusion_v1.5_StableDiffusion_v1.5_0172.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0424,
+      "fake_probability": 0.9576,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0002,
+      "fake_probability": 0.9998,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "Stable Diffusion v1.5 (In-Domain FAKE)",
+    "image_name": "StableDiffusion_v1.5_StableDiffusion_v1.5_0173.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\StableDiffusion_v1.5_StableDiffusion_v1.5_0173.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0611,
+      "fake_probability": 0.9389,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0006,
+      "fake_probability": 0.9994,
+      "is_uncertain": false
+    }
+  },
+  {
+    "cohort": "Stable Diffusion v1.5 (In-Domain FAKE)",
+    "image_name": "StableDiffusion_v1.5_StableDiffusion_v1.5_0174.jpg",
+    "relative_path": "data\\verified_faces\\test\\fake\\StableDiffusion_v1.5_StableDiffusion_v1.5_0174.jpg",
+    "ground_truth": "FAKE",
+    "phase10": {
+      "checkpoint": "lxfd_phase10_modern_generators_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0577,
+      "fake_probability": 0.9423,
+      "is_uncertain": false
+    },
+    "phase15": {
+      "checkpoint": "lxfd_phase15_generalization_best.pt",
+      "predicted_label": "FAKE",
+      "verdict": "LIKELY_FAKE",
+      "real_probability": 0.0004,
+      "fake_probability": 0.9996,
+      "is_uncertain": false
+    }
+  }
+]

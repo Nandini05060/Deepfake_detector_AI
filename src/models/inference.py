@@ -45,7 +45,7 @@ class LXDFDPredictor:
         self.model = LXDFDModel(fusion_type=fusion_type, min_floor=min_floor, pretrained=False).to(self.device)
         ckpt_file = Path(checkpoint_path)
         if ckpt_file.exists():
-            checkpoint = torch.load(ckpt_file, map_location=self.device)
+            checkpoint = torch.load(ckpt_file, map_location=self.device, weights_only=False)
             state_dict = checkpoint.get('model_state_dict', checkpoint)
             self.model.load_state_dict(state_dict, strict=False)
             print(f"[PREDICTOR] Loaded checkpoint: {checkpoint_path} with min_floor={min_floor}")
