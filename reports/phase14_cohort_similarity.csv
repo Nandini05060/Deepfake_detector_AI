@@ -1,0 +1,7 @@
+generator,sample_count,mean_spatial_sim_to_real,mean_frequency_sim_to_real,frequency_evaporation_ratio,mean_frequency_weight_wf,mean_calibrated_fake_prob
+Google_Gemini_Imagen3,17,0.251,0.9085,3.6199,0.259,0.6246
+InsightFace_Swap,30,0.1282,0.9158,7.146,0.2587,0.7553
+None_Real,120,0.7572,0.9326,1.2317,0.2553,0.1145
+StableDiffusion_Inpainting,200,0.3173,0.9078,2.861,0.2604,0.4801
+StableDiffusion_v1.5,30,0.026,0.9417,36.2315,0.2543,0.8859
+StyleGAN2,60,-0.0002,0.9266,-4713.6022,0.2522,0.9337

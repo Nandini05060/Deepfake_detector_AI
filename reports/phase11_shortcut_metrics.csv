@@ -1,0 +1,9 @@
+Perturbation / Shortcut Condition,Overall Accuracy,ROC-AUC,Mean P(Fake) for Real,Mean P(Fake) for Synthetic,Discrimination Gap
+Baseline_Crop,0.7789,0.9834,0.0105,0.712,0.7015
+Face_Interior_Only,0.5263,0.7314,0.1314,0.4253,0.294
+Background_Only,0.3158,0.6097,0.0463,0.1143,0.068
+Border_Only,0.3474,0.5851,0.0645,0.161,0.0965
+Face_Center_Occluded,0.5474,0.8154,0.0539,0.3914,0.3376
+Brightness_Plus30,0.8,0.9817,0.0283,0.736,0.7077
+Brightness_Minus30,0.7789,0.9766,0.0185,0.7,0.6815
+JPEG_Quality_50,0.9158,0.9651,0.0909,0.8645,0.7736

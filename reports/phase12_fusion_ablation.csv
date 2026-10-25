@@ -1,0 +1,7 @@
+Fusion_Strategy,ROC_AUC,PR_AUC,Accuracy,F1_Score,Real_Specificity,Real_FPR,Overall_Fake_Recall,Gemini_Recall,Gemini_Mean_P,SD_Inpainting_Recall,InsightFace_Recall,SD_v15_Recall,StyleGAN2_Recall
+Spatial-Only,0.8526,0.9324,0.5536,0.587,0.9,0.1,0.4303,0.1176,0.2231,0.255,0.5667,0.6,0.95
+Frequency-Only,0.6431,0.8352,0.5864,0.6595,0.7083,0.2917,0.543,0.0588,0.0771,0.685,0.7667,0.3,0.2167
+Attention Fusion (tau=0.05),0.8544,0.9329,0.5624,0.6,0.8917,0.1083,0.4451,0.1176,0.2134,0.28,0.5333,0.6333,0.95
+Equal-Weight (0.5/0.5),0.8386,0.9228,0.6346,0.689,0.875,0.125,0.549,0.1765,0.1628,0.44,0.6667,0.6667,0.9
+Constrained Attention (tau=0.25),0.8556,0.9333,0.6018,0.6459,0.9083,0.0917,0.4926,0.1176,0.1884,0.35,0.5333,0.7,0.95
+Constrained Attention (tau=0.35),0.8525,0.9314,0.6105,0.659,0.8917,0.1083,0.5104,0.1176,0.1784,0.375,0.6,0.7,0.9333

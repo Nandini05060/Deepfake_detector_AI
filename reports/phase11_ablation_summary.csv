@@ -1,0 +1,23 @@
+Model Configuration,Subset,ROC-AUC,Accuracy,F1-Score,Precision,Recall (Fake),Mean P(Fake)
+Spatial-Only,All Test Splits (N=457),0.8526,0.5536,0.587,0.9236,0.4303,0.3724
+Frequency-Only,All Test Splits (N=457),0.6431,0.5864,0.6595,0.8394,0.543,0.4717
+Equal-Avg Fusion,All Test Splits (N=457),0.8386,0.6346,0.689,0.925,0.549,0.4215
+Attention Fusion (Active),All Test Splits (N=457),0.8544,0.5624,0.6,0.9202,0.4451,0.3816
+Spatial-Only,Generator: Google_Gemini_Imagen3 (N=17),N/A,0.1176,0.2105,1.0,0.1176,0.2231
+Frequency-Only,Generator: Google_Gemini_Imagen3 (N=17),N/A,0.0588,0.1111,1.0,0.0588,0.0771
+Attention Fusion,Generator: Google_Gemini_Imagen3 (N=17),N/A,0.1176,0.2105,1.0,0.1176,0.2134
+Spatial-Only,Generator: StableDiffusion_v1.5 (N=30),N/A,0.6,0.75,1.0,0.6,0.68
+Frequency-Only,Generator: StableDiffusion_v1.5 (N=30),N/A,0.3,0.4615,1.0,0.3,0.303
+Attention Fusion,Generator: StableDiffusion_v1.5 (N=30),N/A,0.6333,0.7755,1.0,0.6333,0.6779
+Spatial-Only,Generator: InsightFace_Swap (N=30),N/A,0.5667,0.7234,1.0,0.5667,0.5064
+Frequency-Only,Generator: InsightFace_Swap (N=30),N/A,0.7667,0.8679,1.0,0.7667,0.6736
+Attention Fusion,Generator: InsightFace_Swap (N=30),N/A,0.5333,0.6957,1.0,0.5333,0.5261
+Spatial-Only,Generator: StyleGAN2 (N=60),N/A,0.95,0.9744,1.0,0.95,0.9467
+Frequency-Only,Generator: StyleGAN2 (N=60),N/A,0.2167,0.3562,1.0,0.2167,0.3238
+Attention Fusion,Generator: StyleGAN2 (N=60),N/A,0.95,0.9744,1.0,0.95,0.9437
+Spatial-Only,Generator: None_Real (N=120),N/A,0.9,0.0,0.0,N/A (Real),0.1095
+Frequency-Only,Generator: None_Real (N=120),N/A,0.7083,0.0,0.0,N/A (Real),0.3274
+Attention Fusion,Generator: None_Real (N=120),N/A,0.8917,0.0,0.0,N/A (Real),0.1124
+Spatial-Only,Generator: StableDiffusion_Inpainting (N=200),N/A,0.255,0.4064,1.0,0.255,0.3042
+Frequency-Only,Generator: StableDiffusion_Inpainting (N=200),N/A,0.685,0.8131,1.0,0.685,0.6311
+Attention Fusion,Generator: StableDiffusion_Inpainting (N=200),N/A,0.28,0.4375,1.0,0.28,0.3226

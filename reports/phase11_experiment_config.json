@@ -1,0 +1,36 @@
+{
+  "experiment_name": "phase11_model_improvement_and_generalization_audit",
+  "checkpoint_path": "checkpoints/lxfd_phase10_modern_generators_best.pt",
+  "checkpoint_sha256": "13dc56b8961f8d0c2c56a9ac947ef4292f4a2a5ef613df3aeb950f087fddcc05",
+  "calibrator": {
+    "method": "Temperature Scaling",
+    "temperature": 1.634375000000002,
+    "parameters_file": "checkpoints/calibration_params_phase10.json"
+  },
+  "face_preprocessor": {
+    "engine": "OpenCV YuNet ONNX",
+    "model_file": "yunet.onnx",
+    "context_margin": 0.5,
+    "score_threshold": 0.6,
+    "nms_threshold": 0.3,
+    "target_dimensions": [
+      224,
+      224
+    ]
+  },
+  "uncertainty_gating": {
+    "branch_disagreement_threshold": 0.15,
+    "confidence_deadband": [
+      0.4,
+      0.6
+    ],
+    "inconclusive_verdict_supported": true
+  },
+  "data_manifest": "data/manifests/phase11_generator_manifest.csv",
+  "locked_test_splits": [
+    "test_indomain",
+    "test_unseen_inpaint",
+    "test_locked",
+    "test_gemini_heldout"
+  ]
+}

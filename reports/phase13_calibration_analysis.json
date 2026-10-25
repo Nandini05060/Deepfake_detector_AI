@@ -1,0 +1,302 @@
+{
+  "phase": "Phase 13B Threshold & Calibration Study",
+  "dataset_partition": "validation",
+  "validation_sample_count": 242,
+  "real_sample_count": 120,
+  "fake_sample_count": 122,
+  "temperature_parameter": 1.634375000000002,
+  "validation_auc": 0.933,
+  "validation_pr_auc": 0.9359,
+  "calibration_comparison": {
+    "uncalibrated_raw": {
+      "ece_10bin": 0.0904,
+      "brier_score": 0.1256,
+      "nll_log_loss": 0.423,
+      "reliability_bins": [
+        {
+          "bin_index": 1,
+          "range": "[0.0, 0.1]",
+          "sample_count": 108,
+          "mean_confidence": 0.0127,
+          "empirical_accuracy": 0.1111,
+          "calibration_gap": 0.0984
+        },
+        {
+          "bin_index": 2,
+          "range": "[0.1, 0.2]",
+          "sample_count": 8,
+          "mean_confidence": 0.1341,
+          "empirical_accuracy": 0.625,
+          "calibration_gap": 0.4909
+        },
+        {
+          "bin_index": 3,
+          "range": "[0.2, 0.3]",
+          "sample_count": 5,
+          "mean_confidence": 0.2403,
+          "empirical_accuracy": 0.4,
+          "calibration_gap": 0.1597
+        },
+        {
+          "bin_index": 4,
+          "range": "[0.3, 0.4]",
+          "sample_count": 5,
+          "mean_confidence": 0.3514,
+          "empirical_accuracy": 0.8,
+          "calibration_gap": 0.4486
+        },
+        {
+          "bin_index": 5,
+          "range": "[0.4, 0.5]",
+          "sample_count": 9,
+          "mean_confidence": 0.454,
+          "empirical_accuracy": 0.5556,
+          "calibration_gap": 0.1015
+        },
+        {
+          "bin_index": 6,
+          "range": "[0.5, 0.6]",
+          "sample_count": 8,
+          "mean_confidence": 0.544,
+          "empirical_accuracy": 0.5,
+          "calibration_gap": 0.044
+        },
+        {
+          "bin_index": 7,
+          "range": "[0.6, 0.7]",
+          "sample_count": 10,
+          "mean_confidence": 0.6653,
+          "empirical_accuracy": 0.8,
+          "calibration_gap": 0.1347
+        },
+        {
+          "bin_index": 8,
+          "range": "[0.7, 0.8]",
+          "sample_count": 8,
+          "mean_confidence": 0.7738,
+          "empirical_accuracy": 0.75,
+          "calibration_gap": 0.0238
+        },
+        {
+          "bin_index": 9,
+          "range": "[0.8, 0.9]",
+          "sample_count": 9,
+          "mean_confidence": 0.8453,
+          "empirical_accuracy": 0.7778,
+          "calibration_gap": 0.0675
+        },
+        {
+          "bin_index": 10,
+          "range": "[0.9, 1.0]",
+          "sample_count": 72,
+          "mean_confidence": 0.9705,
+          "empirical_accuracy": 0.9583,
+          "calibration_gap": 0.0122
+        }
+      ]
+    },
+    "calibrated_temperature": {
+      "ece_10bin": 0.0769,
+      "brier_score": 0.1167,
+      "nll_log_loss": 0.3651,
+      "reliability_bins": [
+        {
+          "bin_index": 1,
+          "range": "[0.0, 0.1]",
+          "sample_count": 95,
+          "mean_confidence": 0.042,
+          "empirical_accuracy": 0.0737,
+          "calibration_gap": 0.0317
+        },
+        {
+          "bin_index": 2,
+          "range": "[0.1, 0.2]",
+          "sample_count": 13,
+          "mean_confidence": 0.1432,
+          "empirical_accuracy": 0.3846,
+          "calibration_gap": 0.2414
+        },
+        {
+          "bin_index": 3,
+          "range": "[0.2, 0.3]",
+          "sample_count": 8,
+          "mean_confidence": 0.2406,
+          "empirical_accuracy": 0.625,
+          "calibration_gap": 0.3844
+        },
+        {
+          "bin_index": 4,
+          "range": "[0.3, 0.4]",
+          "sample_count": 7,
+          "mean_confidence": 0.3464,
+          "empirical_accuracy": 0.5714,
+          "calibration_gap": 0.225
+        },
+        {
+          "bin_index": 5,
+          "range": "[0.4, 0.5]",
+          "sample_count": 12,
+          "mean_confidence": 0.4591,
+          "empirical_accuracy": 0.5833,
+          "calibration_gap": 0.1242
+        },
+        {
+          "bin_index": 6,
+          "range": "[0.5, 0.6]",
+          "sample_count": 11,
+          "mean_confidence": 0.5378,
+          "empirical_accuracy": 0.5455,
+          "calibration_gap": 0.0077
+        },
+        {
+          "bin_index": 7,
+          "range": "[0.6, 0.7]",
+          "sample_count": 15,
+          "mean_confidence": 0.652,
+          "empirical_accuracy": 0.8,
+          "calibration_gap": 0.148
+        },
+        {
+          "bin_index": 8,
+          "range": "[0.7, 0.8]",
+          "sample_count": 13,
+          "mean_confidence": 0.7572,
+          "empirical_accuracy": 0.7692,
+          "calibration_gap": 0.0121
+        },
+        {
+          "bin_index": 9,
+          "range": "[0.8, 0.9]",
+          "sample_count": 21,
+          "mean_confidence": 0.8483,
+          "empirical_accuracy": 0.9048,
+          "calibration_gap": 0.0565
+        },
+        {
+          "bin_index": 10,
+          "range": "[0.9, 1.0]",
+          "sample_count": 47,
+          "mean_confidence": 0.9434,
+          "empirical_accuracy": 1.0,
+          "calibration_gap": 0.0566
+        }
+      ]
+    }
+  },
+  "operating_threshold_recommendation": {
+    "min_threshold_for_88pct_specificity": 0.49,
+    "max_threshold_for_88pct_specificity": 0.95,
+    "recommended_threshold": 0.55,
+    "recommended_specificity": 0.925,
+    "recommended_recall": 0.7459,
+    "recommended_f1": 0.8198,
+    "rationale": "Maximizes balanced accuracy while strictly enforcing the forensic safety floor (>= 88% Real Specificity) on validation partition."
+  },
+  "key_operating_points": {
+    "theta_0.35": {
+      "threshold": 0.35,
+      "accuracy": 0.843,
+      "balanced_accuracy": 0.843,
+      "recall": 0.8443,
+      "specificity": 0.8417,
+      "precision": 0.8443,
+      "f1_score": 0.8443,
+      "confusion_matrix": {
+        "tn": 101,
+        "fp": 19,
+        "fn": 19,
+        "tp": 103
+      }
+    },
+    "theta_0.40": {
+      "threshold": 0.4,
+      "accuracy": 0.8388,
+      "balanced_accuracy": 0.8389,
+      "recall": 0.8279,
+      "specificity": 0.85,
+      "precision": 0.8487,
+      "f1_score": 0.8382,
+      "confusion_matrix": {
+        "tn": 102,
+        "fp": 18,
+        "fn": 21,
+        "tp": 101
+      }
+    },
+    "theta_0.45": {
+      "threshold": 0.45,
+      "accuracy": 0.8306,
+      "balanced_accuracy": 0.8308,
+      "recall": 0.8033,
+      "specificity": 0.8583,
+      "precision": 0.8522,
+      "f1_score": 0.827,
+      "confusion_matrix": {
+        "tn": 103,
+        "fp": 17,
+        "fn": 24,
+        "tp": 98
+      }
+    },
+    "theta_0.50": {
+      "threshold": 0.5,
+      "accuracy": 0.8306,
+      "balanced_accuracy": 0.8311,
+      "recall": 0.7705,
+      "specificity": 0.8917,
+      "precision": 0.8785,
+      "f1_score": 0.821,
+      "confusion_matrix": {
+        "tn": 107,
+        "fp": 13,
+        "fn": 28,
+        "tp": 94
+      }
+    },
+    "theta_0.55": {
+      "threshold": 0.55,
+      "accuracy": 0.8347,
+      "balanced_accuracy": 0.8355,
+      "recall": 0.7459,
+      "specificity": 0.925,
+      "precision": 0.91,
+      "f1_score": 0.8198,
+      "confusion_matrix": {
+        "tn": 111,
+        "fp": 9,
+        "fn": 31,
+        "tp": 91
+      }
+    },
+    "theta_0.60": {
+      "threshold": 0.6,
+      "accuracy": 0.8264,
+      "balanced_accuracy": 0.8273,
+      "recall": 0.7213,
+      "specificity": 0.9333,
+      "precision": 0.9167,
+      "f1_score": 0.8073,
+      "confusion_matrix": {
+        "tn": 112,
+        "fp": 8,
+        "fn": 34,
+        "tp": 88
+      }
+    },
+    "theta_0.65": {
+      "threshold": 0.65,
+      "accuracy": 0.8099,
+      "balanced_accuracy": 0.8111,
+      "recall": 0.6721,
+      "specificity": 0.95,
+      "precision": 0.9318,
+      "f1_score": 0.7809,
+      "confusion_matrix": {
+        "tn": 114,
+        "fp": 6,
+        "fn": 40,
+        "tp": 82
+      }
+    }
+  }
+}

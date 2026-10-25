@@ -1,0 +1,83 @@
+{
+  "dataset_manifest_metadata": {
+    "manifest_version": "phase12_v1",
+    "source_manifest": "data/manifests/phase11_generator_manifest.csv",
+    "total_registered_images": 1864,
+    "unique_sha256_count": 1864,
+    "exact_duplicates": 0,
+    "leakage_status": "Zero split leakage confirmed across train, val, and locked test partitions"
+  },
+  "split_distribution": {
+    "train": 1165,
+    "val": 242,
+    "test_indomain": 240,
+    "test_unseen_inpaint": 200,
+    "test_locked": 13,
+    "test_gemini_heldout": 4,
+    "total_locked_test": 457
+  },
+  "generator_family_inventory": {
+    "None_Real": {
+      "total_count": 820,
+      "train": 580,
+      "val": 120,
+      "test": 120,
+      "sources": ["FFHQ (CC-BY-NC-SA 4.0)", "IMDB-WIKI", "Kaggle DFD Authentic Negative Controls"]
+    },
+    "StyleGAN2": {
+      "total_count": 420,
+      "train": 240,
+      "val": 60,
+      "test": 60,
+      "sources": ["Kaggle DFD / StyleGAN2 synthetic faces (CC-BY 4.0)"]
+    },
+    "StableDiffusion_v1.5": {
+      "total_count": 200,
+      "train": 140,
+      "val": 30,
+      "test": 30,
+      "sources": ["OpenRL/DeepFakeFace text2img (OpenRAIL)"]
+    },
+    "InsightFace_Swap": {
+      "total_count": 200,
+      "train": 140,
+      "val": 30,
+      "test": 30,
+      "sources": ["OpenRL/DeepFakeFace insight (NonCommercial Research)"]
+    },
+    "StableDiffusion_Inpainting": {
+      "total_count": 200,
+      "train": 0,
+      "val": 0,
+      "test": 200,
+      "sources": ["OpenRL/DeepFakeFace inpainting (OpenRAIL) — 100% Held-Out"]
+    },
+    "Google_Gemini_Imagen3": {
+      "total_count": 24,
+      "train": 5,
+      "val": 2,
+      "test_locked": 17,
+      "test_breakdown": {
+        "held_out_diagnostic_p10": 4,
+        "newly_generated_diverse_p11": 13
+      },
+      "sources": ["Google Imagen 3 API / Research Artifacts"]
+    }
+  },
+  "gemini_test_cohort_demographics": {
+    "total_test_samples": 17,
+    "age_range": "18 to 70 years",
+    "gender_representation": {"male": 9, "female": 8},
+    "ethnicities_represented": [
+      "East Asian", "South Asian", "Black", "Caucasian", "Hispanic",
+      "Middle Eastern", "West African", "Scandinavian", "Southeast Asian",
+      "Latin American", "African American"
+    ],
+    "lighting_and_settings": [
+      "Office fluorescent", "Outdoor golden hour", "Library incandescent",
+      "Domestic natural", "Twilight neon", "Rembrandt studio lighting",
+      "Direct sunlight", "Gym indoor specular"
+    ],
+    "limitations_and_uncertainty": "Sample size N=17 is scientifically informative for preliminary failure mode diagnosis, but carries wide 95% Wilson confidence intervals [0.032, 0.343]. Claims of generalized diffusion detection cannot be established solely on N=17."
+  }
+}

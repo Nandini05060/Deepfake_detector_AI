@@ -1,0 +1,524 @@
+{
+  "comparison_benchmark": [
+    {
+      "model_name": "Active Baseline (LXDFD-Phase10-Attention)",
+      "checkpoint_path": "checkpoints/lxfd_phase10_modern_generators_best.pt",
+      "checkpoint_sha256": "13dc56b8961f8d0c2c56a9ac947ef4292f4a2a5ef613df3aeb950f087fddcc05",
+      "parameter_count": "4.8M",
+      "gpu_latency_ms": 17.18,
+      "calibration_temperature": 1.6344,
+      "meets_88pct_specificity": true,
+      "overall_metrics": {
+        "roc_auc": 0.8544,
+        "pr_auc": 0.9329,
+        "accuracy": 0.5624,
+        "f1_score": 0.6,
+        "precision": 0.9202,
+        "recall": 0.4451,
+        "specificity": 0.8917,
+        "fpr": 0.1083,
+        "fnr": 0.5549,
+        "brier_score": 0.2923,
+        "ece_10bins": 0.3381,
+        "inconclusive_rate": 0.14,
+        "confusion_matrix": {
+          "tn": 107,
+          "fp": 13,
+          "fn": 187,
+          "tp": 150
+        },
+        "real_specificity_ci95": [
+          0.8234,
+          0.9356
+        ],
+        "fake_recall_ci95": [
+          0.393,
+          0.4985
+        ]
+      },
+      "gemini_performance": {
+        "recall": 0.1176,
+        "fraction": "2/17",
+        "ci_95": [
+          0.0329,
+          0.3434
+        ],
+        "mean_p_fake": 0.2621,
+        "is_preliminary": true
+      },
+      "inpainting_performance": {
+        "recall": 0.28,
+        "fraction": "56/200",
+        "ci_95": [
+          0.2224,
+          0.3459
+        ],
+        "mean_p_fake": 0.3556
+      },
+      "per_generator_breakdown": {
+        "Google_Gemini_Imagen3": {
+          "sample_count": 17,
+          "detected_count": 2,
+          "detection_rate": 0.1176,
+          "display_fraction": "2/17",
+          "ci_95": [
+            0.0329,
+            0.3434
+          ],
+          "mean_p_fake": 0.2621,
+          "class_label": "FAKE"
+        },
+        "StableDiffusion_v1.5": {
+          "sample_count": 30,
+          "detected_count": 19,
+          "detection_rate": 0.6333,
+          "display_fraction": "19/30",
+          "ci_95": [
+            0.4551,
+            0.7813
+          ],
+          "mean_p_fake": 0.6709,
+          "class_label": "FAKE"
+        },
+        "InsightFace_Swap": {
+          "sample_count": 30,
+          "detected_count": 16,
+          "detection_rate": 0.5333,
+          "display_fraction": "16/30",
+          "ci_95": [
+            0.3614,
+            0.6977
+          ],
+          "mean_p_fake": 0.5252,
+          "class_label": "FAKE"
+        },
+        "StyleGAN2": {
+          "sample_count": 60,
+          "detected_count": 57,
+          "detection_rate": 0.95,
+          "display_fraction": "57/60",
+          "ci_95": [
+            0.863,
+            0.9829
+          ],
+          "mean_p_fake": 0.9152,
+          "class_label": "FAKE"
+        },
+        "None_Real": {
+          "sample_count": 120,
+          "detected_count": 107,
+          "detection_rate": 0.8917,
+          "display_fraction": "107/120",
+          "ci_95": [
+            0.8234,
+            0.9356
+          ],
+          "mean_p_fake": 0.1344,
+          "class_label": "REAL"
+        },
+        "StableDiffusion_Inpainting": {
+          "sample_count": 200,
+          "detected_count": 56,
+          "detection_rate": 0.28,
+          "display_fraction": "56/200",
+          "ci_95": [
+            0.2224,
+            0.3459
+          ],
+          "mean_p_fake": 0.3556,
+          "class_label": "FAKE"
+        }
+      }
+    },
+    {
+      "model_name": "Validated Production (Constrained-Floor-25)",
+      "checkpoint_path": "checkpoints/lxfd_phase10_modern_generators_best.pt",
+      "checkpoint_sha256": "13dc56b8961f8d0c2c56a9ac947ef4292f4a2a5ef613df3aeb950f087fddcc05",
+      "parameter_count": "4.8M",
+      "gpu_latency_ms": 17.18,
+      "calibration_temperature": 1.6344,
+      "meets_88pct_specificity": true,
+      "overall_metrics": {
+        "roc_auc": 0.8556,
+        "pr_auc": 0.9333,
+        "accuracy": 0.6018,
+        "f1_score": 0.6459,
+        "precision": 0.9379,
+        "recall": 0.4926,
+        "specificity": 0.9083,
+        "fpr": 0.0917,
+        "fnr": 0.5074,
+        "brier_score": 0.2703,
+        "ece_10bins": 0.3254,
+        "inconclusive_rate": 0.151,
+        "confusion_matrix": {
+          "tn": 109,
+          "fp": 11,
+          "fn": 171,
+          "tp": 166
+        },
+        "real_specificity_ci95": [
+          0.8433,
+          0.948
+        ],
+        "fake_recall_ci95": [
+          0.4396,
+          0.5457
+        ]
+      },
+      "gemini_performance": {
+        "recall": 0.1176,
+        "fraction": "2/17",
+        "ci_95": [
+          0.0329,
+          0.3434
+        ],
+        "mean_p_fake": 0.2388,
+        "is_preliminary": true
+      },
+      "inpainting_performance": {
+        "recall": 0.35,
+        "fraction": "70/200",
+        "ci_95": [
+          0.2873,
+          0.4184
+        ],
+        "mean_p_fake": 0.3919
+      },
+      "per_generator_breakdown": {
+        "Google_Gemini_Imagen3": {
+          "sample_count": 17,
+          "detected_count": 2,
+          "detection_rate": 0.1176,
+          "display_fraction": "2/17",
+          "ci_95": [
+            0.0329,
+            0.3434
+          ],
+          "mean_p_fake": 0.2388,
+          "class_label": "FAKE"
+        },
+        "StableDiffusion_v1.5": {
+          "sample_count": 30,
+          "detected_count": 21,
+          "detection_rate": 0.7,
+          "display_fraction": "21/30",
+          "ci_95": [
+            0.5212,
+            0.8334
+          ],
+          "mean_p_fake": 0.6403,
+          "class_label": "FAKE"
+        },
+        "InsightFace_Swap": {
+          "sample_count": 30,
+          "detected_count": 16,
+          "detection_rate": 0.5333,
+          "display_fraction": "16/30",
+          "ci_95": [
+            0.3614,
+            0.6977
+          ],
+          "mean_p_fake": 0.5429,
+          "class_label": "FAKE"
+        },
+        "StyleGAN2": {
+          "sample_count": 60,
+          "detected_count": 57,
+          "detection_rate": 0.95,
+          "display_fraction": "57/60",
+          "ci_95": [
+            0.863,
+            0.9829
+          ],
+          "mean_p_fake": 0.8744,
+          "class_label": "FAKE"
+        },
+        "None_Real": {
+          "sample_count": 120,
+          "detected_count": 109,
+          "detection_rate": 0.9083,
+          "display_fraction": "109/120",
+          "ci_95": [
+            0.8433,
+            0.948
+          ],
+          "mean_p_fake": 0.149,
+          "class_label": "REAL"
+        },
+        "StableDiffusion_Inpainting": {
+          "sample_count": 200,
+          "detected_count": 70,
+          "detection_rate": 0.35,
+          "display_fraction": "70/200",
+          "ci_95": [
+            0.2873,
+            0.4184
+          ],
+          "mean_p_fake": 0.3919,
+          "class_label": "FAKE"
+        }
+      }
+    },
+    {
+      "model_name": "Equal-Weight Fusion (0.5/0.5)",
+      "checkpoint_path": "checkpoints/lxfd_phase10_modern_generators_best.pt",
+      "checkpoint_sha256": "13dc56b8961f8d0c2c56a9ac947ef4292f4a2a5ef613df3aeb950f087fddcc05",
+      "parameter_count": "4.8M",
+      "gpu_latency_ms": 17.18,
+      "calibration_temperature": 1.6344,
+      "meets_88pct_specificity": false,
+      "overall_metrics": {
+        "roc_auc": 0.8386,
+        "pr_auc": 0.9228,
+        "accuracy": 0.6346,
+        "f1_score": 0.689,
+        "precision": 0.925,
+        "recall": 0.549,
+        "specificity": 0.875,
+        "fpr": 0.125,
+        "fnr": 0.451,
+        "brier_score": 0.2481,
+        "ece_10bins": 0.3117,
+        "inconclusive_rate": 0.1991,
+        "confusion_matrix": {
+          "tn": 105,
+          "fp": 15,
+          "fn": 152,
+          "tp": 185
+        },
+        "real_specificity_ci95": [
+          0.804,
+          0.9228
+        ],
+        "fake_recall_ci95": [
+          0.4956,
+          0.6012
+        ]
+      },
+      "gemini_performance": {
+        "recall": 0.1765,
+        "fraction": "3/17",
+        "ci_95": [
+          0.0619,
+          0.4103
+        ],
+        "mean_p_fake": 0.2066,
+        "is_preliminary": true
+      },
+      "inpainting_performance": {
+        "recall": 0.44,
+        "fraction": "88/200",
+        "ci_95": [
+          0.373,
+          0.5093
+        ],
+        "mean_p_fake": 0.4493
+      },
+      "per_generator_breakdown": {
+        "Google_Gemini_Imagen3": {
+          "sample_count": 17,
+          "detected_count": 3,
+          "detection_rate": 0.1765,
+          "display_fraction": "3/17",
+          "ci_95": [
+            0.0619,
+            0.4103
+          ],
+          "mean_p_fake": 0.2066,
+          "class_label": "FAKE"
+        },
+        "StableDiffusion_v1.5": {
+          "sample_count": 30,
+          "detected_count": 20,
+          "detection_rate": 0.6667,
+          "display_fraction": "20/30",
+          "ci_95": [
+            0.4878,
+            0.8077
+          ],
+          "mean_p_fake": 0.5529,
+          "class_label": "FAKE"
+        },
+        "InsightFace_Swap": {
+          "sample_count": 30,
+          "detected_count": 20,
+          "detection_rate": 0.6667,
+          "display_fraction": "20/30",
+          "ci_95": [
+            0.4878,
+            0.8077
+          ],
+          "mean_p_fake": 0.5631,
+          "class_label": "FAKE"
+        },
+        "StyleGAN2": {
+          "sample_count": 60,
+          "detected_count": 54,
+          "detection_rate": 0.9,
+          "display_fraction": "54/60",
+          "ci_95": [
+            0.7985,
+            0.9534
+          ],
+          "mean_p_fake": 0.7606,
+          "class_label": "FAKE"
+        },
+        "None_Real": {
+          "sample_count": 120,
+          "detected_count": 105,
+          "detection_rate": 0.875,
+          "display_fraction": "105/120",
+          "ci_95": [
+            0.804,
+            0.9228
+          ],
+          "mean_p_fake": 0.1838,
+          "class_label": "REAL"
+        },
+        "StableDiffusion_Inpainting": {
+          "sample_count": 200,
+          "detected_count": 88,
+          "detection_rate": 0.44,
+          "display_fraction": "88/200",
+          "ci_95": [
+            0.373,
+            0.5093
+          ],
+          "mean_p_fake": 0.4493,
+          "class_label": "FAKE"
+        }
+      }
+    },
+    {
+      "model_name": "Candidate LXDFD-MultiScale-12",
+      "checkpoint_path": "experiments/phase12_multiscale_v1/lxfd_multiscale12_best.pt",
+      "checkpoint_sha256": "a2b9989205f255248ca7c378e25164b88fbc47691ce8b9b9b815fcd00a72e773",
+      "parameter_count": "13.6M",
+      "gpu_latency_ms": 28.84,
+      "calibration_temperature": 1.0,
+      "meets_88pct_specificity": false,
+      "overall_metrics": {
+        "roc_auc": 0.8278,
+        "pr_auc": 0.9219,
+        "accuracy": 0.6389,
+        "f1_score": 0.7016,
+        "precision": 0.8981,
+        "recall": 0.5757,
+        "specificity": 0.8167,
+        "fpr": 0.1833,
+        "fnr": 0.4243,
+        "brier_score": 0.2668,
+        "ece_10bins": 0.2727,
+        "inconclusive_rate": 0.0897,
+        "confusion_matrix": {
+          "tn": 98,
+          "fp": 22,
+          "fn": 143,
+          "tp": 194
+        },
+        "real_specificity_ci95": [
+          0.738,
+          0.8757
+        ],
+        "fake_recall_ci95": [
+          0.5223,
+          0.6273
+        ]
+      },
+      "gemini_performance": {
+        "recall": 0.5294,
+        "fraction": "9/17",
+        "ci_95": [
+          0.3096,
+          0.7383
+        ],
+        "mean_p_fake": 0.5347,
+        "is_preliminary": true
+      },
+      "inpainting_performance": {
+        "recall": 0.42,
+        "fraction": "84/200",
+        "ci_95": [
+          0.3537,
+          0.4893
+        ],
+        "mean_p_fake": 0.4359
+      },
+      "per_generator_breakdown": {
+        "Google_Gemini_Imagen3": {
+          "sample_count": 17,
+          "detected_count": 9,
+          "detection_rate": 0.5294,
+          "display_fraction": "9/17",
+          "ci_95": [
+            0.3096,
+            0.7383
+          ],
+          "mean_p_fake": 0.5347,
+          "class_label": "FAKE"
+        },
+        "StableDiffusion_v1.5": {
+          "sample_count": 30,
+          "detected_count": 22,
+          "detection_rate": 0.7333,
+          "display_fraction": "22/30",
+          "ci_95": [
+            0.5555,
+            0.8582
+          ],
+          "mean_p_fake": 0.7239,
+          "class_label": "FAKE"
+        },
+        "InsightFace_Swap": {
+          "sample_count": 30,
+          "detected_count": 23,
+          "detection_rate": 0.7667,
+          "display_fraction": "23/30",
+          "ci_95": [
+            0.5907,
+            0.8821
+          ],
+          "mean_p_fake": 0.6989,
+          "class_label": "FAKE"
+        },
+        "StyleGAN2": {
+          "sample_count": 60,
+          "detected_count": 56,
+          "detection_rate": 0.9333,
+          "display_fraction": "56/60",
+          "ci_95": [
+            0.8407,
+            0.9738
+          ],
+          "mean_p_fake": 0.9135,
+          "class_label": "FAKE"
+        },
+        "None_Real": {
+          "sample_count": 120,
+          "detected_count": 98,
+          "detection_rate": 0.8167,
+          "display_fraction": "98/120",
+          "ci_95": [
+            0.738,
+            0.8757
+          ],
+          "mean_p_fake": 0.1743,
+          "class_label": "REAL"
+        },
+        "StableDiffusion_Inpainting": {
+          "sample_count": 200,
+          "detected_count": 84,
+          "detection_rate": 0.42,
+          "display_fraction": "84/200",
+          "ci_95": [
+            0.3537,
+            0.4893
+          ],
+          "mean_p_fake": 0.4359,
+          "class_label": "FAKE"
+        }
+      }
+    }
+  ]
+}

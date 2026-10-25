@@ -1270,14 +1270,16 @@ async function processForensicFile(file) {
     if (placeholder) placeholder.style.display = "none";
     if (resultSec) resultSec.style.display = "block";
 
-    const isFake = data.prediction === "FAKE";
-    const isUncertain = data.prediction === "UNCERTAIN" || data.is_uncertain;
-    const isReal = data.prediction === "REAL";
+    const decision = data.final_decision || data.prediction;
+    const isUncertain = decision === "INCONCLUSIVE" || data.prediction === "UNCERTAIN" || data.is_uncertain;
+    const isFake = !isUncertain && (decision === "LIKELY_FAKE" || data.prediction === "FAKE");
+    const isReal = !isUncertain && (decision === "LIKELY_REAL" || data.prediction === "REAL");
 
     const fakePct = (data.fake_probability * 100).toFixed(1);
     const realPct = (data.real_probability * 100).toFixed(1);
-    const confLevel = data.confidence_level || "HIGH";
-    const modelVersion = data.model_version || "LX-DFD V2 (Attention Fusion)";
+    const confLevel = isUncertain ? "LOW (Ambiguous)" : (data.confidence_level || "MODERATE");
+    const modelVersion = data.model_version || "LX-DFD Phase 10 Modern Multi-Generator";
+    const checkpointName = data.checkpoint_used || "lxfd_phase10_modern_generators_best.pt";
     const calStatus = data.calibration_status || "Temperature Scaled";
 
     const verdictCard = document.getElementById("verdict-card");
@@ -1295,13 +1297,13 @@ async function processForensicFile(file) {
 
     if (predBadge) {
       if (isUncertain) {
-        predBadge.textContent = "UNCERTAIN / AMBIGUOUS";
+        predBadge.textContent = "INCONCLUSIVE / AMBIGUOUS";
         predBadge.className = "verdict-badge uncertain";
       } else if (isFake) {
-        predBadge.textContent = `MANIPULATED FAKE (${fakePct}%)`;
+        predBadge.textContent = `LIKELY FAKE (${fakePct}%)`;
         predBadge.className = "verdict-badge fake";
       } else {
-        predBadge.textContent = `AUTHENTIC REAL (${realPct}%)`;
+        predBadge.textContent = `LIKELY REAL (${realPct}%)`;
         predBadge.className = "verdict-badge real";
       }
     }
@@ -1314,29 +1316,47 @@ async function processForensicFile(file) {
     detailBox.id = "verdict-details-box";
     detailBox.className = "verdict-details-panel";
     
-    const relColor = data.empirical_reliability?.includes("HIGH") ? "#10B981" : (data.empirical_reliability?.includes("LOW") ? "#EF4444" : "#F59E0B");
-    const warningHtml = data.generator_warning ? `
-      <div style="margin-top: 10px; padding: 8px 10px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 6px; font-size: 11.5px; color: #FBBF24; line-height: 1.45;">
-        <strong>⚠️ Generator Advisory:</strong> ${data.generator_warning}
-      </div>
-    ` : '';
+    const relColor = isUncertain ? "#F59E0B" : (data.empirical_reliability?.includes("HIGH") ? "#10B981" : (data.empirical_reliability?.includes("LOW") ? "#EF4444" : "#F59E0B"));
+    
+    let warningHtml = "";
+    if (isUncertain) {
+      warningHtml = `
+        <div style="margin-top: 10px; padding: 10px 12px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.5); border-radius: 6px; font-size: 11.5px; color: #FBBF24; line-height: 1.45;">
+          <strong>⚠️ Forensic Caution (Inconclusive / Out-of-Distribution):</strong>
+          A low fake probability (${fakePct}%) on an unfamiliar generator does NOT establish that an image is authentic. 
+          The model detected conflicting spatial and frequency cues or lacks a calibrated representation for this generator architecture.
+        </div>
+      `;
+    } else if (data.generator_warning) {
+      warningHtml = `
+        <div style="margin-top: 10px; padding: 8px 10px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 6px; font-size: 11.5px; color: #FBBF24; line-height: 1.45;">
+          <strong>⚠️ Generator Advisory:</strong> ${data.generator_warning}
+        </div>
+      `;
+    }
 
     detailBox.innerHTML = `
       <div style="margin-top: 12px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+          <span>Classification:</span> <strong style="color: ${isUncertain ? '#F59E0B' : (isFake ? '#EF4444' : '#10B981')};">${isUncertain ? 'INCONCLUSIVE' : (isFake ? 'LIKELY_FAKE' : 'LIKELY_REAL')}</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
           <span>Fake Probability:</span> <strong style="color: #EF4444;">${fakePct}%</strong>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-          <span>Real Probability:</span> <strong style="color: #10B981;">${realPct}%</strong>
+          <span>Real Probability:</span> <strong style="color: ${isUncertain ? '#94A3B8' : '#10B981'};">${realPct}% ${isUncertain ? '<span style="font-size: 10px; font-weight: normal; color: #F59E0B;">(Non-Decisive)</span>' : ''}</strong>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
           <span>Confidence Level:</span> <strong style="color: ${isUncertain ? '#F59E0B' : '#00E5FF'};">${confLevel}</strong>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-          <span>Empirical Reliability:</span> <strong style="color: ${relColor};">${data.empirical_reliability || 'MODERATE'}</strong>
+          <span>Empirical Reliability:</span> <strong style="color: ${relColor};">${data.empirical_reliability || (isUncertain ? 'LOW (Artifact Absence vs True Authenticity)' : 'MODERATE')}</strong>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 11px; color: var(--text-muted);">
           <span>Model Version:</span> <span>${modelVersion}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 11px; color: var(--text-muted);">
+          <span>Checkpoint:</span> <span style="font-family: monospace;">${checkpointName}</span>
         </div>
         <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted);">
           <span>Calibration:</span> <span>${calStatus}</span>

@@ -18,8 +18,10 @@ data/external/*
 !data/external/.gitkeep
 
 # Checkpoints (weights)
-checkpoints/*.pt
+*.pt
 !checkpoints/.gitkeep
+!experiments/**/.gitkeep
+experiments/**/*.pt
 
 # IDE & Logs
 .vscode/

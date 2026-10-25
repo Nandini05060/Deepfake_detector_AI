@@ -20,11 +20,13 @@ class LXDFDPredictor:
         fusion_type: str = "attention",
         device: torch.device = None,
         uncertainty_band: float = 0.15,
-        decision_threshold: float = 0.5
+        decision_threshold: float = 0.5,
+        min_floor: float = 0.25
     ):
         self.device = device or get_device()
         self.uncertainty_band = uncertainty_band
         self.decision_threshold = decision_threshold
+        self.min_floor = min_floor
 
         # Default to the most robust and generalizable checkpoint
         if checkpoint_path is None:
@@ -40,15 +42,15 @@ class LXDFDPredictor:
                     break
 
         self.checkpoint_path = checkpoint_path
-        self.model = LXDFDModel(fusion_type=fusion_type, pretrained=False).to(self.device)
+        self.model = LXDFDModel(fusion_type=fusion_type, min_floor=min_floor, pretrained=False).to(self.device)
         ckpt_file = Path(checkpoint_path)
         if ckpt_file.exists():
             checkpoint = torch.load(ckpt_file, map_location=self.device)
             state_dict = checkpoint.get('model_state_dict', checkpoint)
             self.model.load_state_dict(state_dict, strict=False)
-            print(f"[PREDICTOR] Loaded checkpoint: {checkpoint_path}")
+            print(f"[PREDICTOR] Loaded checkpoint: {checkpoint_path} with min_floor={min_floor}")
         else:
-            print(f"[PREDICTOR] Warning: Checkpoint {checkpoint_path} not found.")
+            raise FileNotFoundError(f"Checkpoint {checkpoint_path} not found.")
 
         self.model.eval()
 
@@ -59,16 +61,16 @@ class LXDFDPredictor:
             self.calibration_enabled = True
 
         self.transform = T.Compose([
-            T.Resize((224, 224)),
+            T.Resize((224, 224), interpolation=T.InterpolationMode.BICUBIC),
             T.ToTensor(),
             T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ])
 
-    def predict(self, image: Image.Image) -> dict:
+    def predict(self, image: Image.Image, face_meta: dict = None) -> dict:
         """
-        Given a PIL Image, returns structured prediction output dictionary
-        including individual branch probabilities, attention weights,
-        and empirical reliability warnings.
+        Given a PIL Image and optional face_meta dictionary, returns structured prediction output dictionary
+        including individual branch probabilities, attention weights, 3-way final decision
+        (LIKELY_REAL, LIKELY_FAKE, INCONCLUSIVE), and forensic reliability warnings.
         """
         if isinstance(image, (str, Path)):
             image = Image.open(image).convert('RGB')
@@ -106,16 +108,70 @@ class LXDFDPredictor:
         branch_discrepancy = abs(spatial_prob - freq_prob)
         high_discrepancy = (branch_discrepancy > 0.10)
 
-        # Empirical reliability assessment
-        # Do not label HIGH confidence solely because sigmoid is near 0 or 1 on unvalidated external inputs!
-        if in_uncertainty_band:
-            prediction = "UNCERTAIN"
+        # Non-probability trigger: Face detection check
+        face_detected = True
+        if face_meta is not None:
+            face_detected = face_meta.get("face_detected", True)
+
+        # Empirical reliability assessment & 3-way decision routing
+        if not face_detected:
+            prediction = "INCONCLUSIVE"
+            final_decision = "INCONCLUSIVE"
             confidence_level = "LOW"
-            empirical_reliability = "LOW (Decision Boundary Region)"
+            empirical_reliability = "LOW (Face Localization Unverified)"
             confidence = float(max(fake_prob, real_prob))
             is_uncertain = True
+        elif in_uncertainty_band:
+            prediction = "INCONCLUSIVE"
+            final_decision = "INCONCLUSIVE"
+            confidence_level = "LOW"
+            empirical_reliability = "LOW (Decision Boundary Region: 0.40 - 0.60)"
+            confidence = float(max(fake_prob, real_prob))
+            is_uncertain = True
+        elif high_discrepancy:
+            # Check if branches agree on the same side of the decision threshold
+            if spatial_prob >= self.decision_threshold and freq_prob >= self.decision_threshold:
+                prediction = "FAKE"
+                final_decision = "LIKELY_FAKE"
+                confidence = fake_prob
+                confidence_level = "MODERATE"
+                empirical_reliability = "MODERATE (Dual-Branch Positive with Discrepancy)"
+                is_uncertain = False
+            elif spatial_prob < self.decision_threshold and freq_prob < self.decision_threshold:
+                # Both branches lean real, but check for unadapted diffusion signature:
+                # Frequency branch detects elevated spectral suspicion while spatial is near-zero
+                if freq_prob >= 0.28 and spatial_prob < 0.10:
+                    prediction = "INCONCLUSIVE"
+                    final_decision = "INCONCLUSIVE"
+                    confidence_level = "LOW"
+                    empirical_reliability = "LOW (Modality Divergence: Spectral Suspicion with Spatial Blindness)"
+                    confidence = float(max(fake_prob, real_prob))
+                    is_uncertain = True
+                else:
+                    prediction = "REAL"
+                    final_decision = "LIKELY_REAL"
+                    confidence = real_prob
+                    confidence_level = "MODERATE"
+                    empirical_reliability = "MODERATE (Artifact Absence vs True Authenticity)"
+                    is_uncertain = False
+            elif fake_prob >= 0.80 and (spatial_prob >= 0.85 or freq_prob >= 0.85):
+                prediction = "FAKE"
+                final_decision = "LIKELY_FAKE"
+                confidence = fake_prob
+                confidence_level = "MODERATE"
+                empirical_reliability = "MODERATE (Single Modality Dominant Manipulation Evidence)"
+                is_uncertain = False
+            else:
+                # Modality contradiction: one branch predicts fake while the other predicts real without decisive evidence
+                prediction = "INCONCLUSIVE"
+                final_decision = "INCONCLUSIVE"
+                confidence_level = "LOW"
+                empirical_reliability = "LOW (Branch Divergence: Spatial vs Frequency Contradiction)"
+                confidence = float(max(fake_prob, real_prob))
+                is_uncertain = True
         elif fake_prob >= self.decision_threshold:
             prediction = "FAKE"
+            final_decision = "LIKELY_FAKE"
             confidence = fake_prob
             if fake_prob > 0.85 and not high_discrepancy:
                 confidence_level = "HIGH"
@@ -126,24 +182,33 @@ class LXDFDPredictor:
             is_uncertain = False
         else:
             prediction = "REAL"
+            final_decision = "LIKELY_REAL"
             confidence = real_prob
-            # For REAL predictions, if spatial says 99.9% real but frequency suggests possible artifacts,
-            # or if the image may be from an unobserved generator family, qualify the confidence:
             if real_prob > 0.90 and not high_discrepancy:
                 confidence_level = "HIGH (In-Distribution)"
                 empirical_reliability = "MODERATE (Subject to Generator Scope)"
             else:
                 confidence_level = "MODERATE"
                 empirical_reliability = "MODERATE (Artifact Absence vs True Authenticity)"
-            is_uncertain = high_discrepancy
+            is_uncertain = False
 
         # Out-of-Distribution Generator Advisory
         generator_warning = None
-        if prediction == "REAL":
+        if not face_detected:
+            generator_warning = (
+                "FACE LOCALIZATION WARNING: No face could be detected with primary confidence (>=0.50). "
+                "Prediction is based on full frame context and must be treated as INCONCLUSIVE."
+            )
+        elif final_decision == "INCONCLUSIVE":
+            generator_warning = (
+                "INCONCLUSIVE VERDICT: This image exhibits features (decision boundary ambiguity or branch divergence) "
+                "that place it outside the model's calibrated decisive operating range. "
+                "Novel generators (e.g. Google Gemini Imagen 3, Midjourney v6) or subtle inpainting may produce ambiguous forensic signals."
+            )
+        elif final_decision == "LIKELY_REAL":
             generator_warning = (
                 "Scope Advisory: Validated on StyleGAN2, ProGAN, Stable Diffusion v1.5, and InsightFace. "
-                "Novel or unvalidated synthesis models (e.g., Google Gemini Imagen 3, Midjourney v6, FLUX.1) "
-                "may omit legacy artifacts. A REAL result denotes absence of known signatures, not guaranteed authenticity."
+                "Novel synthesis models may omit legacy artifacts. A LIKELY_REAL result denotes absence of known signatures, not guaranteed authenticity."
             )
         elif high_discrepancy:
             generator_warning = (
@@ -153,6 +218,8 @@ class LXDFDPredictor:
 
         return {
             "prediction": prediction,
+            "final_decision": final_decision,
+            "verdict": final_decision,
             "fake_probability": round(fake_prob, 4),
             "real_probability": round(real_prob, 4),
             "confidence": round(confidence, 4),
@@ -170,5 +237,6 @@ class LXDFDPredictor:
                 "frequency_attention_weight_wf": round(float(w_f), 4),
                 "branch_discrepancy": round(float(branch_discrepancy), 4)
             },
-            "generator_warning": generator_warning
+            "generator_warning": generator_warning,
+            "forensic_disclaimer": "Forensic Notice: LX-DFD prediction is an automated statistical model estimate, not definitive legal or biometric proof of authenticity or manipulation."
         }

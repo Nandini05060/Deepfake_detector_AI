@@ -1,0 +1,80 @@
+{
+  "Google_Gemini_Imagen3": {
+    "total_samples": 17,
+    "fake_as_real_errors": 8,
+    "error_rate_pct": 47.06,
+    "predicted_fake_count": 3,
+    "predicted_real_count": 8,
+    "inconclusive_count": 6,
+    "mean_spatial_fake_prob": 0.466,
+    "mean_frequency_fake_prob": 0.1071,
+    "mean_ws": 0.7447,
+    "mean_wf": 0.2553,
+    "mean_calibrated_fake_prob": 0.4231
+  },
+  "StableDiffusion_v1.5": {
+    "total_samples": 30,
+    "fake_as_real_errors": 1,
+    "error_rate_pct": 3.33,
+    "predicted_fake_count": 20,
+    "predicted_real_count": 1,
+    "inconclusive_count": 9,
+    "mean_spatial_fake_prob": 0.8572,
+    "mean_frequency_fake_prob": 0.3016,
+    "mean_ws": 0.744,
+    "mean_wf": 0.256,
+    "mean_calibrated_fake_prob": 0.8062
+  },
+  "InsightFace_Swap": {
+    "total_samples": 30,
+    "fake_as_real_errors": 2,
+    "error_rate_pct": 6.67,
+    "predicted_fake_count": 10,
+    "predicted_real_count": 2,
+    "inconclusive_count": 18,
+    "mean_spatial_fake_prob": 0.6749,
+    "mean_frequency_fake_prob": 0.5894,
+    "mean_ws": 0.7329,
+    "mean_wf": 0.2671,
+    "mean_calibrated_fake_prob": 0.6472
+  },
+  "StyleGAN2": {
+    "total_samples": 60,
+    "fake_as_real_errors": 0,
+    "error_rate_pct": 0.0,
+    "predicted_fake_count": 56,
+    "predicted_real_count": 0,
+    "inconclusive_count": 4,
+    "mean_spatial_fake_prob": 0.9963,
+    "mean_frequency_fake_prob": 0.2994,
+    "mean_ws": 0.7478,
+    "mean_wf": 0.2522,
+    "mean_calibrated_fake_prob": 0.9356
+  },
+  "None_Real": {
+    "total_samples": 120,
+    "fake_as_real_errors": 0,
+    "error_rate_pct": 0.0,
+    "predicted_fake_count": 3,
+    "predicted_real_count": 95,
+    "inconclusive_count": 22,
+    "mean_spatial_fake_prob": 0.106,
+    "mean_frequency_fake_prob": 0.2947,
+    "mean_ws": 0.7438,
+    "mean_wf": 0.2562,
+    "mean_calibrated_fake_prob": 0.1386
+  },
+  "StableDiffusion_Inpainting": {
+    "total_samples": 200,
+    "fake_as_real_errors": 46,
+    "error_rate_pct": 23.0,
+    "predicted_fake_count": 29,
+    "predicted_real_count": 46,
+    "inconclusive_count": 125,
+    "mean_spatial_fake_prob": 0.4046,
+    "mean_frequency_fake_prob": 0.5696,
+    "mean_ws": 0.7355,
+    "mean_wf": 0.2645,
+    "mean_calibrated_fake_prob": 0.447
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "repository": "https://github.com/Nandini05060/Deepfake_detector_AI",
+  "phase": "Phase 14",
+  "checkpoint": "checkpoints\\lxfd_phase10_modern_generators_best.pt",
+  "checkpoint_sha256": "13dc56b8961f8d0c2c56a9ac947ef4292f4a2a5ef613df3aeb950f087fddcc05",
+  "calibration_temperature": 1.634375000000002,
+  "representation_analysis": [
+    {
+      "generator": "Google_Gemini_Imagen3",
+      "sample_count": 17,
+      "mean_spatial_sim_to_real": 0.251,
+      "mean_frequency_sim_to_real": 0.9085,
+      "frequency_evaporation_ratio": 3.6199,
+      "mean_frequency_weight_wf": 0.259,
+      "mean_calibrated_fake_prob": 0.6246
+    },
+    {
+      "generator": "InsightFace_Swap",
+      "sample_count": 30,
+      "mean_spatial_sim_to_real": 0.1282,
+      "mean_frequency_sim_to_real": 0.9158,
+      "frequency_evaporation_ratio": 7.146,
+      "mean_frequency_weight_wf": 0.2587,
+      "mean_calibrated_fake_prob": 0.7553
+    },
+    {
+      "generator": "None_Real",
+      "sample_count": 120,
+      "mean_spatial_sim_to_real": 0.7572,
+      "mean_frequency_sim_to_real": 0.9326,
+      "frequency_evaporation_ratio": 1.2317,
+      "mean_frequency_weight_wf": 0.2553,
+      "mean_calibrated_fake_prob": 0.1145
+    },
+    {
+      "generator": "StableDiffusion_Inpainting",
+      "sample_count": 200,
+      "mean_spatial_sim_to_real": 0.3173,
+      "mean_frequency_sim_to_real": 0.9078,
+      "frequency_evaporation_ratio": 2.861,
+      "mean_frequency_weight_wf": 0.2604,
+      "mean_calibrated_fake_prob": 0.4801
+    },
+    {
+      "generator": "StableDiffusion_v1.5",
+      "sample_count": 30,
+      "mean_spatial_sim_to_real": 0.026,
+      "mean_frequency_sim_to_real": 0.9417,
+      "frequency_evaporation_ratio": 36.2315,
+      "mean_frequency_weight_wf": 0.2543,
+      "mean_calibrated_fake_prob": 0.8859
+    },
+    {
+      "generator": "StyleGAN2",
+      "sample_count": 60,
+      "mean_spatial_sim_to_real": -0.0002,
+      "mean_frequency_sim_to_real": 0.9266,
+      "frequency_evaporation_ratio": -4713.6022,
+      "mean_frequency_weight_wf": 0.2522,
+      "mean_calibrated_fake_prob": 0.9337
+    }
+  ],
+  "optical_guardrail_evaluation": {
+    "base_threshold": 0.55,
+    "baseline_real_specificity_pct": 94.17,
+    "baseline_real_fp_count": 7,
+    "baseline_fake_recall_pct": 65.88,
+    "guardrail_real_specificity_pct": 95.83,
+    "guardrail_real_fp_count": 5,
+    "guardrail_suppressed_real_fps": 2,
+    "guardrail_fake_recall_pct": 59.35,
+    "guardrail_fake_inconclusive_count": 22
+  },
+  "uncertainty_bandwidth_sweep": [
+    {
+      "band_name": "Narrow [0.48, 0.52]",
+      "low": 0.48,
+      "high": 0.52,
+      "decisive_accuracy": 75.39,
+      "decisive_specificity": 93.33,
+      "decisive_recall": 68.88,
+      "real_fp_count": 8,
+      "inconclusive_rate_total": 1.31,
+      "inconclusive_rate_real": 0.0,
+      "inconclusive_rate_gemini": 0.0
+    },
+    {
+      "band_name": "Standard [0.45, 0.55]",
+      "low": 0.45,
+      "high": 0.55,
+      "decisive_accuracy": 75.91,
+      "decisive_specificity": 94.12,
+      "decisive_recall": 69.16,
+      "real_fp_count": 7,
+      "inconclusive_rate_total": 3.72,
+      "inconclusive_rate_real": 0.83,
+      "inconclusive_rate_gemini": 11.76
+    },
+    {
+      "band_name": "Production Policy [0.40, 0.60]",
+      "low": 0.4,
+      "high": 0.6,
+      "decisive_accuracy": 76.2,
+      "decisive_specificity": 95.61,
+      "decisive_recall": 68.87,
+      "real_fp_count": 5,
+      "inconclusive_rate_total": 8.97,
+      "inconclusive_rate_real": 5.0,
+      "inconclusive_rate_gemini": 23.53
+    },
+    {
+      "band_name": "Conservative [0.35, 0.65]",
+      "low": 0.35,
+      "high": 0.65,
+      "decisive_accuracy": 77.46,
+      "decisive_specificity": 95.54,
+      "decisive_recall": 70.07,
+      "real_fp_count": 5,
+      "inconclusive_rate_total": 15.54,
+      "inconclusive_rate_real": 6.67,
+      "inconclusive_rate_gemini": 23.53
+    },
+    {
+      "band_name": "High-Safety [0.30, 0.70]",
+      "low": 0.3,
+      "high": 0.7,
+      "decisive_accuracy": 77.37,
+      "decisive_specificity": 95.41,
+      "decisive_recall": 69.48,
+      "real_fp_count": 5,
+      "inconclusive_rate_total": 21.66,
+      "inconclusive_rate_real": 9.17,
+      "inconclusive_rate_gemini": 29.41
+    }
+  ],
+  "calibration_audit": {
+    "validation": {
+      "sample_count": 242,
+      "ece_pct": 5.33,
+      "brier_score": 0.0628
+    },
+    "locked_test": {
+      "sample_count": 457,
+      "ece_pct": 24.37,
+      "brier_score": 0.1878
+    }
+  }
+}

@@ -1,0 +1,6 @@
+band_name,low,high,decisive_accuracy,decisive_specificity,decisive_recall,real_fp_count,inconclusive_rate_total,inconclusive_rate_real,inconclusive_rate_gemini
+"Narrow [0.48, 0.52]",0.48,0.52,75.39,93.33,68.88,8,1.31,0.0,0.0
+"Standard [0.45, 0.55]",0.45,0.55,75.91,94.12,69.16,7,3.72,0.83,11.76
+"Production Policy [0.40, 0.60]",0.4,0.6,76.2,95.61,68.87,5,8.97,5.0,23.53
+"Conservative [0.35, 0.65]",0.35,0.65,77.46,95.54,70.07,5,15.54,6.67,23.53
+"High-Safety [0.30, 0.70]",0.3,0.7,77.37,95.41,69.48,5,21.66,9.17,29.41

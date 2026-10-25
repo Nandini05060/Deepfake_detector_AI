@@ -1,0 +1,31 @@
+{
+  "experiment_id": "EXP-PHASE12-MULTISCALE-01",
+  "candidate_name": "LXDFD-MultiScale-12",
+  "base_checkpoint": "checkpoints\\lxfd_phase10_modern_generators_best.pt",
+  "target_checkpoint": "experiments/phase12_multiscale_v1/lxfd_multiscale12_best.pt",
+  "architecture": {
+    "path_a": "EfficientNet-B0 (224x224 Facial Detail)",
+    "path_b": "Shared EfficientNet-B0 (112x112 Global Facial Structure)",
+    "frequency_branch": "2D DCT Log-Magnitude Spectrum (224x224)",
+    "fusion": "MultiScaleSpatialFusion (Detail + Global + Frequency, min floor tau=0.20)",
+    "classifier": "Linear(256, 128) -> GELU -> Dropout(0.3) -> Linear(128, 1)"
+  },
+  "training": {
+    "epochs": 8,
+    "learning_rate": 3e-05,
+    "weight_decay": 0.0001,
+    "batch_size": 16,
+    "optimizer": "AdamW",
+    "scheduler": "CosineAnnealingLR",
+    "loss": "BCEWithLogitsLoss",
+    "random_seed": 42
+  },
+  "datasets": {
+    "train_csv": "data/splits_phase10/train.csv",
+    "train_samples": 1165,
+    "val_csv": "data/splits_phase10/val.csv",
+    "val_samples": 242,
+    "locked_test_manifest": "data/manifests/phase11_generator_manifest.csv",
+    "locked_test_samples": 457
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "audit_metadata": {
+    "audit_phase": "Phase 12A",
+    "execution_timestamp": "2026-10-25T15:45:00Z",
+    "device": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+    "cuda_available": true,
+    "pytorch_version": "2.6.0+cu124"
+  },
+  "checkpoint_verification": {
+    "active_checkpoint_path": "checkpoints/lxfd_phase10_modern_generators_best.pt",
+    "verified_sha256": "13dc56b8961f8d0c2c56a9ac947ef4292f4a2a5ef613df3aeb950f087fddcc05",
+    "hash_match_claimed": true,
+    "temperature_scaling_file": "checkpoints/calibration_params_phase10.json",
+    "temperature_T": 1.634375000000002,
+    "temperature_match_claimed": true
+  },
+  "dataset_split_summary": {
+    "manifest_path": "data/manifests/phase11_generator_manifest.csv",
+    "splits_evaluated": ["test_indomain", "test_unseen_inpaint", "test_locked", "test_gemini_heldout"],
+    "total_locked_test_samples": 457,
+    "synthetic_count": 337,
+    "real_count": 120,
+    "cohort_counts": {
+      "Google_Gemini_Imagen3": 17,
+      "StableDiffusion_Inpainting": 200,
+      "StableDiffusion_v1.5": 30,
+      "InsightFace_Swap": 30,
+      "StyleGAN2": 60,
+      "None_Real": 120
+    }
+  },
+  "overall_reproduced_metrics": {
+    "Spatial_Only": {
+      "roc_auc": 0.8526,
+      "accuracy": 0.5536,
+      "f1_score": 0.5870,
+      "precision": 0.9236,
+      "recall_fake": 0.4303,
+      "mean_p_fake": 0.3724
+    },
+    "Frequency_Only": {
+      "roc_auc": 0.6431,
+      "accuracy": 0.5864,
+      "f1_score": 0.6595,
+      "precision": 0.8394,
+      "recall_fake": 0.5430,
+      "mean_p_fake": 0.4717
+    },
+    "Equal_Weight_Average_Fusion": {
+      "roc_auc": 0.8386,
+      "accuracy": 0.6346,
+      "f1_score": 0.6890,
+      "precision": 0.9250,
+      "recall_fake": 0.5490,
+      "mean_p_fake": 0.4215
+    },
+    "Attention_Fusion_Active_Baseline": {
+      "roc_auc": 0.8544,
+      "accuracy": 0.5624,
+      "f1_score": 0.6000,
+      "precision": 0.9202,
+      "recall_fake": 0.4451,
+      "mean_p_fake": 0.3816
+    }
+  },
+  "per_generator_reproduced_metrics": {
+    "Google_Gemini_Imagen3": {
+      "sample_count": 17,
+      "spatial_recall": 0.1176,
+      "frequency_recall": 0.0588,
+      "attention_fusion_recall": 0.1176,
+      "equal_avg_recall": 0.1765,
+      "mean_spatial_p_fake": 0.2231,
+      "mean_frequency_p_fake": 0.0771,
+      "mean_attention_p_fake": 0.2134,
+      "mean_equal_avg_p_fake": 0.2458,
+      "mean_w_s": 0.9378,
+      "mean_w_f": 0.0622
+    },
+    "StableDiffusion_Inpainting": {
+      "sample_count": 200,
+      "spatial_recall": 0.2550,
+      "frequency_recall": 0.6850,
+      "attention_fusion_recall": 0.2800,
+      "equal_avg_recall": 0.6250,
+      "mean_spatial_p_fake": 0.3042,
+      "mean_frequency_p_fake": 0.6311,
+      "mean_attention_p_fake": 0.3226,
+      "mean_equal_avg_p_fake": 0.5188
+    },
+    "InsightFace_Swap": {
+      "sample_count": 30,
+      "spatial_recall": 0.5667,
+      "frequency_recall": 0.7667,
+      "attention_fusion_recall": 0.5333,
+      "equal_avg_recall": 0.7333,
+      "mean_spatial_p_fake": 0.5064,
+      "mean_frequency_p_fake": 0.6736,
+      "mean_attention_p_fake": 0.5261,
+      "mean_equal_avg_p_fake": 0.6214
+    },
+    "StableDiffusion_v1.5": {
+      "sample_count": 30,
+      "spatial_recall": 0.6000,
+      "frequency_recall": 0.3000,
+      "attention_fusion_recall": 0.6333,
+      "equal_avg_recall": 0.6000,
+      "mean_spatial_p_fake": 0.6800,
+      "mean_frequency_p_fake": 0.3030,
+      "mean_attention_p_fake": 0.6779,
+      "mean_equal_avg_p_fake": 0.5982
+    },
+    "StyleGAN2": {
+      "sample_count": 60,
+      "spatial_recall": 0.9500,
+      "frequency_recall": 0.2167,
+      "attention_fusion_recall": 0.9500,
+      "equal_avg_recall": 0.8667,
+      "mean_spatial_p_fake": 0.9467,
+      "mean_frequency_p_fake": 0.3238,
+      "mean_attention_p_fake": 0.9437,
+      "mean_equal_avg_p_fake": 0.8012
+    },
+    "None_Real": {
+      "sample_count": 120,
+      "spatial_specificity": 0.9000,
+      "frequency_specificity": 0.7083,
+      "attention_fusion_specificity": 0.8917,
+      "equal_avg_specificity": 0.8833,
+      "mean_spatial_p_fake": 0.1095,
+      "mean_frequency_p_fake": 0.3274,
+      "mean_attention_p_fake": 0.1124,
+      "mean_equal_avg_p_fake": 0.1345
+    }
+  },
+  "calibration_reproduced_metrics": {
+    "temperature": 1.6344,
+    "in_domain_ece": 0.0706,
+    "in_domain_brier": 0.1058,
+    "in_domain_nll": 0.3268,
+    "out_of_domain_ece": 0.3804,
+    "out_of_domain_brier": 0.3453,
+    "out_of_domain_nll": 1.0354
+  }
+}

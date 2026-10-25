@@ -1,0 +1,8 @@
+experiment_id,phase,description,dataset_split,key_metric_name,key_metric_value,real_specificity,status
+EXP-13A-BASE-VERIF,13A,Cryptographic Checkpoint Audit & Baseline Metric Reproduction,Locked Test (N=457),ROC-AUC,0.8544,0.8917,VERIFIED
+EXP-13B-THRESH-CALIB,13B,Validation-Only Operating Point Optimization & Temperature Calibration,Validation (N=242),Validation ECE,0.0769,0.925,COMPLETED
+EXP-13C-UNCERTAINTY,13C,"Safe 3-Way Decision Routing (LIKELY_REAL, LIKELY_FAKE, INCONCLUSIVE)",Validation & Test,Decisive Accuracy,0.8875,0.9412,COMPLETED
+EXP-13D-CROSS-GEN,13D,"Cross-Architecture Generalization Benchmark (GAN, Diffusion, Swap)",Locked Test (N=457 across 6 cohorts),Macro Recall,0.4926,0.9083,COMPLETED
+EXP-13E-FP-AUDIT,13E,Authentic Real Control Confounder & Specular Highlight Audit,Authentic Real Controls (N=120),Real Specificity,0.9083,0.9083,COMPLETED
+EXP-13F-PREPROC-ROBUST,13F,"Ablation of Anti-Aliased Bicubic, Crop Margins, Denoising, JPEG Q=75",Validation (N=242),Bicubic Val AUC,0.933,0.8917,COMPLETED
+EXP-13H-FINAL-COMPARE,13H,4-Model Comparative Benchmark Matrix on Locked Evaluation Split,Locked Test (N=457),Best Overall ROC-AUC,0.8556,0.9083,COMPLETED

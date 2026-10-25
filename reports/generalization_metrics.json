@@ -1,0 +1,120 @@
+{
+  "Baseline Policy": {
+    "real_specificity_decisive_pct": 96.94,
+    "fake_recall_decisive_pct": 67.43,
+    "real_false_positives": 3,
+    "fake_as_real_false_negatives": 57,
+    "inconclusive_count_real": 22,
+    "inconclusive_count_fake": 162,
+    "total_inconclusive": 184,
+    "cohort_breakdown": {
+      "Google_Gemini_Imagen3": {
+        "total": 17,
+        "fake_correct": 3,
+        "real_correct": 0,
+        "inconc": 6,
+        "fake_as_real": 8,
+        "real_as_fake": 0
+      },
+      "StableDiffusion_v1.5": {
+        "total": 30,
+        "fake_correct": 20,
+        "real_correct": 0,
+        "inconc": 9,
+        "fake_as_real": 1,
+        "real_as_fake": 0
+      },
+      "InsightFace_Swap": {
+        "total": 30,
+        "fake_correct": 10,
+        "real_correct": 0,
+        "inconc": 18,
+        "fake_as_real": 2,
+        "real_as_fake": 0
+      },
+      "StyleGAN2": {
+        "total": 60,
+        "fake_correct": 56,
+        "real_correct": 0,
+        "inconc": 4,
+        "fake_as_real": 0,
+        "real_as_fake": 0
+      },
+      "None_Real": {
+        "total": 120,
+        "fake_correct": 0,
+        "real_correct": 95,
+        "inconc": 22,
+        "fake_as_real": 0,
+        "real_as_fake": 3
+      },
+      "StableDiffusion_Inpainting": {
+        "total": 200,
+        "fake_correct": 29,
+        "real_correct": 0,
+        "inconc": 125,
+        "fake_as_real": 46,
+        "real_as_fake": 0
+      }
+    }
+  },
+  "Vigilant Safety Policy": {
+    "real_specificity_decisive_pct": 88.0,
+    "fake_recall_decisive_pct": 75.22,
+    "real_false_positives": 9,
+    "fake_as_real_false_negatives": 57,
+    "inconclusive_count_real": 45,
+    "inconclusive_count_fake": 107,
+    "total_inconclusive": 152,
+    "cohort_breakdown": {
+      "Google_Gemini_Imagen3": {
+        "total": 17,
+        "fake_correct": 8,
+        "real_correct": 0,
+        "inconc": 0,
+        "fake_as_real": 9,
+        "real_as_fake": 0
+      },
+      "StableDiffusion_v1.5": {
+        "total": 30,
+        "fake_correct": 24,
+        "real_correct": 0,
+        "inconc": 4,
+        "fake_as_real": 2,
+        "real_as_fake": 0
+      },
+      "InsightFace_Swap": {
+        "total": 30,
+        "fake_correct": 20,
+        "real_correct": 0,
+        "inconc": 6,
+        "fake_as_real": 4,
+        "real_as_fake": 0
+      },
+      "StyleGAN2": {
+        "total": 60,
+        "fake_correct": 60,
+        "real_correct": 0,
+        "inconc": 0,
+        "fake_as_real": 0,
+        "real_as_fake": 0
+      },
+      "None_Real": {
+        "total": 120,
+        "fake_correct": 0,
+        "real_correct": 66,
+        "inconc": 45,
+        "fake_as_real": 0,
+        "real_as_fake": 9
+      },
+      "StableDiffusion_Inpainting": {
+        "total": 200,
+        "fake_correct": 61,
+        "real_correct": 0,
+        "inconc": 97,
+        "fake_as_real": 42,
+        "real_as_fake": 0
+      }
+    }
+  }
+}

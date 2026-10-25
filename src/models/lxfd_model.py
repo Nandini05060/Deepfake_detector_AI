@@ -60,11 +60,13 @@ class LXDFDModel(nn.Module):
         dropout: float = 0.3,
         spectral_dropout: bool = False,
         spectral_dropout_p: float = 0.2,
+        min_floor: float = 0.05,
         num_classes: int = 1
     ):
         super().__init__()
         self.embed_dim = embed_dim
         self.fusion_type = fusion_type
+        self.min_floor = min_floor
         
         self.spatial_branch = SpatialBranch(embed_dim=embed_dim, pretrained=pretrained, dropout=dropout)
         self.frequency_branch = FrequencyBranch(
@@ -74,7 +76,7 @@ class LXDFDModel(nn.Module):
             spectral_dropout=spectral_dropout,
             spectral_dropout_p=spectral_dropout_p
         )
-        self.fusion = SpatialFrequencyFusion(embed_dim=embed_dim, fusion_type=fusion_type)
+        self.fusion = SpatialFrequencyFusion(embed_dim=embed_dim, fusion_type=fusion_type, min_floor=min_floor)
         
         # Classifier Head
         in_classifier_dim = embed_dim * 2 if fusion_type == 'concat' else embed_dim

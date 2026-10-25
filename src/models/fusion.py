@@ -11,10 +11,11 @@ class SpatialFrequencyFusion(nn.Module):
     - weighted (Learnable Static Scalar Fusion: w_s + w_f = 1)
     - attention (Adaptive Dynamic Attention Fusion: w_s + w_f = 1 per sample)
     """
-    def __init__(self, embed_dim: int = 256, fusion_type: str = 'attention'):
+    def __init__(self, embed_dim: int = 256, fusion_type: str = 'attention', min_floor: float = 0.05):
         super().__init__()
         self.embed_dim = embed_dim
         self.fusion_type = fusion_type.lower()
+        self.min_floor = min_floor
         
         if self.fusion_type == 'weighted':
             # Raw logit parameters for w_s and w_f
@@ -56,10 +57,9 @@ class SpatialFrequencyFusion(nn.Module):
             attn_logits = self.attention_net(combined) # (B, 2)
             raw_weights = F.softmax(attn_logits, dim=1) # (B, 2) -> [w_s, w_f] per sample
             
-            # Prevent complete modality starvation by enforcing a 5% minimum floor per branch
+            # Prevent complete modality starvation by enforcing a minimum floor per branch
             # w_bounded = min_floor + (1 - 2*min_floor) * raw_weights
-            min_floor = 0.05
-            attn_weights = min_floor + (1.0 - 2.0 * min_floor) * raw_weights
+            attn_weights = self.min_floor + (1.0 - 2.0 * self.min_floor) * raw_weights
             
             w_s = attn_weights[:, 0:1] # (B, 1)
             w_f = attn_weights[:, 1:2] # (B, 1)
