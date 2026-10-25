@@ -1,0 +1,71 @@
+{
+  "total_images": 1878,
+  "split_counts": {
+    "train": 1180,
+    "test": 450,
+    "validation": 248
+  },
+  "label_counts": {
+    "FAKE": 1044,
+    "REAL": 834
+  },
+  "split_label_breakdown": {
+    "train": {
+      "total": 1180,
+      "real": 590,
+      "fake": 590,
+      "generators": {
+        "FFHQ_Real": 490,
+        "StyleGAN2": 300,
+        "InsightFace_Swap": 140,
+        "StableDiffusion_v1.5": 140,
+        "IMDB_WIKI": 100,
+        "Google_Gemini_Imagen3": 10
+      }
+    },
+    "validation": {
+      "total": 248,
+      "real": 124,
+      "fake": 124,
+      "generators": {
+        "FFHQ_Real": 84,
+        "StyleGAN2": 60,
+        "IMDB_WIKI": 40,
+        "StableDiffusion_v1.5": 30,
+        "InsightFace_Swap": 30,
+        "Google_Gemini_Imagen3": 4
+      }
+    },
+    "test": {
+      "total": 450,
+      "real": 120,
+      "fake": 330,
+      "generators": {
+        "StableDiffusion_Inpainting": 200,
+        "StyleGAN2": 60,
+        "IMDB_WIKI": 60,
+        "FFHQ_Real": 60,
+        "StableDiffusion_v1.5": 30,
+        "InsightFace_Swap": 30,
+        "Google_Gemini_Imagen3": 10
+      }
+    }
+  },
+  "generator_breakdown": {
+    "FFHQ_Real": 634,
+    "StyleGAN2": 420,
+    "StableDiffusion_v1.5": 200,
+    "StableDiffusion_Inpainting": 200,
+    "InsightFace_Swap": 200,
+    "IMDB_WIKI": 200,
+    "Google_Gemini_Imagen3": 24
+  },
+  "held_out_unseen_generators": [
+    "StableDiffusion_Inpainting"
+  ],
+  "gemini_counts": {
+    "train": 10,
+    "test": 10,
+    "validation": 4
+  }
+}

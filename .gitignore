@@ -16,6 +16,10 @@ data/raw/
 data/pilot_phase7/processed/
 data/external/*
 !data/external/.gitkeep
+data/verified_faces/**/*.jpg
+data/verified_faces/**/*.png
+!data/verified_faces/**/*.csv
+!data/verified_faces/**/.gitkeep
 
 # Checkpoints (weights)
 *.pt
