@@ -352,6 +352,24 @@ def list_models():
                 "checkpoint": "checkpoints/lxfd_phase10_modern_generators_best.pt",
                 "temperature": 1.6344,
                 "note": "High specificity on authentic faces (84.9%), but produces low fake probabilities or Inconclusive on Gemini."
+            },
+            {
+                "id": "lxfd_attention",
+                "name": "LX-DFD Attention Fusion (Active Engine Alias)",
+                "type": "active_alias",
+                "description": "Active dual-branch attention model",
+                "params": "6.8M",
+                "recommended": True,
+                "is_active": True
+            },
+            {
+                "id": "lxfd_multiscale12",
+                "name": "Phase 12 MultiScale Baseline",
+                "type": "historical",
+                "description": "Historical Multi-Scale Reference",
+                "params": "6.8M",
+                "recommended": False,
+                "is_active": False
             }
         ]
     }

@@ -119,14 +119,14 @@ class LXDFDPredictor:
             final_decision = "INCONCLUSIVE"
             confidence_level = "LOW"
             empirical_reliability = "LOW (Face Localization Unverified)"
-            confidence = float(max(fake_prob, real_prob))
+            confidence = float(min(fake_prob, real_prob))
             is_uncertain = True
         elif in_uncertainty_band:
             prediction = "INCONCLUSIVE"
             final_decision = "INCONCLUSIVE"
             confidence_level = "LOW"
             empirical_reliability = "LOW (Decision Boundary Region: 0.40 - 0.60)"
-            confidence = float(max(fake_prob, real_prob))
+            confidence = float(min(fake_prob, real_prob))
             is_uncertain = True
         elif high_discrepancy:
             # Check if branches agree on the same side of the decision threshold
@@ -145,7 +145,7 @@ class LXDFDPredictor:
                     final_decision = "INCONCLUSIVE"
                     confidence_level = "LOW"
                     empirical_reliability = "LOW (Modality Divergence: Spectral Suspicion with Spatial Blindness)"
-                    confidence = float(max(fake_prob, real_prob))
+                    confidence = float(min(fake_prob, real_prob))
                     is_uncertain = True
                 else:
                     prediction = "REAL"
@@ -167,7 +167,7 @@ class LXDFDPredictor:
                 final_decision = "INCONCLUSIVE"
                 confidence_level = "LOW"
                 empirical_reliability = "LOW (Branch Divergence: Spatial vs Frequency Contradiction)"
-                confidence = float(max(fake_prob, real_prob))
+                confidence = float(min(fake_prob, real_prob))
                 is_uncertain = True
         elif fake_prob >= self.decision_threshold:
             prediction = "FAKE"

@@ -1,0 +1,438 @@
+{
+  "report_title": "LX-DFD Phase 16 Multi-Image Diagnostic Comparison",
+  "checkpoint": {
+    "version": "phase15",
+    "path": "experiments/phase15_gemini_generalization/lxfd_phase15_generalization_best.pt",
+    "sha256": "2552ab2b8fdc9b61792e85b8c9519b3bde59fd33b238b2e2528907f3186c9ea5",
+    "temperature": 0.7168945312499998,
+    "calibrated": true
+  },
+  "comparison_records": [
+    {
+      "sample_id": "gemini_problematic_user_upload",
+      "description": "Uploaded Gemini-generated portrait with skin realism",
+      "file_path": "data/diagnostic_uploads/gemini_user_uploaded_portrait.jpg",
+      "ground_truth": "FAKE",
+      "image_properties": {
+        "width": 1024,
+        "height": 558,
+        "aspect_ratio": 1.8351
+      },
+      "yunet_detection": {
+        "face_detected": true,
+        "face_bbox": [
+          391,
+          94,
+          246,
+          337
+        ],
+        "face_height_ratio": 0.6039
+      },
+      "standard_crop_margin_0_50": {
+        "crop_coords": [
+          268,
+          0,
+          760,
+          558
+        ],
+        "crop_width": 492,
+        "crop_height": 558,
+        "crop_aspect_ratio": 0.8817,
+        "is_vertically_clamped": true,
+        "is_horizontally_clamped": false,
+        "raw_logits": {
+          "spatial_branch_logit": -4.8565,
+          "frequency_branch_logit": -0.2796,
+          "fused_logit": -3.7624
+        },
+        "attention_weights": {
+          "spatial_weight_ws": 0.7485,
+          "frequency_weight_wf": 0.2515
+        },
+        "branch_probabilities": {
+          "spatial_fake_probability": 0.0077,
+          "frequency_fake_probability": 0.4306,
+          "branch_discrepancy": 0.4228
+        },
+        "probabilities": {
+          "raw_fake_probability": 0.0227,
+          "calibrated_fake_probability": 0.0052,
+          "calibrated_real_probability": 0.9948
+        },
+        "verdict": {
+          "classification": "INCONCLUSIVE",
+          "confidence_level": "LOW",
+          "empirical_reliability": "LOW (Modality Divergence: Spectral Suspicion with Spatial Blindness)",
+          "is_uncertain": true
+        }
+      },
+      "extended_crop_margin_0_75": {
+        "crop_coords": [
+          207,
+          0,
+          821,
+          558
+        ],
+        "spatial_fake_probability": 0.9048,
+        "frequency_fake_probability": 0.4506,
+        "calibrated_fake_probability": 0.9061,
+        "classification": "LIKELY_FAKE"
+      }
+    },
+    {
+      "sample_id": "gemini_benchmark_sample",
+      "description": "Known working benchmark Gemini Imagen 3 sample",
+      "file_path": "samples/gemini_imagen3_sample.png",
+      "ground_truth": "FAKE",
+      "image_properties": {
+        "width": 2816,
+        "height": 1536,
+        "aspect_ratio": 1.8333
+      },
+      "yunet_detection": {
+        "face_detected": true,
+        "face_bbox": [
+          1314,
+          476,
+          563,
+          560
+        ],
+        "face_height_ratio": 0.3646
+      },
+      "standard_crop_margin_0_50": {
+        "crop_coords": [
+          1033,
+          196,
+          2158,
+          1316
+        ],
+        "crop_width": 1125,
+        "crop_height": 1120,
+        "crop_aspect_ratio": 1.0045,
+        "is_vertically_clamped": false,
+        "is_horizontally_clamped": false,
+        "raw_logits": {
+          "spatial_branch_logit": 7.2727,
+          "frequency_branch_logit": -0.7647,
+          "fused_logit": 5.3432
+        },
+        "attention_weights": {
+          "spatial_weight_ws": 0.7494,
+          "frequency_weight_wf": 0.2506
+        },
+        "branch_probabilities": {
+          "spatial_fake_probability": 0.9993,
+          "frequency_fake_probability": 0.3176,
+          "branch_discrepancy": 0.6817
+        },
+        "probabilities": {
+          "raw_fake_probability": 0.9952,
+          "calibrated_fake_probability": 0.9994,
+          "calibrated_real_probability": 0.0006
+        },
+        "verdict": {
+          "classification": "LIKELY_FAKE",
+          "confidence_level": "MODERATE",
+          "empirical_reliability": "MODERATE (Single Modality Dominant Manipulation Evidence)",
+          "is_uncertain": false
+        }
+      },
+      "extended_crop_margin_0_75": {
+        "crop_coords": [
+          892,
+          56,
+          2299,
+          1456
+        ],
+        "spatial_fake_probability": 0.9992,
+        "frequency_fake_probability": 0.3236,
+        "calibrated_fake_probability": 0.9994,
+        "classification": "LIKELY_FAKE"
+      }
+    },
+    {
+      "sample_id": "gemini_p11_08",
+      "description": "Phase 11 held-out Gemini test portrait 08",
+      "file_path": "data/gemini_dataset/phase11/gemini_p11_08_1792780802191.jpg",
+      "ground_truth": "FAKE",
+      "image_properties": {
+        "width": 1024,
+        "height": 1024,
+        "aspect_ratio": 1.0
+      },
+      "yunet_detection": {
+        "face_detected": true,
+        "face_bbox": [
+          415,
+          368,
+          201,
+          295
+        ],
+        "face_height_ratio": 0.2881
+      },
+      "standard_crop_margin_0_50": {
+        "crop_coords": [
+          315,
+          221,
+          716,
+          810
+        ],
+        "crop_width": 401,
+        "crop_height": 589,
+        "crop_aspect_ratio": 0.6808,
+        "is_vertically_clamped": false,
+        "is_horizontally_clamped": false,
+        "raw_logits": {
+          "spatial_branch_logit": 5.867,
+          "frequency_branch_logit": -0.1497,
+          "fused_logit": 4.2916
+        },
+        "attention_weights": {
+          "spatial_weight_ws": 0.7456,
+          "frequency_weight_wf": 0.2544
+        },
+        "branch_probabilities": {
+          "spatial_fake_probability": 0.9972,
+          "frequency_fake_probability": 0.4626,
+          "branch_discrepancy": 0.5345
+        },
+        "probabilities": {
+          "raw_fake_probability": 0.9865,
+          "calibrated_fake_probability": 0.9975,
+          "calibrated_real_probability": 0.0025
+        },
+        "verdict": {
+          "classification": "LIKELY_FAKE",
+          "confidence_level": "MODERATE",
+          "empirical_reliability": "MODERATE (Single Modality Dominant Manipulation Evidence)",
+          "is_uncertain": false
+        }
+      },
+      "extended_crop_margin_0_75": {
+        "crop_coords": [
+          265,
+          147,
+          766,
+          884
+        ],
+        "spatial_fake_probability": 0.9992,
+        "frequency_fake_probability": 0.4808,
+        "calibrated_fake_probability": 0.9993,
+        "classification": "LIKELY_FAKE"
+      }
+    },
+    {
+      "sample_id": "ffhq_real_control_00699",
+      "description": "Verified authentic camera portrait from FFHQ",
+      "file_path": "data/verified_faces/validation/real/FFHQ_Real_00699.jpg",
+      "ground_truth": "REAL",
+      "image_properties": {
+        "width": 256,
+        "height": 256,
+        "aspect_ratio": 1.0
+      },
+      "yunet_detection": {
+        "face_detected": true,
+        "face_bbox": [
+          55,
+          46,
+          143,
+          182
+        ],
+        "face_height_ratio": 0.7109
+      },
+      "standard_crop_margin_0_50": {
+        "crop_coords": [
+          0,
+          0,
+          256,
+          256
+        ],
+        "crop_width": 256,
+        "crop_height": 256,
+        "crop_aspect_ratio": 1.0,
+        "is_vertically_clamped": true,
+        "is_horizontally_clamped": true,
+        "raw_logits": {
+          "spatial_branch_logit": -6.4101,
+          "frequency_branch_logit": -1.0536,
+          "fused_logit": -5.2095
+        },
+        "attention_weights": {
+          "spatial_weight_ws": 0.749,
+          "frequency_weight_wf": 0.251
+        },
+        "branch_probabilities": {
+          "spatial_fake_probability": 0.0016,
+          "frequency_fake_probability": 0.2585,
+          "branch_discrepancy": 0.2569
+        },
+        "probabilities": {
+          "raw_fake_probability": 0.0054,
+          "calibrated_fake_probability": 0.0007,
+          "calibrated_real_probability": 0.9993
+        },
+        "verdict": {
+          "classification": "LIKELY_REAL",
+          "confidence_level": "MODERATE",
+          "empirical_reliability": "MODERATE (Artifact Absence vs True Authenticity)",
+          "is_uncertain": false
+        }
+      },
+      "extended_crop_margin_0_75": {
+        "crop_coords": [
+          0,
+          0,
+          256,
+          256
+        ],
+        "spatial_fake_probability": 0.0016,
+        "frequency_fake_probability": 0.2585,
+        "calibrated_fake_probability": 0.0007,
+        "classification": "LIKELY_REAL"
+      }
+    },
+    {
+      "sample_id": "ffhq_real_control_00700",
+      "description": "Verified authentic camera portrait from FFHQ (challenging lighting)",
+      "file_path": "data/verified_faces/validation/real/FFHQ_Real_00700.jpg",
+      "ground_truth": "REAL",
+      "image_properties": {
+        "width": 256,
+        "height": 256,
+        "aspect_ratio": 1.0
+      },
+      "yunet_detection": {
+        "face_detected": true,
+        "face_bbox": [
+          39,
+          42,
+          137,
+          188
+        ],
+        "face_height_ratio": 0.7344
+      },
+      "standard_crop_margin_0_50": {
+        "crop_coords": [
+          0,
+          0,
+          244,
+          256
+        ],
+        "crop_width": 244,
+        "crop_height": 256,
+        "crop_aspect_ratio": 0.9531,
+        "is_vertically_clamped": true,
+        "is_horizontally_clamped": true,
+        "raw_logits": {
+          "spatial_branch_logit": -7.4447,
+          "frequency_branch_logit": -0.6121,
+          "fused_logit": -5.8167
+        },
+        "attention_weights": {
+          "spatial_weight_ws": 0.7479,
+          "frequency_weight_wf": 0.2521
+        },
+        "branch_probabilities": {
+          "spatial_fake_probability": 0.0006,
+          "frequency_fake_probability": 0.3516,
+          "branch_discrepancy": 0.351
+        },
+        "probabilities": {
+          "raw_fake_probability": 0.003,
+          "calibrated_fake_probability": 0.0003,
+          "calibrated_real_probability": 0.9997
+        },
+        "verdict": {
+          "classification": "INCONCLUSIVE",
+          "confidence_level": "LOW",
+          "empirical_reliability": "LOW (Modality Divergence: Spectral Suspicion with Spatial Blindness)",
+          "is_uncertain": true
+        }
+      },
+      "extended_crop_margin_0_75": {
+        "crop_coords": [
+          0,
+          0,
+          256,
+          256
+        ],
+        "spatial_fake_probability": 0.0006,
+        "frequency_fake_probability": 0.3508,
+        "calibrated_fake_probability": 0.0003,
+        "classification": "INCONCLUSIVE"
+      }
+    },
+    {
+      "sample_id": "imdb_wiki_real_control_0100",
+      "description": "Verified authentic historical photograph from IMDB-WIKI",
+      "file_path": "data/verified_faces/validation/real/IMDB_WIKI_IMDB_WIKI_real_0100.jpg",
+      "ground_truth": "REAL",
+      "image_properties": {
+        "width": 440,
+        "height": 660,
+        "aspect_ratio": 0.6667
+      },
+      "yunet_detection": {
+        "face_detected": true,
+        "face_bbox": [
+          119,
+          114,
+          217,
+          305
+        ],
+        "face_height_ratio": 0.4621
+      },
+      "standard_crop_margin_0_50": {
+        "crop_coords": [
+          11,
+          0,
+          440,
+          571
+        ],
+        "crop_width": 429,
+        "crop_height": 571,
+        "crop_aspect_ratio": 0.7513,
+        "is_vertically_clamped": true,
+        "is_horizontally_clamped": true,
+        "raw_logits": {
+          "spatial_branch_logit": -5.4951,
+          "frequency_branch_logit": -0.3259,
+          "fused_logit": -4.3016
+        },
+        "attention_weights": {
+          "spatial_weight_ws": 0.7487,
+          "frequency_weight_wf": 0.2513
+        },
+        "branch_probabilities": {
+          "spatial_fake_probability": 0.0041,
+          "frequency_fake_probability": 0.4192,
+          "branch_discrepancy": 0.4151
+        },
+        "probabilities": {
+          "raw_fake_probability": 0.0134,
+          "calibrated_fake_probability": 0.0025,
+          "calibrated_real_probability": 0.9975
+        },
+        "verdict": {
+          "classification": "INCONCLUSIVE",
+          "confidence_level": "LOW",
+          "empirical_reliability": "LOW (Modality Divergence: Spectral Suspicion with Spatial Blindness)",
+          "is_uncertain": true
+        }
+      },
+      "extended_crop_margin_0_75": {
+        "crop_coords": [
+          0,
+          0,
+          440,
+          647
+        ],
+        "spatial_fake_probability": 0.0648,
+        "frequency_fake_probability": 0.4168,
+        "calibrated_fake_probability": 0.049,
+        "classification": "INCONCLUSIVE"
+      }
+    }
+  ]
+}
