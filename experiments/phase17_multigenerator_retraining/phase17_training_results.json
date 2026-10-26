@@ -1,0 +1,116 @@
+{
+  "metadata": {
+    "model_id": "phase17",
+    "model_name": "LX-DFD Phase 17 Multi-Generator Retrained",
+    "checkpoint_path": "experiments/phase17_multigenerator_retraining/lxfd_phase17_best.pt",
+    "checkpoint_sha256": "92157690ff27268892b6ed3b73c6f664fafc3963d55f78b56cddeb993421f863",
+    "best_epoch": 2,
+    "training_duration_seconds": 344.21,
+    "calibrated_temperature": 1.1599,
+    "calibrated_threshold": 0.54,
+    "device": "cuda:0"
+  },
+  "training_history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.381,
+      "val_roc_auc": 0.9869,
+      "val_decisive_acc": 0.5,
+      "val_decisive_spec": 0.0,
+      "val_decisive_recall": 0.8,
+      "composite_score": 0.5948,
+      "time_seconds": 41.37
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.248,
+      "val_roc_auc": 0.9908,
+      "val_decisive_acc": 1.0,
+      "val_decisive_spec": 0.0,
+      "val_decisive_recall": 1.0,
+      "composite_score": 0.6463,
+      "time_seconds": 35.59
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.217,
+      "val_roc_auc": 0.9902,
+      "val_decisive_acc": 0.4,
+      "val_decisive_spec": 0.0,
+      "val_decisive_recall": 0.6667,
+      "composite_score": 0.5628,
+      "time_seconds": 36.78
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.2063,
+      "val_roc_auc": 0.9909,
+      "val_decisive_acc": 0.75,
+      "val_decisive_spec": 0.0,
+      "val_decisive_recall": 0.75,
+      "composite_score": 0.5839,
+      "time_seconds": 34.02
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.2176,
+      "val_roc_auc": 0.9901,
+      "val_decisive_acc": 0.6667,
+      "val_decisive_spec": 0.0,
+      "val_decisive_recall": 1.0,
+      "composite_score": 0.646,
+      "time_seconds": 33.19
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.1873,
+      "val_roc_auc": 0.9916,
+      "val_decisive_acc": 0.4,
+      "val_decisive_spec": 0.0,
+      "val_decisive_recall": 0.6667,
+      "composite_score": 0.5633,
+      "time_seconds": 33.0
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.1962,
+      "val_roc_auc": 0.9919,
+      "val_decisive_acc": 0.6667,
+      "val_decisive_spec": 0.0,
+      "val_decisive_recall": 0.6667,
+      "composite_score": 0.5634,
+      "time_seconds": 33.71
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.1926,
+      "val_roc_auc": 0.9916,
+      "val_decisive_acc": 0.4,
+      "val_decisive_spec": 0.0,
+      "val_decisive_recall": 0.6667,
+      "composite_score": 0.5633,
+      "time_seconds": 33.36
+    }
+  ],
+  "best_validation_metrics": {
+    "roc_auc": 0.9908,
+    "pr_auc": 0.9935,
+    "brier_score": 0.0384,
+    "ece": 0.0272,
+    "binary_accuracy": 0.9556,
+    "binary_specificity": 0.9597,
+    "binary_recall": 0.9527,
+    "binary_f1": 0.9612,
+    "decisive_accuracy": 1.0,
+    "decisive_recall": 1.0,
+    "decisive_specificity": 0.0,
+    "coverage": 0.0034,
+    "inconclusive_rate": 0.9966,
+    "cm_decisive": {
+      "tn": 0,
+      "fp": 0,
+      "fn": 0,
+      "tp": 1
+    },
+    "cm_binary": {
+      "tn": 

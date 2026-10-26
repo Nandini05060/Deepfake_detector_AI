@@ -16,9 +16,14 @@ class TestPhase11VerificationSuite(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.client = TestClient(app)
+        cls.client.post("/model/switch", json={"version": "phase10"})
         cls.checkpoint_path = Path("checkpoints/lxfd_phase10_modern_generators_best.pt")
         cls.expected_sha256 = "13dc56b8961f8d0c2c56a9ac947ef4292f4a2a5ef613df3aeb950f087fddcc05"
         cls.calibration_path = Path("checkpoints/calibration_params_phase10.json")
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.client.post("/model/switch", json={"version": "phase16"})
 
     # 1. Checkpoint Loading & Hash Authentication
     def test_checkpoint_existence_and_sha256_authentication(self):

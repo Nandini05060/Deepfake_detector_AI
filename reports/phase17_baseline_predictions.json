@@ -1,0 +1,674 @@
+{
+  "diagnostic_image": {
+    "filepath": "C:\\Users\\nandi\\Desktop\\DEEPFAKE DETECTION\\data\\diagnostics\\gemini_failure.png",
+    "sha256": "944cb50e9187a22a46dc6232387aa6769d4513c4654b141832b1eec04cd377fa",
+    "dimensions": [
+      2816,
+      1536
+    ],
+    "ground_truth": "FAKE",
+    "generator": "Google Gemini Imagen 3"
+  },
+  "evaluations": {
+    "Phase 16 Unified Best": {
+      "checkpoint_path": "C:\\Users\\nandi\\Desktop\\DEEPFAKE DETECTION\\experiments\\phase16_unified_generalization\\lxfd_phase16_unified_best.pt",
+      "checkpoint_sha256": "4e7b7747f4a3108f308958c8c15952a2be67f14935543da4bdeec648af22acf1",
+      "calibration_path": "C:\\Users\\nandi\\Desktop\\DEEPFAKE DETECTION\\experiments\\phase16_unified_generalization\\calibration_params_phase16.json",
+      "temperature": 1.0859375,
+      "threshold": 0.5,
+      "margin_evaluations": {
+        "margin_0.15": {
+          "margin": 0.15,
+          "face_detected": true,
+          "face_bbox": [
+            1037,
+            310,
+            571,
+            619
+          ],
+          "crop_coords": [
+            952,
+            218,
+            1693,
+            1021
+          ],
+          "spatial_branch": {
+            "logit": -8.5791,
+            "probability": 0.0002,
+            "attention_weight_ws": 0.7488
+          },
+          "frequency_branch": {
+            "logit": 0.1029,
+            "probability": 0.5257,
+            "attention_weight_wf": 0.2512
+          },
+          "fused": {
+            "logit": -6.5234,
+            "raw_probability": 0.0015,
+            "calibrated_fake_probability": 0.0025,
+            "calibrated_real_probability": 0.9975
+          },
+          "branch_discrepancy": 0.5255,
+          "high_discrepancy_trigger": true,
+          "uncertainty_band_trigger": false,
+          "decision_threshold": 0.5,
+          "calibration_temperature": 1.0859375,
+          "uncertainty_status": true,
+          "empirical_reliability": "LOW (Branch Divergence: Spatial vs Frequency Contradiction)",
+          "prediction": "INCONCLUSIVE",
+          "final_decision": "INCONCLUSIVE"
+        },
+        "margin_0.50": {
+          "margin": 0.5,
+          "face_detected": true,
+          "face_bbox": [
+            1037,
+            310,
+            571,
+            619
+          ],
+          "crop_coords": [
+            752,
+            1,
+            1893,
+            1238
+          ],
+          "spatial_branch": {
+            "logit": -2.6089,
+            "probability": 0.0686,
+            "attention_weight_ws": 0.7487
+          },
+          "frequency_branch": {
+            "logit": -0.2614,
+            "probability": 0.435,
+            "attention_weight_wf": 0.2513
+          },
+          "fused": {
+            "logit": -2.0092,
+            "raw_probability": 0.1182,
+            "calibrated_fake_probability": 0.1359,
+            "calibrated_real_probability": 0.8641
+          },
+          "branch_discrepancy": 0.3665,
+          "high_discrepancy_trigger": true,
+          "uncertainty_band_trigger": false,
+          "decision_threshold": 0.5,
+          "calibration_temperature": 1.0859375,
+          "uncertainty_status": true,
+          "empirical_reliability": "LOW (Modality Divergence: Spectral Suspicion with Spatial Blindness)",
+          "prediction": "INCONCLUSIVE",
+          "final_decision": "INCONCLUSIVE"
+        },
+        "margin_0.75": {
+          "margin": 0.75,
+          "face_detected": true,
+          "face_bbox": [
+            1037,
+            310,
+            571,
+            619
+          ],
+          "crop_coords": [
+            609,
+            0,
+            2036,
+            1393
+          ],
+          "spatial_branch": {
+            "logit": 2.4803,
+            "probability": 0.9228,
+            "attention_weight_ws": 0.7486
+          },
+          "frequency_branch": {
+            "logit": -0.221,
+            "probability": 0.445,
+            "attention_weight_wf": 0.2514
+          },
+          "fused": {
+            "logit": 1.8543,
+            "raw_probability": 0.8646,
+            "calibrated_fake_probability": 0.8465,
+            "calibrated_real_probability": 0.1535
+          },
+          "branch_discrepancy": 0.4778,
+          "high_discrepancy_trigger": true,
+          "uncertainty_band_trigger": false,
+          "decision_threshold": 0.5,
+          "calibration_temperature": 1.0859375,
+          "uncertainty_status": false,
+          "empirical_reliability": "MODERATE (Single Modality Dominant Manipulation Evidence)",
+          "prediction": "FAKE",
+          "final_decision": "LIKELY_FAKE"
+        }
+      }
+    },
+    "Phase 15 Gemini Candidate": {
+      "checkpoint_path": "C:\\Users\\nandi\\Desktop\\DEEPFAKE DETECTION\\experiments\\phase15_gemini_generalization\\lxfd_phase15_generalization_best.pt",
+      "checkpoint_sha256": "2552ab2b8fdc9b61792e85b8c9519b3bde59fd33b238b2e2528907f3186c9ea5",
+      "calibration_path": "C:\\Users\\nandi\\Desktop\\DEEPFAKE DETECTION\\experiments\\phase15_gemini_generalization\\calibration_params_phase15.json",
+      "temperature": 0.7168945312499998,
+      "threshold": 0.5,
+      "margin_evaluations": {
+        "margin_0.15": {
+          "margin": 0.15,
+          "face_detected": true,
+          "face_bbox": [
+            1037,
+            310,
+            571,
+            619
+          ],
+          "crop_coords": [
+            952,
+            218,
+            1693,
+            1021
+          ],
+          "spatial_branch": {
+            "logit": -7.9456,
+            "probability": 0.0004,
+            "attention_weight_ws": 0.7487
+          },
+          "frequency_branch": {
+            "logit": 0.3103,
+            "probability": 0.577,
+            "attention_weight_wf": 0.2513
+          },
+          "fused": {
+            "logit": -5.919,
+            "raw_probability": 0.0027,
+            "calibrated_fake_probability": 0.0003,
+            "calibrated_real_probability": 0.9997
+          },
+          "branch_discrepancy": 0.5766,
+          "high_discrepancy_trigger": true,
+          "uncertainty_band_trigger": false,
+          "decision_threshold": 0.5,
+          "calibration_temperature": 0.7168945312499998,
+          "uncertainty_status": true,
+          "empirical_reliability": "LOW (Branch Divergence: Spatial vs Frequency Contradiction)",
+          "prediction": "INCONCLUSIVE",
+          "final_decision": "INCONCLUSIVE"
+        },
+        "margin_0.50": {
+          "margin": 0.5,
+          "face_detected": true,
+          "face_bbox": [
+            1037,
+            310,
+            571,
+            619
+          ],
+          "crop_coords": [
+            752,
+            1,
+            1893,
+            1238
+          ],
+          "spatial_branch": {
+            "logit": -0.2586,
+            "probability": 0.4357,
+            "attention_weight_ws": 0.7489
+          },
+          "frequency_branch": {
+            "logit": 0.0401,
+            "probability": 0.51,
+            "attention_weight_wf": 0.2511
+          },
+          "fused": {
+            "logit": -0.1913,
+            "raw_probability": 0.4523,
+            "calibrated_fake_probability": 0.4337,
+            "calibrated_real_probability": 0.5663
+          },
+          "branch_discrepancy": 0.0743,
+          "high_discrepancy_trigger": false,
+          "uncertainty_band_trigger": true,
+          "decision_threshold": 0.5,
+          "calibration_temperature": 0.7168945312499998,
+          "uncertainty_status": true,
+          "empirical_reliability": "LOW (Decision Boundary Region: 0.40 - 0.60)",
+          "prediction": "INCONCLUSIVE",
+          "final_decision": "INCONCLUSIVE"
+        },
+        "margin_0.75": {
+          "margin": 0.75,
+          "face_detected": true,
+          "face_bbox": [
+            1037,
+            310,
+            571,
+            619
+          ],
+          "crop_coords": [
+            609,
+            0,
+            2036,
+            1393
+          ],
+          "spatial_branch": {
+            "logit": 5.1033,
+            "probability": 0.994,
+            "attention_weight_ws": 0.7492
+          },
+          "frequency_branch": {
+            "logit": 0.035,
+            "probability": 0.5087,
+            "attention_weight_wf": 0.2508
+          },
+          "fused": {
+            "logit": 3.8849,
+            "raw_probability": 0.9799,
+            "calibrated_fake_probability": 0.9956,
+            "calibrated_real_probability": 0.0044
+          },
+          "branch_discrepancy": 0.4852,
+          "high_discrepancy_trigger": true,
+          "uncertainty_band_trigger": false,
+          "decision_threshold": 0.5,
+          "calibration_temperature": 0.7168945312499998,
+          "uncertainty_status": false,
+          "empirical_reliability": "MODERATE (Dual-Branch Positive with Discrepancy)",
+          "prediction": "FAKE",
+          "final_decision": "LIKELY_FAKE"
+        }
+      }
+    },
+    "Phase 10 Modern Multi-Generator": {
+      "checkpoint_path": "C:\\Users\\nandi\\Desktop\\DEEPFAKE DETECTION\\checkpoints\\lxfd_phase10_modern_generators_best.pt",
+      "checkpoint_sha256": "13dc56b8961f8d0c2c56a9ac947ef4292f4a2a5ef613df3aeb950f087fddcc05",
+      "calibration_path": "C:\\Users\\nandi\\Desktop\\DEEPFAKE DETECTION\\checkpoints\\calibration_params_phase10.json",
+      "temperature": 1.634375000000002,
+      "threshold": 0.5,
+      "margin_evaluations": {
+        "margin_0.15": {
+          "margin": 0.15,
+          "face_detected": true,
+          "face_bbox": [
+            1037,
+            310,
+            571,
+            619
+          ],
+          "crop_coords": [
+            952,
+            218,
+            1693,
+            1021
+          ],
+          "spatial_branch": {
+            "logit": -8.1011,
+            "probability": 0.0003,
+            "attention_weight_ws": 0.7441
+          },
+          "frequency_branch": {
+            "logit": 1.1136,
+            "probability": 0.7528,
+            "attention_weight_wf": 0.2559
+          },
+          "fused": {
+            "logit": -5.8056,
+            "raw_probability": 0.003,
+            "calibrated_fake_probability": 0.0279,
+            "calibrated_real_probability": 0.9721
+          },
+          "branch_discrepancy": 0.7525,
+          "high_discrepancy_trigger": true,
+          "uncertainty_band_trigger": false,
+          "decision_threshold": 0.5,
+          "calibration_temperature": 1.634375000000002,
+          "uncertainty_status": true,
+          "empirical_reliability": "LOW (Branch Divergence: Spatial vs Frequency Contradiction)",
+          "prediction": "INCONCLUSIVE",
+          "final_decision": "INCONCLUSIVE"
+        },
+        "margin_0.50": {
+          "margin": 0.5,
+          "face_detected": true,
+          "face_bbox": [
+            1037,
+            310,
+            571,
+            619
+          ],
+          "crop_coords": [
+            752,
+            1,
+            1893,
+            1238
+          ],
+          "spatial_branch": {
+            "logit": 0.1336,
+            "probability": 0.5334,
+            "attention_weight_ws": 0.7455
+          },
+          "frequency_branch": {
+            "logit": 0.9325,
+            "probability": 0.7176,
+            "attention_weight_wf": 0.2545
+          },
+          "fused": {
+            "logit": 0.3798,
+            "raw_probability": 0.5938,
+            "calibrated_fake_probability": 0.5578,
+            "calibrated_real_probability": 0.4422
+          },
+          "branch_discrepancy": 0.1842,
+          "high_discrepancy_trigger": true,
+          "uncertainty_band_trigger": true,
+          "decision_threshold": 0.5,
+          "calibration_temperature": 1.634375000000002,
+          "uncertainty_status": true,
+          "empirical_reliability": "LOW (Decision Boundary Region: 0.40 - 0.60)",
+          "prediction": "INCONCLUSIVE",
+          "final_decision": "INCONCLUSIVE"
+        },
+        "margin_0.75": {
+          "margin": 0.75,
+          "face_detected": true,
+          "face_bbox": [
+            1037,
+            310,
+            571,
+            619
+          ],
+          "crop_coords": [
+            609,
+            0,
+            2036,
+            1393
+          ],
+          "spatial_branch": {
+            "logit": 4.1345,
+            "probability": 0.9842,
+            "attention_weight_ws": 0.7466
+          },
+          "frequency_branch": {
+            "logit": 0.732,
+            "probability": 0.6752,
+            "attention_weight_wf": 0.2534
+          },
+          "fused": {
+            "logit": 3.3219,
+            "raw_probability": 0.9652,
+            "calibrated_fake_probability": 0.8842,
+            "calibrated_real_probability": 0.1158
+          },
+          "branch_discrepancy": 0.309,
+          "high_discrepancy_trigger": true,
+          "uncertainty_band_trigger": false,
+          "decision_threshold": 0.5,
+          "calibration_temperature": 1.634375000000002,
+          "uncertainty_status": false,
+          "empirical_reliability": "MODERATE (Dual-Branch Positive with Discrepancy)",
+          "prediction": "FAKE",
+          "final_decision": "LIKELY_FAKE"
+        }
+      }
+    },
+    "Phase 8 Diverse Baseline": {
+      "checkpoint_path": "C:\\Users\\nandi\\Desktop\\DEEPFAKE DETECTION\\checkpoints\\lxfd_multigen_diverse_best.pt",
+      "checkpoint_sha256": "b3d280d8dbfaeede215d5e6d239b8bb613a1bf147cee9e59bde798cc9b766300",
+      "calibration_path": "C:\\Users\\nandi\\Desktop\\DEEPFAKE DETECTION\\checkpoints\\calibration_params.json",
+      "temperature": 1.0413085937500002,
+      "threshold": 0.5,
+      "margin_evaluations": {
+        "margin_0.15": {
+          "margin": 0.15,
+          "face_detected": true,
+          "face_bbox": [
+            1037,
+            310,
+            571,
+            619
+          ],
+          "crop_coords": [
+            952,
+            218,
+            1693,
+            1021
+          ],
+          "spatial_branch": {
+            "logit": -8.9173,
+            "probability": 0.0001,
+            "attention_weight_ws": 0.7499
+          },
+          "frequency_branch": {
+            "logit": -2.2614,
+            "probability": 0.0944,
+            "attention_weight_wf": 0.2501
+          },
+          "fused": {
+            "logit": -7.4769,
+            "raw_probability": 0.0006,
+            "calibrated_fake_probability": 0.0008,
+            "calibrated_real_probability": 0.9992
+          },
+          "branch_discrepancy": 0.0942,
+          "high_discrepancy_trigger": false,
+          "uncertainty_band_trigger": false,
+          "decision_threshold": 0.5,
+          "calibration_temperature": 1.0413085937500002,
+          "uncertainty_status": false,
+          "empirical_reliability": "MODERATE (Subject to Generator Scope)",
+          "prediction": "REAL",
+          "final_decision": "LIKELY_REAL"
+        },
+        "margin_0.50": {
+          "margin": 0.5,
+          "face_detected": true,
+          "face_bbox": [
+            1037,
+            310,
+            571,
+            619
+          ],
+          "crop_coords": [
+            752,
+            1,
+            1893,
+            1238
+          ],
+          "spatial_branch": {
+            "logit": -0.4488,
+            "probability": 0.3896,
+            "attention_weight_ws": 0.7499
+          },
+          "frequency_branch": {
+            "logit": -2.5641,
+            "probability": 0.0715,
+            "attention_weight_wf": 0.2501
+          },
+          "fused": {
+            "logit": -0.9466,
+            "raw_probability": 0.2796,
+            "calibrated_fake_probability": 0.2872,
+            "calibrated_real_probability": 0.7128
+          },
+          "branch_discrepancy": 0.3182,
+          "high_discrepancy_trigger": true,
+          "uncertainty_band_trigger": false,
+          "decision_threshold": 0.5,
+          "calibration_temperature": 1.0413085937500002,
+          "uncertainty_status": false,
+          "empirical_reliability": "MODERATE (Artifact Absence vs True Authenticity)",
+          "prediction": "REAL",
+          "final_decision": "LIKELY_REAL"
+        },
+        "margin_0.75": {
+          "margin": 0.75,
+          "face_detected": true,
+          "face_bbox": [
+            1037,
+            310,
+            571,
+            619
+          ],
+          "crop_coords": [
+            609,
+            0,
+            2036,
+            1393
+          ],
+          "spatial_branch": {
+            "logit": 2.0237,
+            "probability": 0.8833,
+            "attention_weight_ws": 0.7499
+          },
+          "frequency_branch": {
+            "logit": -2.4075,
+            "probability": 0.0826,
+            "attention_weight_wf": 0.2501
+          },
+          "fused": {
+            "logit": 1.1987,
+            "raw_probability": 0.7683,
+            "calibrated_fake_probability": 0.7597,
+            "calibrated_real_probability": 0.2403
+          },
+          "branch_discrepancy": 0.8007,
+          "high_discrepancy_trigger": true,
+          "uncertainty_band_trigger": false,
+          "decision_threshold": 0.5,
+          "calibration_temperature": 1.0413085937500002,
+          "uncertainty_status": true,
+          "empirical_reliability": "LOW (Branch Divergence: Spatial vs Frequency Contradiction)",
+          "prediction": "INCONCLUSIVE",
+          "final_decision": "INCONCLUSIVE"
+        }
+      }
+    },
+    "Phase 5 Attention Robustness v2": {
+      "checkpoint_path": "C:\\Users\\nandi\\Desktop\\DEEPFAKE DETECTION\\checkpoints\\lxfd_attention_robustness_v2_best.pt",
+      "checkpoint_sha256": "215613a19fdb40cd8a47d0a4e3b9a9cb2a635d3f54f7e50c211b416160d9f39f",
+      "calibration_path": "C:\\Users\\nandi\\Desktop\\DEEPFAKE DETECTION\\checkpoints\\calibration_params.json",
+      "temperature": 1.0413085937500002,
+      "threshold": 0.5,
+      "margin_evaluations": {
+        "margin_0.15": {
+          "margin": 0.15,
+          "face_detected": true,
+          "face_bbox": [
+            1037,
+            310,
+            571,
+            619
+          ],
+          "crop_coords": [
+            952,
+            218,
+            1693,
+            1021
+          ],
+          "spatial_branch": {
+            "logit": -7.308,
+            "probability": 0.0007,
+            "attention_weight_ws": 0.7499
+          },
+          "frequency_branch": {
+            "logit": -1.7889,
+            "probability": 0.1432,
+            "attention_weight_wf": 0.2501
+          },
+          "fused": {
+            "logit": -6.0516,
+            "raw_probability": 0.0023,
+            "calibrated_fake_probability": 0.003,
+            "calibrated_real_probability": 0.997
+          },
+          "branch_discrepancy": 0.1425,
+          "high_discrepancy_trigger": true,
+          "uncertainty_band_trigger": false,
+          "decision_threshold": 0.5,
+          "calibration_temperature": 1.0413085937500002,
+          "uncertainty_status": false,
+          "empirical_reliability": "MODERATE (Artifact Absence vs True Authenticity)",
+          "prediction": "REAL",
+          "final_decision": "LIKELY_REAL"
+        },
+        "margin_0.50": {
+          "margin": 0.5,
+          "face_detected": true,
+          "face_bbox": [
+            1037,
+            310,
+            571,
+            619
+          ],
+          "crop_coords": [
+            752,
+            1,
+            1893,
+            1238
+          ],
+          "spatial_branch": {
+            "logit": -4.0598,
+            "probability": 0.017,
+            "attention_weight_ws": 0.7498
+          },
+          "frequency_branch": {
+            "logit": -1.8939,
+            "probability": 0.1308,
+            "attention_weight_wf": 0.2502
+          },
+          "fused": {
+            "logit": -3.5879,
+            "raw_probability": 0.0269,
+            "calibrated_fake_probability": 0.0309,
+            "calibrated_real_probability": 0.9691
+          },
+          "branch_discrepancy": 0.1138,
+          "high_discrepancy_trigger": true,
+          "uncertainty_band_trigger": false,
+          "decision_threshold": 0.5,
+          "calibration_temperature": 1.0413085937500002,
+          "uncertainty_status": false,
+          "empirical_reliability": "MODERATE (Artifact Absence vs True Authenticity)",
+          "prediction": "REAL",
+          "final_decision": "LIKELY_REAL"
+        },
+        "margin_0.75": {
+          "margin": 0.75,
+          "face_detected": true,
+          "face_bbox": [
+            1037,
+            310,
+            571,
+            619
+          ],
+          "crop_coords": [
+            609,
+            0,
+            2036,
+            1393
+          ],
+          "spatial_branch": {
+            "logit": -1.3161,
+            "probability": 0.2115,
+            "attention_weight_ws": 0.7498
+          },
+          "frequency_branch": {
+            "logit": -1.8399,
+            "probability": 0.1371,
+            "attention_weight_wf": 0.2502
+          },
+          "fused": {
+            "logit": -1.4622,
+            "raw_probability": 0.1881,
+            "calibrated_fake_probability": 0.1972,
+            "calibrated_real_probability": 0.8028
+          },
+          "branch_discrepancy": 0.0744,
+          "high_discrepancy_trigger": false,
+          "uncertainty_band_trigger": false,
+          "decision_threshold": 0.5,
+          "calibration_temperature": 1.0413085937500002,
+          "uncertainty_status": false,
+          "empirical_reliability": "MODERATE (Artifact Absence vs True Authenticity)",
+          "prediction": "REAL",
+          "final_decision": "LIKELY_REAL"
+        }
+      }
+    }
+  }
+}

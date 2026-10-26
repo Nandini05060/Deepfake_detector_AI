@@ -1,0 +1,161 @@
+{
+  "metadata": {
+    "model_version": "phase17",
+    "model_name": "LX-DFD Phase 17 Multi-Generator Retrained",
+    "checkpoint_path": "experiments/phase17_multigenerator_retraining/lxfd_phase17_best.pt",
+    "calibrated_temperature": 1.1599,
+    "calibrated_threshold": 0.54,
+    "uncertainty_band": 0.15,
+    "min_floor": 0.25
+  },
+  "overall_metrics": {
+    "total_test_samples": 543,
+    "roc_auc": 0.8588,
+    "pr_auc": 0.9519,
+    "brier_score": 0.2035,
+    "binary_accuracy": 0.7201,
+    "binary_specificity": 0.7583,
+    "binary_recall": 0.7092,
+    "binary_f1": 0.7979,
+    "coverage": 0.5727,
+    "inconclusive_rate": 0.4273,
+    "decisive_total": 311,
+    "decisive_accuracy": 0.8907,
+    "decisive_recall": 0.9579,
+    "decisive_specificity": 0.1538,
+    "cm_binary": {
+      "tn": 91,
+      "fp": 29,
+      "fn": 123,
+      "tp": 300
+    },
+    "cm_decisive": {
+      "tn": 4,
+      "fp": 22,
+      "fn": 12,
+      "tp": 273
+    }
+  },
+  "cohort_breakdown": {
+    "FFHQ_Real": {
+      "ground_truth": "REAL",
+      "total": 60,
+      "mean_fake_prob": 0.0079,
+      "likely_fake_count": 0,
+      "likely_real_count": 2,
+      "inconclusive_count": 58,
+      "inconclusive_rate": 0.9667,
+      "decisive_count": 2,
+      "decisive_accuracy": 1.0,
+      "binary_accuracy": 1.0
+    },
+    "FLUX1_Dev": {
+      "ground_truth": "FAKE",
+      "total": 53,
+      "mean_fake_prob": 0.8721,
+      "likely_fake_count": 42,
+      "likely_real_count": 2,
+      "inconclusive_count": 9,
+      "inconclusive_rate": 0.1698,
+      "decisive_count": 44,
+      "decisive_accuracy": 0.9545,
+      "binary_accuracy": 0.8679
+    },
+    "FLUX1_Pro": {
+      "ground_truth": "FAKE",
+      "total": 28,
+      "mean_fake_prob": 0.891,
+      "likely_fake_count": 24,
+      "likely_real_count": 0,
+      "inconclusive_count": 4,
+      "inconclusive_rate": 0.1429,
+      "decisive_count": 24,
+      "decisive_accuracy": 1.0,
+      "binary_accuracy": 0.9286
+    },
+    "Google_Gemini_Imagen3": {
+      "ground_truth": "FAKE",
+      "total": 8,
+      "mean_fake_prob": 0.9671,
+      "likely_fake_count": 7,
+      "likely_real_count": 0,
+      "inconclusive_count": 1,
+      "inconclusive_rate": 0.125,
+      "decisive_count": 7,
+      "decisive_accuracy": 1.0,
+      "binary_accuracy": 1.0
+    },
+    "IMDB_WIKI": {
+      "ground_truth": "REAL",
+      "total": 60,
+      "mean_fake_prob": 0.474,
+      "likely_fake_count": 22,
+      "likely_real_count": 2,
+      "inconclusive_count": 36,
+      "inconclusive_rate": 0.6,
+      "decisive_count": 24,
+      "decisive_accuracy": 0.0833,
+      "binary_accuracy": 0.5167
+    },
+    "InsightFace_Swap": {
+      "ground_truth": "FAKE",
+      "total": 30,
+      "mean_fake_prob": 0.7503,
+      "likely_fake_count": 20,
+      "likely_real_count": 1,
+      "inconclusive_count": 9,
+      "inconclusive_rate": 0.3,
+      "decisive_count": 21,
+      "decisive_accuracy": 0.9524,
+      "binary_accuracy": 0.7667
+    },
+    "StableDiffusion_Inpainting": {
+      "ground_truth": "FAKE",
+      "total": 200,
+      "mean_fake_prob": 0.5091,
+      "likely_fake_count": 80,
+      "likely_real_count": 8,
+      "inconclusive_count": 112,
+      "inconclusive_rate": 0.56,
+      "decisive_count": 88,
+      "decisive_accuracy": 0.9091,
+      "binary_accuracy": 0.48
+    },
+    "StableDiffusion_XL": {
+      "ground_truth": "FAKE",
+      "total": 14,
+      "mean_fake_prob": 0.9764,
+      "likely_fake_count": 14,
+      "likely_real_count": 0,
+      "inconclusive_count": 0,
+      "inconclusive_rate": 0.0,
+      "decisive_count": 14,
+      "decisive_accuracy": 1.0,
+      "binary_accuracy": 1.0
+    },
+    "StableDiffusion_v1.5": {
+      "ground_truth": "FAKE",
+      "total": 30,
+      "mean_fake_prob": 0.9096,
+      "likely_fake_count": 27,
+      "likely_real_count": 1,
+      "inconclusive_count": 2,
+      "inconclusive_rate": 0.0667,
+      "decisive_count": 28,
+      "decisive_accuracy": 0.9643,
+      "binary_accuracy": 0.9
+    },
+    "StyleGAN2": {
+      "ground_truth": "FAKE",
+      "total": 60,
+      "mean_fake_prob": 0.9822,
+      "likely_fake_count": 59,
+      "likely_real_count": 0,
+      "inconclusive_count": 1,
+      "inconclusive_rate": 0.0167,
+      "decisive_count": 59,
+      "decisive_accuracy": 1.0,
+      "binary_accuracy": 1.0
+    }
+  }
+}

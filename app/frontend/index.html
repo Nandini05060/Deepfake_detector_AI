@@ -47,6 +47,15 @@
       <nav class="nav-menu">
         <div class="nav-section-label">FORENSIC NAVIGATION</div>
         <ul class="nav-list">
+          <li class="nav-item featured-nav" id="sidebar-faculty-pres" style="margin-bottom: 8px; border: 1px solid rgba(0, 229, 255, 0.4); background: rgba(0, 229, 255, 0.08); cursor: pointer;">
+            <span class="nav-indicator"></span>
+            <span class="nav-num" style="color: #00E5FF;">★</span>
+            <span class="nav-icon" style="color: #00E5FF;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+            </span>
+            <span class="nav-label" style="color: #00E5FF; font-weight: 700;">Faculty Presentation</span>
+            <span class="nav-live-pill" style="background: rgba(139, 92, 246, 0.3); border-color: #8B5CF6; color: #C084FC;">8 STEPS</span>
+          </li>
           <li class="nav-item active" data-page="page-overview">
             <span class="nav-indicator"></span>
             <span class="nav-num">01</span>
@@ -167,11 +176,12 @@
               <span class="header-sep">/</span>
               <span class="sub-lab">AI DEEPFAKE FORENSICS LAB</span>
             </div>
-            <div class="header-paper-title">Generalizable Deepfake Face Detection</div>
+            <div class="header-paper-title">Spatial-Frequency Deepfake Detection & Forensic Explainability for Cross-Generator Generalization</div>
           </div>
         </div>
 
         <div class="header-right">
+          <button id="btn-open-faculty-pres" class="btn-faculty-pres">🎓 FACULTY PRESENTATION</button>
           <div class="header-badge badge-online">
             <span class="pulse-emerald"></span>
             <span>MODEL READY</span>
@@ -189,6 +199,28 @@
         </div>
       </header>
 
+      <!-- Faculty Demonstration Controls Toolbar -->
+      <div class="demo-toolbar" id="demo-toolbar">
+        <div class="demo-toolbar-group">
+          <span class="demo-label">⚡ FACULTY CONTROLS:</span>
+          <button id="toolbar-btn-pres" class="btn-faculty-pres" style="padding: 5px 14px; font-size: 11.5px;">🎓 Start Presentation</button>
+          <button id="toolbar-btn-reset" class="btn-demo-pill">🔄 Reset Demo</button>
+        </div>
+        <div class="demo-toolbar-group">
+          <span class="demo-label">VERIFIED SAMPLES:</span>
+          <button id="toolbar-sample-real" class="btn-demo-pill real">👤 Authentic Real</button>
+          <button id="toolbar-sample-stylegan2" class="btn-demo-pill fake">🎭 StyleGAN2</button>
+          <button id="toolbar-sample-diffusion" class="btn-demo-pill fake">🎨 Latent Diffusion</button>
+          <button id="toolbar-sample-gemini" class="btn-demo-pill fake">🤖 Gemini Imagen 3</button>
+          <button id="toolbar-sample-diagnostic" class="btn-demo-pill diag">⚠️ Diagnostic Failure</button>
+        </div>
+        <div class="demo-toolbar-group">
+          <span class="demo-label">QUICK VIEWS:</span>
+          <button id="toolbar-btn-compare" class="btn-demo-pill">📊 Model Comparison</button>
+          <button id="toolbar-btn-explain" class="btn-demo-pill">🔬 Explainability</button>
+        </div>
+      </div>
+
       <!-- Dynamic Page View Container -->
       <main class="main-content" id="main-content">
         <!-- Rendered dynamically by app.js -->
@@ -205,6 +237,32 @@
           <span class="engine-badge">OpenCV YuNet + PyTorch 2D-DCT Engine</span>
         </div>
       </footer>
+    </div>
+  </div>
+
+  <!-- Faculty Presentation Mode Modal Structure -->
+  <div class="faculty-modal-overlay" id="faculty-modal-overlay">
+    <div class="faculty-modal-container">
+      <div class="pres-progress-bar-wrap">
+        <div class="pres-progress-bar-fill" id="pres-progress-fill" style="width: 12.5%;"></div>
+      </div>
+      <div class="faculty-modal-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="pres-step-badge" id="pres-step-badge">STEP 1 OF 8</span>
+          <span style="font-size: 13px; color: var(--text-secondary); font-family: var(--font-display); font-weight: 700;" id="pres-step-label">RESEARCH PROBLEM</span>
+        </div>
+        <button id="pres-btn-exit" class="mobile-close-btn" style="display: block; position: static;" title="Exit Presentation (Esc)">✕</button>
+      </div>
+      <div class="faculty-modal-body" id="faculty-modal-body">
+        <!-- Injected dynamically by app.js -->
+      </div>
+      <div class="faculty-modal-footer">
+        <button id="pres-btn-prev" class="btn-sample" style="border-color: rgba(255,255,255,0.2); color: #94A3B8;">◀ Previous</button>
+        <div style="font-size: 12px; color: var(--text-muted); font-family: var(--font-mono);">
+          Use <kbd style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; color: #FFF;">◀</kbd> <kbd style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; color: #FFF;">▶</kbd> or <kbd style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; color: #FFF;">Esc</kbd>
+        </div>
+        <button id="pres-btn-next" class="btn-sample" style="border-color: #00E5FF; color: #00E5FF; background: rgba(0, 229, 255, 0.15); font-weight: 700;">Next ▶</button>
+      </div>
     </div>
   </div>
 

@@ -1,0 +1,8 @@
+{
+  "temperature": 1.0859375,
+  "decision_threshold": 0.57,
+  "uncertainty_band": 0.075,
+  "min_floor": 0.25,
+  "target_specificity": 0.88,
+  "date": "2026-10-26"
+}

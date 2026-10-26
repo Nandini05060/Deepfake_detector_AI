@@ -1,0 +1,8 @@
+{
+  "model_version": "phase17",
+  "temperature": 1.1599,
+  "optimal_threshold": 0.54,
+  "uncertainty_band": 0.15,
+  "validation_samples": 293,
+  "fitted_on": "Phase 17 Validation Split"
+}

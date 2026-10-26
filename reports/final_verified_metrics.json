@@ -1,0 +1,724 @@
+{
+  "metric_definitions_and_denominators": {
+    "evaluation_set": "Locked Held-Out Test Set (N = 448: 120 Real + 328 Fake)",
+    "formulas": {
+      "ROC-AUC": "Area under the Receiver Operating Characteristic curve computed on continuous calibrated fake probabilities P(Fake) across all 448 samples (Denominator: all pairs of positive and negative samples).",
+      "PR-AUC": "Area under the Precision-Recall curve computed on continuous calibrated fake probabilities P(Fake) (Denominator: 328 positive samples).",
+      "Brier Score": "(1/N) * sum((P(Fake)_i - y_i)^2) for i=1..448, where y_i in {0, 1}. Measures calibrated mean squared probabilistic error (Denominator: N=448).",
+      "ECE (10-bin)": "Expected Calibration Error across 10 equally spaced confidence bins in [0, 1]: sum_b (|B_b|/N) * |acc(B_b) - conf(B_b)| (Denominator: N=448).",
+      "Coverage": "N_decisive / N_total. Proportion of samples where model makes a definitive LIKELY_REAL or LIKELY_FAKE decision (Denominator: N_total=448).",
+      "Inconclusive Rate": "N_inconclusive / N_total = 1 - Coverage. Proportion of samples where model abstains (Denominator: N_total=448).",
+      "Decisive Accuracy": "(TP + TN) / (TP + TN + FP + FN). Classification accuracy evaluated strictly on decisive predictions (Denominator: N_decisive). Inconclusive cases are excluded.",
+      "Decisive Fake Recall": "TP / (TP + FN). Sensitivity on fake images among decisive predictions (Denominator: Decisive Fake = TP + FN). Inconclusive fake images are excluded from this denominator.",
+      "Decisive Real Specificity": "TN / (TN + FP). Specificity on real images among decisive predictions (Denominator: Decisive Real = TN + FP). Inconclusive real images are excluded from this denominator.",
+      "Decisive Precision": "TP / (TP + FP). Proportion of decisive fake alarms that are truly fake (Denominator: Decisive Predicted Fake = TP + FP).",
+      "Decisive F1": "2 * (Precision * Recall) / (Precision + Recall). Harmonic mean of decisive precision and recall.",
+      "False Positive Rate (FPR)": "FP / (TN + FP). Decisive real images incorrectly classified as fake (Denominator: Decisive Real = TN + FP).",
+      "False Negative Rate (FNR)": "FN / (TP + FN). Decisive fake images incorrectly classified as real (Denominator: Decisive Fake = TP + FN).",
+      "Selective Error Rate": "(FP + FN) / (TP + TN + FP + FN) = 1 - Decisive Accuracy (Denominator: N_decisive).",
+      "Binary Accuracy": "(TP_bin + TN_bin) / N_total. Forced-choice classification accuracy across all 448 samples at decision threshold tau with zero abstentions (Denominator: N_total=448)."
+    }
+  },
+  "phase10": {
+    "model_id": "phase10",
+    "name": "LX-DFD Phase 10 Modern Multi-Generator",
+    "checkpoint": "checkpoints/lxfd_phase10_modern_generators_best.pt",
+    "temperature": 1.6344,
+    "threshold": 0.55,
+    "latency_ms": 36.06,
+    "overall_probabilistic": {
+      "total_test_samples": 448,
+      "roc_auc": 0.8328,
+      "pr_auc": 0.9274,
+      "brier_score": 0.2133,
+      "ece_10bin": 0.2156
+    },
+    "binary_evaluation_standard_threshold_50": {
+      "threshold": 0.5,
+      "tn": 93,
+      "fp": 27,
+      "fn": 119,
+      "tp": 209,
+      "accuracy": 0.6741,
+      "fake_recall": 0.6372,
+      "real_specificity": 0.775,
+      "precision": 0.8856,
+      "f1_score": 0.7411
+    },
+    "binary_evaluation_calibrated_threshold": {
+      "threshold": 0.55,
+      "tn": 98,
+      "fp": 22,
+      "fn": 129,
+      "tp": 199,
+      "accuracy": 0.6629,
+      "fake_recall": 0.6067,
+      "real_specificity": 0.8167,
+      "precision": 0.9005,
+      "f1_score": 0.725
+    },
+    "train_policy_evaluation": {
+      "total_samples": 448,
+      "decisive_samples": 296,
+      "inconclusive_count": 152,
+      "inconclusive_rate": 0.3393,
+      "coverage": 0.6607,
+      "confusion_matrix": {
+        "true_negatives": 63,
+        "false_positives": 12,
+        "false_negatives": 57,
+        "true_positives": 164,
+        "inconclusive_real": 45,
+        "inconclusive_fake": 107
+      },
+      "decisive_accuracy": 0.7669,
+      "decisive_fake_recall": 0.7421,
+      "decisive_real_specificity": 0.84,
+      "decisive_precision": 0.9318,
+      "decisive_f1_score": 0.8262,
+      "fpr": 0.16,
+      "fnr": 0.2579,
+      "selective_error_rate": 0.2331
+    },
+    "production_api_policy_evaluation": {
+      "total_samples": 448,
+      "decisive_samples": 296,
+      "inconclusive_count": 152,
+      "inconclusive_rate": 0.3393,
+      "coverage": 0.6607,
+      "confusion_matrix": {
+        "true_negatives": 63,
+        "false_positives": 12,
+        "false_negatives": 57,
+        "true_positives": 164,
+        "inconclusive_real": 45,
+        "inconclusive_fake": 107
+      },
+      "decisive_accuracy": 0.7669,
+      "decisive_fake_recall": 0.7421,
+      "decisive_real_specificity": 0.84,
+      "decisive_precision": 0.9318,
+      "decisive_f1_score": 0.8262,
+      "fpr": 0.16,
+      "fnr": 0.2579,
+      "selective_error_rate": 0.2331
+    },
+    "per_generator": {
+      "FFHQ_Real": {
+        "total_samples": 60,
+        "ground_truth_label": "REAL",
+        "mean_fake_prob": 0.032455921833210125,
+        "train_policy": {
+          "decisive_count": 45,
+          "inconclusive_count": 15,
+          "inconclusive_rate": 0.25,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 0,
+          "decisive_classified_real": 45
+        },
+        "production_policy": {
+          "decisive_count": 45,
+          "inconclusive_count": 15,
+          "inconclusive_rate": 0.25,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 0,
+          "decisive_classified_real": 45
+        }
+      },
+      "Google_Gemini_Imagen3": {
+        "total_samples": 8,
+        "ground_truth_label": "FAKE",
+        "mean_fake_prob": 0.7049433115424396,
+        "train_policy": {
+          "decisive_count": 7,
+          "inconclusive_count": 1,
+          "inconclusive_rate": 0.125,
+          "decisive_accuracy": 0.7143,
+          "decisive_detected_fake": 5,
+          "decisive_classified_real": 2
+        },
+        "production_policy": {
+          "decisive_count": 7,
+          "inconclusive_count": 1,
+          "inconclusive_rate": 0.125,
+          "decisive_accuracy": 0.7143,
+          "decisive_detected_fake": 5,
+          "decisive_classified_real": 2
+        }
+      },
+      "IMDB_WIKI": {
+        "total_samples": 60,
+        "ground_truth_label": "REAL",
+        "mean_fake_prob": 0.4453015668206188,
+        "train_policy": {
+          "decisive_count": 30,
+          "inconclusive_count": 30,
+          "inconclusive_rate": 0.5,
+          "decisive_accuracy": 0.6,
+          "decisive_detected_fake": 12,
+          "decisive_classified_real": 18
+        },
+        "production_policy": {
+          "decisive_count": 30,
+          "inconclusive_count": 30,
+          "inconclusive_rate": 0.5,
+          "decisive_accuracy": 0.6,
+          "decisive_detected_fake": 12,
+          "decisive_classified_real": 18
+        }
+      },
+      "InsightFace_Swap": {
+        "total_samples": 30,
+        "ground_truth_label": "FAKE",
+        "mean_fake_prob": 0.67323685559078,
+        "train_policy": {
+          "decisive_count": 21,
+          "inconclusive_count": 9,
+          "inconclusive_rate": 0.3,
+          "decisive_accuracy": 0.8095,
+          "decisive_detected_fake": 17,
+          "decisive_classified_real": 4
+        },
+        "production_policy": {
+          "decisive_count": 21,
+          "inconclusive_count": 9,
+          "inconclusive_rate": 0.3,
+          "decisive_accuracy": 0.8095,
+          "decisive_detected_fake": 17,
+          "decisive_classified_real": 4
+        }
+      },
+      "StableDiffusion_Inpainting": {
+        "total_samples": 200,
+        "ground_truth_label": "FAKE",
+        "mean_fake_prob": 0.4767054785604681,
+        "train_policy": {
+          "decisive_count": 110,
+          "inconclusive_count": 90,
+          "inconclusive_rate": 0.45,
+          "decisive_accuracy": 0.5455,
+          "decisive_detected_fake": 60,
+          "decisive_classified_real": 50
+        },
+        "production_policy": {
+          "decisive_count": 110,
+          "inconclusive_count": 90,
+          "inconclusive_rate": 0.45,
+          "decisive_accuracy": 0.5455,
+          "decisive_detected_fake": 60,
+          "decisive_classified_real": 50
+        }
+      },
+      "StableDiffusion_v1.5": {
+        "total_samples": 30,
+        "ground_truth_label": "FAKE",
+        "mean_fake_prob": 0.8513521915950839,
+        "train_policy": {
+          "decisive_count": 24,
+          "inconclusive_count": 6,
+          "inconclusive_rate": 0.2,
+          "decisive_accuracy": 0.9583,
+          "decisive_detected_fake": 23,
+          "decisive_classified_real": 1
+        },
+        "production_policy": {
+          "decisive_count": 24,
+          "inconclusive_count": 6,
+          "inconclusive_rate": 0.2,
+          "decisive_accuracy": 0.9583,
+          "decisive_detected_fake": 23,
+          "decisive_classified_real": 1
+        }
+      },
+      "StyleGAN2": {
+        "total_samples": 60,
+        "ground_truth_label": "FAKE",
+        "mean_fake_prob": 0.9336524083752519,
+        "train_policy": {
+          "decisive_count": 59,
+          "inconclusive_count": 1,
+          "inconclusive_rate": 0.0167,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 59,
+          "decisive_classified_real": 0
+        },
+        "production_policy": {
+          "decisive_count": 59,
+          "inconclusive_count": 1,
+          "inconclusive_rate": 0.0167,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 59,
+          "decisive_classified_real": 0
+        }
+      }
+    }
+  },
+  "phase15": {
+    "model_id": "phase15",
+    "name": "LX-DFD Phase 15 Gemini Generalization Candidate",
+    "checkpoint": "experiments/phase15_gemini_generalization/lxfd_phase15_generalization_best.pt",
+    "temperature": 0.7169,
+    "threshold": 0.55,
+    "latency_ms": 32.94,
+    "overall_probabilistic": {
+      "total_test_samples": 448,
+      "roc_auc": 0.8382,
+      "pr_auc": 0.9307,
+      "brier_score": 0.2325,
+      "ece_10bin": 0.2311
+    },
+    "binary_evaluation_standard_threshold_50": {
+      "threshold": 0.5,
+      "tn": 89,
+      "fp": 31,
+      "fn": 94,
+      "tp": 234,
+      "accuracy": 0.721,
+      "fake_recall": 0.7134,
+      "real_specificity": 0.7417,
+      "precision": 0.883,
+      "f1_score": 0.7892
+    },
+    "binary_evaluation_calibrated_threshold": {
+      "threshold": 0.55,
+      "tn": 89,
+      "fp": 31,
+      "fn": 101,
+      "tp": 227,
+      "accuracy": 0.7054,
+      "fake_recall": 0.6921,
+      "real_specificity": 0.7417,
+      "precision": 0.8798,
+      "f1_score": 0.7747
+    },
+    "train_policy_evaluation": {
+      "total_samples": 448,
+      "decisive_samples": 269,
+      "inconclusive_count": 179,
+      "inconclusive_rate": 0.3996,
+      "coverage": 0.6004,
+      "confusion_matrix": {
+        "true_negatives": 14,
+        "false_positives": 25,
+        "false_negatives": 20,
+        "true_positives": 210,
+        "inconclusive_real": 81,
+        "inconclusive_fake": 98
+      },
+      "decisive_accuracy": 0.8327,
+      "decisive_fake_recall": 0.913,
+      "decisive_real_specificity": 0.359,
+      "decisive_precision": 0.8936,
+      "decisive_f1_score": 0.9032,
+      "fpr": 0.641,
+      "fnr": 0.087,
+      "selective_error_rate": 0.1673
+    },
+    "production_api_policy_evaluation": {
+      "total_samples": 448,
+      "decisive_samples": 269,
+      "inconclusive_count": 179,
+      "inconclusive_rate": 0.3996,
+      "coverage": 0.6004,
+      "confusion_matrix": {
+        "true_negatives": 14,
+        "false_positives": 25,
+        "false_negatives": 20,
+        "true_positives": 210,
+        "inconclusive_real": 81,
+        "inconclusive_fake": 98
+      },
+      "decisive_accuracy": 0.8327,
+      "decisive_fake_recall": 0.913,
+      "decisive_real_specificity": 0.359,
+      "decisive_precision": 0.8936,
+      "decisive_f1_score": 0.9032,
+      "fpr": 0.641,
+      "fnr": 0.087,
+      "selective_error_rate": 0.1673
+    },
+    "per_generator": {
+      "FFHQ_Real": {
+        "total_samples": 60,
+        "ground_truth_label": "REAL",
+        "mean_fake_prob": 0.0024924826794607427,
+        "train_policy": {
+          "decisive_count": 8,
+          "inconclusive_count": 52,
+          "inconclusive_rate": 0.8667,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 0,
+          "decisive_classified_real": 8
+        },
+        "production_policy": {
+          "decisive_count": 8,
+          "inconclusive_count": 52,
+          "inconclusive_rate": 0.8667,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 0,
+          "decisive_classified_real": 8
+        }
+      },
+      "Google_Gemini_Imagen3": {
+        "total_samples": 8,
+        "ground_truth_label": "FAKE",
+        "mean_fake_prob": 0.9927633733889392,
+        "train_policy": {
+          "decisive_count": 8,
+          "inconclusive_count": 0,
+          "inconclusive_rate": 0.0,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 8,
+          "decisive_classified_real": 0
+        },
+        "production_policy": {
+          "decisive_count": 8,
+          "inconclusive_count": 0,
+          "inconclusive_rate": 0.0,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 8,
+          "decisive_classified_real": 0
+        }
+      },
+      "IMDB_WIKI": {
+        "total_samples": 60,
+        "ground_truth_label": "REAL",
+        "mean_fake_prob": 0.5270031978817339,
+        "train_policy": {
+          "decisive_count": 31,
+          "inconclusive_count": 29,
+          "inconclusive_rate": 0.4833,
+          "decisive_accuracy": 0.1935,
+          "decisive_detected_fake": 25,
+          "decisive_classified_real": 6
+        },
+        "production_policy": {
+          "decisive_count": 31,
+          "inconclusive_count": 29,
+          "inconclusive_rate": 0.4833,
+          "decisive_accuracy": 0.1935,
+          "decisive_detected_fake": 25,
+          "decisive_classified_real": 6
+        }
+      },
+      "InsightFace_Swap": {
+        "total_samples": 30,
+        "ground_truth_label": "FAKE",
+        "mean_fake_prob": 0.7664052284134298,
+        "train_policy": {
+          "decisive_count": 22,
+          "inconclusive_count": 8,
+          "inconclusive_rate": 0.2667,
+          "decisive_accuracy": 0.9091,
+          "decisive_detected_fake": 20,
+          "decisive_classified_real": 2
+        },
+        "production_policy": {
+          "decisive_count": 22,
+          "inconclusive_count": 8,
+          "inconclusive_rate": 0.2667,
+          "decisive_accuracy": 0.9091,
+          "decisive_detected_fake": 20,
+          "decisive_classified_real": 2
+        }
+      },
+      "StableDiffusion_Inpainting": {
+        "total_samples": 200,
+        "ground_truth_label": "FAKE",
+        "mean_fake_prob": 0.5519146394039522,
+        "train_policy": {
+          "decisive_count": 111,
+          "inconclusive_count": 89,
+          "inconclusive_rate": 0.445,
+          "decisive_accuracy": 0.8468,
+          "decisive_detected_fake": 94,
+          "decisive_classified_real": 17
+        },
+        "production_policy": {
+          "decisive_count": 111,
+          "inconclusive_count": 89,
+          "inconclusive_rate": 0.445,
+          "decisive_accuracy": 0.8468,
+          "decisive_detected_fake": 94,
+          "decisive_classified_real": 17
+        }
+      },
+      "StableDiffusion_v1.5": {
+        "total_samples": 30,
+        "ground_truth_label": "FAKE",
+        "mean_fake_prob": 0.9550376244589865,
+        "train_policy": {
+          "decisive_count": 29,
+          "inconclusive_count": 1,
+          "inconclusive_rate": 0.0333,
+          "decisive_accuracy": 0.9655,
+          "decisive_detected_fake": 28,
+          "decisive_classified_real": 1
+        },
+        "production_policy": {
+          "decisive_count": 29,
+          "inconclusive_count": 1,
+          "inconclusive_rate": 0.0333,
+          "decisive_accuracy": 0.9655,
+          "decisive_detected_fake": 28,
+          "decisive_classified_real": 1
+        }
+      },
+      "StyleGAN2": {
+        "total_samples": 60,
+        "ground_truth_label": "FAKE",
+        "mean_fake_prob": 0.9971634116082563,
+        "train_policy": {
+          "decisive_count": 60,
+          "inconclusive_count": 0,
+          "inconclusive_rate": 0.0,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 60,
+          "decisive_classified_real": 0
+        },
+        "production_policy": {
+          "decisive_count": 60,
+          "inconclusive_count": 0,
+          "inconclusive_rate": 0.0,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 60,
+          "decisive_classified_real": 0
+        }
+      }
+    }
+  },
+  "phase16": {
+    "model_id": "phase16",
+    "name": "LX-DFD Phase 16 Unified Multi-Generator Best",
+    "checkpoint": "experiments/phase16_unified_generalization/lxfd_phase16_unified_best.pt",
+    "temperature": 1.0859,
+    "threshold": 0.57,
+    "latency_ms": 33.51,
+    "overall_probabilistic": {
+      "total_test_samples": 448,
+      "roc_auc": 0.84,
+      "pr_auc": 0.9293,
+      "brier_score": 0.2458,
+      "ece_10bin": 0.2399
+    },
+    "binary_evaluation_standard_threshold_50": {
+      "threshold": 0.5,
+      "tn": 95,
+      "fp": 25,
+      "fn": 122,
+      "tp": 206,
+      "accuracy": 0.6719,
+      "fake_recall": 0.628,
+      "real_specificity": 0.7917,
+      "precision": 0.8918,
+      "f1_score": 0.737
+    },
+    "binary_evaluation_calibrated_threshold": {
+      "threshold": 0.57,
+      "tn": 97,
+      "fp": 23,
+      "fn": 127,
+      "tp": 201,
+      "accuracy": 0.6652,
+      "fake_recall": 0.6128,
+      "real_specificity": 0.8083,
+      "precision": 0.8973,
+      "f1_score": 0.7283
+    },
+    "train_policy_evaluation": {
+      "total_samples": 448,
+      "decisive_samples": 246,
+      "inconclusive_count": 202,
+      "inconclusive_rate": 0.4509,
+      "coverage": 0.5491,
+      "confusion_matrix": {
+        "true_negatives": 27,
+        "false_positives": 16,
+        "false_negatives": 21,
+        "true_positives": 182,
+        "inconclusive_real": 77,
+        "inconclusive_fake": 125
+      },
+      "decisive_accuracy": 0.8496,
+      "decisive_fake_recall": 0.8966,
+      "decisive_real_specificity": 0.6279,
+      "decisive_precision": 0.9192,
+      "decisive_f1_score": 0.9077,
+      "fpr": 0.3721,
+      "fnr": 0.1034,
+      "selective_error_rate": 0.1504
+    },
+    "production_api_policy_evaluation": {
+      "total_samples": 448,
+      "decisive_samples": 246,
+      "inconclusive_count": 202,
+      "inconclusive_rate": 0.4509,
+      "coverage": 0.5491,
+      "confusion_matrix": {
+        "true_negatives": 27,
+        "false_positives": 16,
+        "false_negatives": 21,
+        "true_positives": 182,
+        "inconclusive_real": 77,
+        "inconclusive_fake": 125
+      },
+      "decisive_accuracy": 0.8496,
+      "decisive_fake_recall": 0.8966,
+      "decisive_real_specificity": 0.6279,
+      "decisive_precision": 0.9192,
+      "decisive_f1_score": 0.9077,
+      "fpr": 0.3721,
+      "fnr": 0.1034,
+      "selective_error_rate": 0.1504
+    },
+    "per_generator": {
+      "FFHQ_Real": {
+        "total_samples": 60,
+        "ground_truth_label": "REAL",
+        "mean_fake_prob": 0.005413047364222416,
+        "train_policy": {
+          "decisive_count": 19,
+          "inconclusive_count": 41,
+          "inconclusive_rate": 0.6833,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 0,
+          "decisive_classified_real": 19
+        },
+        "production_policy": {
+          "decisive_count": 19,
+          "inconclusive_count": 41,
+          "inconclusive_rate": 0.6833,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 0,
+          "decisive_classified_real": 19
+        }
+      },
+      "Google_Gemini_Imagen3": {
+        "total_samples": 8,
+        "ground_truth_label": "FAKE",
+        "mean_fake_prob": 0.8051459783637784,
+        "train_policy": {
+          "decisive_count": 6,
+          "inconclusive_count": 2,
+          "inconclusive_rate": 0.25,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 6,
+          "decisive_classified_real": 0
+        },
+        "production_policy": {
+          "decisive_count": 6,
+          "inconclusive_count": 2,
+          "inconclusive_rate": 0.25,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 6,
+          "decisive_classified_real": 0
+        }
+      },
+      "IMDB_WIKI": {
+        "total_samples": 60,
+        "ground_truth_label": "REAL",
+        "mean_fake_prob": 0.4028706122129519,
+        "train_policy": {
+          "decisive_count": 24,
+          "inconclusive_count": 36,
+          "inconclusive_rate": 0.6,
+          "decisive_accuracy": 0.3333,
+          "decisive_detected_fake": 16,
+          "decisive_classified_real": 8
+        },
+        "production_policy": {
+          "decisive_count": 24,
+          "inconclusive_count": 36,
+          "inconclusive_rate": 0.6,
+          "decisive_accuracy": 0.3333,
+          "decisive_detected_fake": 16,
+          "decisive_classified_real": 8
+        }
+      },
+      "InsightFace_Swap": {
+        "total_samples": 30,
+        "ground_truth_label": "FAKE",
+        "mean_fake_prob": 0.7423800786881477,
+        "train_policy": {
+          "decisive_count": 23,
+          "inconclusive_count": 7,
+          "inconclusive_rate": 0.2333,
+          "decisive_accuracy": 0.9565,
+          "decisive_detected_fake": 22,
+          "decisive_classified_real": 1
+        },
+        "production_policy": {
+          "decisive_count": 23,
+          "inconclusive_count": 7,
+          "inconclusive_rate": 0.2333,
+          "decisive_accuracy": 0.9565,
+          "decisive_detected_fake": 22,
+          "decisive_classified_real": 1
+        }
+      },
+      "StableDiffusion_Inpainting": {
+        "total_samples": 200,
+        "ground_truth_label": "FAKE",
+        "mean_fake_prob": 0.45730767258616933,
+        "train_policy": {
+          "decisive_count": 89,
+          "inconclusive_count": 111,
+          "inconclusive_rate": 0.555,
+          "decisive_accuracy": 0.7865,
+          "decisive_detected_fake": 70,
+          "decisive_classified_real": 19
+        },
+        "production_policy": {
+          "decisive_count": 89,
+          "inconclusive_count": 111,
+          "inconclusive_rate": 0.555,
+          "decisive_accuracy": 0.7865,
+          "decisive_detected_fake": 70,
+          "decisive_classified_real": 19
+        }
+      },
+      "StableDiffusion_v1.5": {
+        "total_samples": 30,
+        "ground_truth_label": "FAKE",
+        "mean_fake_prob": 0.8775466600493556,
+        "train_policy": {
+          "decisive_count": 26,
+          "inconclusive_count": 4,
+          "inconclusive_rate": 0.1333,
+          "decisive_accuracy": 0.9615,
+          "decisive_detected_fake": 25,
+          "decisive_classified_real": 1
+        },
+        "production_policy": {
+          "decisive_count": 26,
+          "inconclusive_count": 4,
+          "inconclusive_rate": 0.1333,
+          "decisive_accuracy": 0.9615,
+          "decisive_detected_fake": 25,
+          "decisive_classified_real": 1
+        }
+      },
+      "StyleGAN2": {
+        "total_samples": 60,
+        "ground_truth_label": "FAKE",
+        "mean_fake_prob": 0.9790682422808311,
+        "train_policy": {
+          "decisive_count": 59,
+          "inconclusive_count": 1,
+          "inconclusive_rate": 0.0167,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 59,
+          "decisive_classified_real": 0
+        },
+        "production_policy": {
+          "decisive_count": 59,
+          "inconclusive_count": 1,
+          "inconclusive_rate": 0.0167,
+          "decisive_accuracy": 1.0,
+          "decisive_detected_fake": 59,
+          "decisive_classified_real": 0
+        }
+      }
+    }
+  }
+}

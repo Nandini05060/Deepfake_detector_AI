@@ -20,6 +20,7 @@ data/verified_faces/**/*.jpg
 data/verified_faces/**/*.png
 !data/verified_faces/**/*.csv
 !data/verified_faces/**/.gitkeep
+data/downloaded/
 
 # Checkpoints (weights)
 *.pt

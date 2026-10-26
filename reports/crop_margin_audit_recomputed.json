@@ -1,0 +1,501 @@
+{
+  "audit_metadata": {
+    "timestamp": "2026-10-26T11:51:22Z",
+    "model_evaluated": "LX-DFD Phase 16 Unified Best (experiments/phase16_unified_generalization/lxfd_phase16_unified_best.pt)",
+    "detector": "OpenCV YuNet ONNX (yunet.onnx)",
+    "test_set_size": 448
+  },
+  "single_image_case_study": {
+    "phase10": {
+      "margin_0.15": {
+        "margin": 0.15,
+        "face_detected": true,
+        "crop_coords": [
+          952,
+          218,
+          1693,
+          1021
+        ],
+        "prediction": "INCONCLUSIVE",
+        "final_decision": "INCONCLUSIVE",
+        "calibrated_fake_prob": 0.0279,
+        "calibrated_real_prob": 0.9721,
+        "raw_fake_prob": 0.0279,
+        "spatial_prob": 0.5,
+        "freq_prob": 0.5,
+        "w_s": 0.5,
+        "w_f": 0.5
+      },
+      "margin_0.50": {
+        "margin": 0.5,
+        "face_detected": true,
+        "crop_coords": [
+          752,
+          1,
+          1893,
+          1238
+        ],
+        "prediction": "INCONCLUSIVE",
+        "final_decision": "INCONCLUSIVE",
+        "calibrated_fake_prob": 0.5578,
+        "calibrated_real_prob": 0.4422,
+        "raw_fake_prob": 0.5578,
+        "spatial_prob": 0.5,
+        "freq_prob": 0.5,
+        "w_s": 0.5,
+        "w_f": 0.5
+      },
+      "margin_0.75": {
+        "margin": 0.75,
+        "face_detected": true,
+        "crop_coords": [
+          609,
+          0,
+          2036,
+          1393
+        ],
+        "prediction": "FAKE",
+        "final_decision": "LIKELY_FAKE",
+        "calibrated_fake_prob": 0.8842,
+        "calibrated_real_prob": 0.1158,
+        "raw_fake_prob": 0.8842,
+        "spatial_prob": 0.5,
+        "freq_prob": 0.5,
+        "w_s": 0.5,
+        "w_f": 0.5
+      }
+    },
+    "phase15": {
+      "margin_0.15": {
+        "margin": 0.15,
+        "face_detected": true,
+        "crop_coords": [
+          952,
+          218,
+          1693,
+          1021
+        ],
+        "prediction": "INCONCLUSIVE",
+        "final_decision": "INCONCLUSIVE",
+        "calibrated_fake_prob": 0.0003,
+        "calibrated_real_prob": 0.9997,
+        "raw_fake_prob": 0.0003,
+        "spatial_prob": 0.5,
+        "freq_prob": 0.5,
+        "w_s": 0.5,
+        "w_f": 0.5
+      },
+      "margin_0.50": {
+        "margin": 0.5,
+        "face_detected": true,
+        "crop_coords": [
+          752,
+          1,
+          1893,
+          1238
+        ],
+        "prediction": "INCONCLUSIVE",
+        "final_decision": "INCONCLUSIVE",
+        "calibrated_fake_prob": 0.4337,
+        "calibrated_real_prob": 0.5663,
+        "raw_fake_prob": 0.4337,
+        "spatial_prob": 0.5,
+        "freq_prob": 0.5,
+        "w_s": 0.5,
+        "w_f": 0.5
+      },
+      "margin_0.75": {
+        "margin": 0.75,
+        "face_detected": true,
+        "crop_coords": [
+          609,
+          0,
+          2036,
+          1393
+        ],
+        "prediction": "FAKE",
+        "final_decision": "LIKELY_FAKE",
+        "calibrated_fake_prob": 0.9956,
+        "calibrated_real_prob": 0.0044,
+        "raw_fake_prob": 0.9956,
+        "spatial_prob": 0.5,
+        "freq_prob": 0.5,
+        "w_s": 0.5,
+        "w_f": 0.5
+      }
+    },
+    "phase16": {
+      "margin_0.15": {
+        "margin": 0.15,
+        "face_detected": true,
+        "crop_coords": [
+          952,
+          218,
+          1693,
+          1021
+        ],
+        "prediction": "INCONCLUSIVE",
+        "final_decision": "INCONCLUSIVE",
+        "calibrated_fake_prob": 0.0025,
+        "calibrated_real_prob": 0.9975,
+        "raw_fake_prob": 0.0025,
+        "spatial_prob": 0.5,
+        "freq_prob": 0.5,
+        "w_s": 0.5,
+        "w_f": 0.5
+      },
+      "margin_0.50": {
+        "margin": 0.5,
+        "face_detected": true,
+        "crop_coords": [
+          752,
+          1,
+          1893,
+          1238
+        ],
+        "prediction": "INCONCLUSIVE",
+        "final_decision": "INCONCLUSIVE",
+        "calibrated_fake_prob": 0.1359,
+        "calibrated_real_prob": 0.8641,
+        "raw_fake_prob": 0.1359,
+        "spatial_prob": 0.5,
+        "freq_prob": 0.5,
+        "w_s": 0.5,
+        "w_f": 0.5
+      },
+      "margin_0.75": {
+        "margin": 0.75,
+        "face_detected": true,
+        "crop_coords": [
+          609,
+          0,
+          2036,
+          1393
+        ],
+        "prediction": "FAKE",
+        "final_decision": "LIKELY_FAKE",
+        "calibrated_fake_prob": 0.8465,
+        "calibrated_real_prob": 0.1535,
+        "raw_fake_prob": 0.8465,
+        "spatial_prob": 0.5,
+        "freq_prob": 0.5,
+        "w_s": 0.5,
+        "w_f": 0.5
+      }
+    }
+  },
+  "aggregate_crop_sensitivity": {
+    "margin_0.15": {
+      "margin": 0.15,
+      "face_detection_rate": 0.9955,
+      "binary_all_samples": {
+        "total_samples": 448,
+        "tn": 88,
+        "fp": 32,
+        "fn": 116,
+        "tp": 212,
+        "accuracy": 0.6696,
+        "fake_recall": 0.6463,
+        "real_specificity": 0.7333,
+        "false_positive_rate": 0.2667
+      },
+      "decisive_3way_policy": {
+        "coverage": 0.5335,
+        "inconclusive_rate": 0.4665,
+        "decisive_samples": 239,
+        "inconclusive_samples": 209,
+        "tn": 16,
+        "fp": 26,
+        "fn": 2,
+        "tp": 195,
+        "inconclusive_real": 78,
+        "inconclusive_fake": 131,
+        "accuracy": 0.8828,
+        "fake_recall": 0.9898,
+        "real_specificity": 0.381,
+        "false_positive_rate": 0.619
+      },
+      "per_generator": {
+        "Google_Gemini_Imagen3": {
+          "total": 8,
+          "ground_truth": "FAKE",
+          "mean_fake_prob": 0.0195,
+          "inconclusive_count": 8,
+          "inconclusive_rate": 1.0,
+          "decisive_count": 0,
+          "decisive_accuracy": 0.0,
+          "binary_accuracy": 0.0
+        },
+        "StableDiffusion_v1.5": {
+          "total": 30,
+          "ground_truth": "FAKE",
+          "mean_fake_prob": 0.7514,
+          "inconclusive_count": 9,
+          "inconclusive_rate": 0.3,
+          "decisive_count": 21,
+          "decisive_accuracy": 1.0,
+          "binary_accuracy": 0.7667
+        },
+        "InsightFace_Swap": {
+          "total": 30,
+          "ground_truth": "FAKE",
+          "mean_fake_prob": 0.7882,
+          "inconclusive_count": 7,
+          "inconclusive_rate": 0.2333,
+          "decisive_count": 23,
+          "decisive_accuracy": 1.0,
+          "binary_accuracy": 0.8667
+        },
+        "StyleGAN2": {
+          "total": 60,
+          "ground_truth": "FAKE",
+          "mean_fake_prob": 0.9829,
+          "inconclusive_count": 0,
+          "inconclusive_rate": 0.0,
+          "decisive_count": 60,
+          "decisive_accuracy": 1.0,
+          "binary_accuracy": 1.0
+        },
+        "StableDiffusion_Inpainting": {
+          "total": 200,
+          "ground_truth": "FAKE",
+          "mean_fake_prob": 0.5369,
+          "inconclusive_count": 107,
+          "inconclusive_rate": 0.535,
+          "decisive_count": 93,
+          "decisive_accuracy": 0.9785,
+          "binary_accuracy": 0.515
+        },
+        "IMDB_WIKI": {
+          "total": 60,
+          "ground_truth": "REAL",
+          "mean_fake_prob": 0.56,
+          "inconclusive_count": 34,
+          "inconclusive_rate": 0.5667,
+          "decisive_count": 26,
+          "decisive_accuracy": 0.0769,
+          "binary_accuracy": 0.5167
+        },
+        "FFHQ_Real": {
+          "total": 60,
+          "ground_truth": "REAL",
+          "mean_fake_prob": 0.0685,
+          "inconclusive_count": 44,
+          "inconclusive_rate": 0.7333,
+          "decisive_count": 16,
+          "decisive_accuracy": 0.875,
+          "binary_accuracy": 0.95
+        }
+      },
+      "elapsed_seconds": 40.83
+    },
+    "margin_0.50": {
+      "margin": 0.5,
+      "face_detection_rate": 0.9955,
+      "binary_all_samples": {
+        "total_samples": 448,
+        "tn": 99,
+        "fp": 21,
+        "fn": 148,
+        "tp": 180,
+        "accuracy": 0.6228,
+        "fake_recall": 0.5488,
+        "real_specificity": 0.825,
+        "false_positive_rate": 0.175
+      },
+      "decisive_3way_policy": {
+        "coverage": 0.471,
+        "inconclusive_rate": 0.529,
+        "decisive_samples": 211,
+        "inconclusive_samples": 237,
+        "tn": 23,
+        "fp": 18,
+        "fn": 7,
+        "tp": 163,
+        "inconclusive_real": 79,
+        "inconclusive_fake": 158,
+        "accuracy": 0.8815,
+        "fake_recall": 0.9588,
+        "real_specificity": 0.561,
+        "false_positive_rate": 0.439
+      },
+      "per_generator": {
+        "Google_Gemini_Imagen3": {
+          "total": 8,
+          "ground_truth": "FAKE",
+          "mean_fake_prob": 0.6597,
+          "inconclusive_count": 3,
+          "inconclusive_rate": 0.375,
+          "decisive_count": 5,
+          "decisive_accuracy": 1.0,
+          "binary_accuracy": 0.75
+        },
+        "StableDiffusion_v1.5": {
+          "total": 30,
+          "ground_truth": "FAKE",
+          "mean_fake_prob": 0.8206,
+          "inconclusive_count": 8,
+          "inconclusive_rate": 0.2667,
+          "decisive_count": 22,
+          "decisive_accuracy": 1.0,
+          "binary_accuracy": 0.7667
+        },
+        "InsightFace_Swap": {
+          "total": 30,
+          "ground_truth": "FAKE",
+          "mean_fake_prob": 0.7262,
+          "inconclusive_count": 10,
+          "inconclusive_rate": 0.3333,
+          "decisive_count": 20,
+          "decisive_accuracy": 1.0,
+          "binary_accuracy": 0.8
+        },
+        "StyleGAN2": {
+          "total": 60,
+          "ground_truth": "FAKE",
+          "mean_fake_prob": 0.9797,
+          "inconclusive_count": 1,
+          "inconclusive_rate": 0.0167,
+          "decisive_count": 59,
+          "decisive_accuracy": 1.0,
+          "binary_accuracy": 1.0
+        },
+        "StableDiffusion_Inpainting": {
+          "total": 200,
+          "ground_truth": "FAKE",
+          "mean_fake_prob": 0.4271,
+          "inconclusive_count": 136,
+          "inconclusive_rate": 0.68,
+          "decisive_count": 64,
+          "decisive_accuracy": 0.8906,
+          "binary_accuracy": 0.335
+        },
+        "IMDB_WIKI": {
+          "total": 60,
+          "ground_truth": "REAL",
+          "mean_fake_prob": 0.404,
+          "inconclusive_count": 40,
+          "inconclusive_rate": 0.6667,
+          "decisive_count": 20,
+          "decisive_accuracy": 0.1,
+          "binary_accuracy": 0.65
+        },
+        "FFHQ_Real": {
+          "total": 60,
+          "ground_truth": "REAL",
+          "mean_fake_prob": 0.0051,
+          "inconclusive_count": 39,
+          "inconclusive_rate": 0.65,
+          "decisive_count": 21,
+          "decisive_accuracy": 1.0,
+          "binary_accuracy": 1.0
+        }
+      },
+      "elapsed_seconds": 41.94
+    },
+    "margin_0.75": {
+      "margin": 0.75,
+      "face_detection_rate": 0.9955,
+      "binary_all_samples": {
+        "total_samples": 448,
+        "tn": 93,
+        "fp": 27,
+        "fn": 114,
+        "tp": 214,
+        "accuracy": 0.6853,
+        "fake_recall": 0.6524,
+        "real_specificity": 0.775,
+        "false_positive_rate": 0.225
+      },
+      "decisive_3way_policy": {
+        "coverage": 0.5804,
+        "inconclusive_rate": 0.4196,
+        "decisive_samples": 260,
+        "inconclusive_samples": 188,
+        "tn": 24,
+        "fp": 24,
+        "fn": 16,
+        "tp": 196,
+        "inconclusive_real": 72,
+        "inconclusive_fake": 116,
+        "accuracy": 0.8462,
+        "fake_recall": 0.9245,
+        "real_specificity": 0.5,
+        "false_positive_rate": 0.5
+      },
+      "per_generator": {
+        "Google_Gemini_Imagen3": {
+          "total": 8,
+          "ground_truth": "FAKE",
+          "mean_fake_prob": 0.7526,
+          "inconclusive_count": 1,
+          "inconclusive_rate": 0.125,
+          "decisive_count": 7,
+          "decisive_accuracy": 0.8571,
+          "binary_accuracy": 0.75
+        },
+        "StableDiffusion_v1.5": {
+          "total": 30,
+          "ground_truth": "FAKE",
+          "mean_fake_prob": 0.8735,
+          "inconclusive_count": 4,
+          "inconclusive_rate": 0.1333,
+          "decisive_count": 26,
+          "decisive_accuracy": 0.9615,
+          "binary_accuracy": 0.8333
+        },
+        "InsightFace_Swap": {
+          "total": 30,
+          "ground_truth": "FAKE",
+          "mean_fake_prob": 0.8036,
+          "inconclusive_count": 5,
+          "inconclusive_rate": 0.1667,
+          "decisive_count": 25,
+          "decisive_accuracy": 0.96,
+          "binary_accuracy": 0.8667
+        },
+        "StyleGAN2": {
+          "total": 60,
+          "ground_truth": "FAKE",
+          "mean_fake_prob": 0.979,
+          "inconclusive_count": 1,
+          "inconclusive_rate": 0.0167,
+          "decisive_count": 59,
+          "decisive_accuracy": 1.0,
+          "binary_accuracy": 1.0
+        },
+        "StableDiffusion_Inpainting": {
+          "total": 200,
+          "ground_truth": "FAKE",
+          "mean_fake_prob": 0.5195,
+          "inconclusive_count": 105,
+          "inconclusive_rate": 0.525,
+          "decisive_count": 95,
+          "decisive_accuracy": 0.8632,
+          "binary_accuracy": 0.485
+        },
+        "IMDB_WIKI": {
+          "total": 60,
+          "ground_truth": "REAL",
+          "mean_fake_prob": 0.4631,
+          "inconclusive_count": 31,
+          "inconclusive_rate": 0.5167,
+          "decisive_count": 29,
+          "decisive_accuracy": 0.1724,
+          "binary_accuracy": 0.55
+        },
+        "FFHQ_Real": {
+          "total": 60,
+          "ground_truth": "REAL",
+          "mean_fake_prob": 0.0054,
+          "inconclusive_count": 41,
+          "inconclusive_rate": 0.6833,
+          "decisive_count": 19,
+          "decisive_accuracy": 1.0,
+          "binary_accuracy": 1.0
+        }
+      },
+      "elapsed_seconds": 41.81
+    }
+  }
+}

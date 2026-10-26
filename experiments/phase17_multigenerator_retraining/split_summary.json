@@ -1,0 +1,57 @@
+{
+  "train": {
+    "total": 1308,
+    "real": 590,
+    "fake": 718,
+    "real_ratio": 0.4511,
+    "fake_ratio": 0.5489,
+    "generators": {
+      "FFHQ_Real": 490,
+      "StyleGAN2": 300,
+      "InsightFace_Swap": 140,
+      "StableDiffusion_v1.5": 140,
+      "IMDB_WIKI": 100,
+      "FLUX1_Dev": 60,
+      "StableDiffusion_XL": 40,
+      "FLUX1_Pro": 25,
+      "Google_Gemini_Imagen3": 13
+    }
+  },
+  "validation": {
+    "total": 293,
+    "real": 124,
+    "fake": 169,
+    "real_ratio": 0.4232,
+    "fake_ratio": 0.5768,
+    "generators": {
+      "FFHQ_Real": 84,
+      "StyleGAN2": 60,
+      "IMDB_WIKI": 40,
+      "StableDiffusion_v1.5": 30,
+      "InsightFace_Swap": 30,
+      "FLUX1_Dev": 20,
+      "StableDiffusion_XL": 15,
+      "FLUX1_Pro": 10,
+      "Google_Gemini_Imagen3": 4
+    }
+  },
+  "test": {
+    "total": 543,
+    "real": 120,
+    "fake": 423,
+    "real_ratio": 0.221,
+    "fake_ratio": 0.779,
+    "generators": {
+      "StableDiffusion_Inpainting": 200,
+      "StyleGAN2": 60,
+      "IMDB_WIKI": 60,
+      "FFHQ_Real": 60,
+      "FLUX1_Dev": 53,
+      "StableDiffusion_v1.5": 30,
+      "InsightFace_Swap": 30,
+      "FLUX1_Pro": 28,
+      "StableDiffusion_XL": 14,
+      "Google_Gemini_Imagen3": 8
+    }
+  }
+}

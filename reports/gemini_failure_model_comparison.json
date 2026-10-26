@@ -1,0 +1,128 @@
+{
+  "image_metadata": {
+    "path": "data\\diagnostics\\gemini_failure.png",
+    "sha256": "944cb50e9187a22a46dc6232387aa6769d4513c4654b141832b1eec04cd377fa",
+    "ground_truth": "FAKE",
+    "source": "Google Gemini Imagen 3",
+    "resolution": "2816x1536",
+    "color_mode": "RGBA",
+    "format": "PNG",
+    "face_detected": true,
+    "face_bbox": [
+      1037,
+      310,
+      571,
+      619
+    ],
+    "crop_coords_m50": [
+      752,
+      1,
+      1893,
+      1238
+    ]
+  },
+  "models": {
+    "phase10": {
+      "model_name": "LX-DFD Phase 10 Modern Multi-Generator Standard",
+      "checkpoint_path": "checkpoints\\lxfd_phase10_modern_generators_best.pt",
+      "checkpoint_sha256": "13dc56b8961f8d0c2c56a9ac947ef4292f4a2a5ef613df3aeb950f087fddcc05",
+      "calibrated": true,
+      "temperature": 1.634375000000002,
+      "margin_0_50": {
+        "decision": "INCONCLUSIVE",
+        "prediction": "INCONCLUSIVE",
+        "fake_probability": 0.5579,
+        "real_probability": 0.4421,
+        "raw_fake_probability": 0.5939,
+        "is_uncertain": true,
+        "confidence_level": "LOW",
+        "spatial_branch_fake_prob": 0.5335,
+        "frequency_branch_fake_prob": 0.7176,
+        "spatial_attention_weight_ws": 0.7455296516418457,
+        "frequency_attention_weight_wf": 0.2544703781604767,
+        "spatial_raw_logit": 0.13409265875816345,
+        "frequency_raw_logit": 0.9327749609947205,
+        "fused_raw_logit": 0.3801611363887787,
+        "threshold_used": 0.5,
+        "inconclusive_reason": "None"
+      },
+      "crop_stability": {
+        "m015_fake_prob": 0.0278,
+        "m015_decision": "INCONCLUSIVE",
+        "m050_fake_prob": 0.5579,
+        "m050_decision": "INCONCLUSIVE",
+        "m075_fake_prob": 0.8837,
+        "m075_decision": "LIKELY_FAKE",
+        "prob_delta": 0.8559
+      }
+    },
+    "phase15": {
+      "model_name": "LX-DFD Phase 15 Gemini Generalization Candidate",
+      "checkpoint_path": "experiments\\phase15_gemini_generalization\\lxfd_phase15_generalization_best.pt",
+      "checkpoint_sha256": "2552ab2b8fdc9b61792e85b8c9519b3bde59fd33b238b2e2528907f3186c9ea5",
+      "calibrated": true,
+      "temperature": 0.7168945312499998,
+      "margin_0_50": {
+        "decision": "INCONCLUSIVE",
+        "prediction": "INCONCLUSIVE",
+        "fake_probability": 0.4345,
+        "real_probability": 0.5655,
+        "raw_fake_probability": 0.4529,
+        "is_uncertain": true,
+        "confidence_level": "LOW",
+        "spatial_branch_fake_prob": 0.4365,
+        "frequency_branch_fake_prob": 0.5101,
+        "spatial_attention_weight_ws": 0.7488583326339722,
+        "frequency_attention_weight_wf": 0.25114166736602783,
+        "spatial_raw_logit": -0.25540512800216675,
+        "frequency_raw_logit": 0.04022444784641266,
+        "fused_raw_logit": -0.18895640969276428,
+        "threshold_used": 0.5,
+        "inconclusive_reason": "None"
+      },
+      "crop_stability": {
+        "m015_fake_prob": 0.0003,
+        "m015_decision": "INCONCLUSIVE",
+        "m050_fake_prob": 0.4345,
+        "m050_decision": "INCONCLUSIVE",
+        "m075_fake_prob": 0.9956,
+        "m075_decision": "LIKELY_FAKE",
+        "prob_delta": 0.9953
+      }
+    },
+    "phase16": {
+      "model_name": "LX-DFD Phase 16 Unified Multi-Generator Best",
+      "checkpoint_path": "experiments\\phase16_unified_generalization\\lxfd_phase16_unified_best.pt",
+      "checkpoint_sha256": "4e7b7747f4a3108f308958c8c15952a2be67f14935543da4bdeec648af22acf1",
+      "calibrated": true,
+      "temperature": 1.0859375,
+      "margin_0_50": {
+        "decision": "INCONCLUSIVE",
+        "prediction": "INCONCLUSIVE",
+        "fake_probability": 0.1338,
+        "real_probability": 0.8662,
+        "raw_fake_probability": 0.1163,
+        "is_uncertain": true,
+        "confidence_level": "LOW",
+        "spatial_branch_fake_prob": 0.0669,
+        "frequency_branch_fake_prob": 0.435,
+        "spatial_attention_weight_ws": 0.7486881017684937,
+        "frequency_attention_weight_wf": 0.25131189823150635,
+        "spatial_raw_logit": -2.634610891342163,
+        "frequency_raw_logit": -0.26131996512413025,
+        "fused_raw_logit": -2.02820086479187,
+        "threshold_used": 0.5,
+        "inconclusive_reason": "None"
+      },
+      "crop_stability": {
+        "m015_fake_prob": 0.0025,
+        "m015_decision": "INCONCLUSIVE",
+        "m050_fake_prob": 0.1338,
+        "m050_decision": "INCONCLUSIVE",
+        "m075_fake_prob": 0.8467,
+        "m075_decision": "LIKELY_FAKE",
+        "prob_delta": 0.8442
+      }
+    }
+  }
+}
